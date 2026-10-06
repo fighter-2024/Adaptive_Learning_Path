@@ -1,0 +1,11 @@
+{
+  "runtime": "Chrome mobile emulation 390x844 touch-equivalent",
+  "tree_nodes": 22,
+  "before_transform": "translate(0px, 0px) scale(1)",
+  "after_drag_transform": "translate(70px, 35px) scale(1)",
+  "detail_markers": [
+    "KNOWLEDGE POINT",
+    "掌握概率",
+    "开始答题"
+  ]
+}

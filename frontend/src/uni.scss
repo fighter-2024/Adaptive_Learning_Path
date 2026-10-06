@@ -1,0 +1,34 @@
+/* uni.scss — 全局 SCSS 变量（uni-ui 官方主题定制入口） */
+
+/* ========== 主题色 ========== */
+$uni-color-primary: #4f8cff;
+$uni-color-success: #18bc37;
+$uni-color-warning: #f5a623;
+$uni-color-error: #f36b6b;
+
+/* ========== 文字色 ========== */
+$uni-text-color: #2c3e50;
+$uni-text-color-grey: #7f8c8d;
+$uni-text-color-placeholder: #bdc3c7;
+
+/* ========== 背景色 ========== */
+$uni-bg-color: #f5f7fa;
+$uni-bg-color-grey: #f0f2f5;
+$uni-bg-color-hover: #e8eaed;
+$uni-bg-color-mask: rgba(0, 0, 0, 0.4);
+
+/* ========== 边框 ========== */
+$uni-border-color: #e8eaed;
+$uni-border-radius: 12rpx;
+
+/* ========== 尺寸 ========== */
+$uni-spacing-sm: 12rpx;
+$uni-spacing-base: 20rpx;
+$uni-spacing-lg: 32rpx;
+$uni-font-size-sm: 24rpx;
+$uni-font-size-base: 28rpx;
+$uni-font-size-lg: 32rpx;
+$uni-font-size-xl: 36rpx;
+
+/* ========== 引入 uni-ui 组件样式 ========== */
+@import '@dcloudio/uni-ui/lib/uni-scss/index.scss';

@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.ipynb_checkpoints/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.*.example
+
+# Local Neo4j installation, databases, credentials and logs
+/neo4j-chs-community-*-windows/
+
+# Local execution state, browser profiles and assistant sessions
+.runtime/
+/.reasonix/
+
+# Node (frontend)
+node_modules/
+frontend/dist/
+frontend/.uni/
+frontend/unpackage/
+*.tsbuildinfo
+
+# Logs and Office temporary files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+~$*
+
+# Data
+kg-data/data/raw/*
+!kg-data/data/raw/.gitkeep

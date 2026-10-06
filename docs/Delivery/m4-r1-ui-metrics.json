@@ -1,0 +1,99 @@
+{
+  "environment": "H5 dev server http://127.0.0.1:8080 + real backend http://127.0.0.1:8000",
+  "path_body_markers": [
+    "我的路径",
+    "当前"
+  ],
+  "tree": {
+    "initial": {
+      "tree_nodes": 74,
+      "chapter_groups": 5,
+      "transform": "translate(0px, 0px) scale(1)",
+      "local_tip": "当前为局部图谱（80/118 个节点），展开章节查看已加载内容。",
+      "stage_rect": {
+        "x": 12,
+        "y": 335.53125,
+        "width": 1386,
+        "height": 4730
+      }
+    }
+  },
+  "interactions": {
+    "zoomed": {
+      "tree_nodes": 74,
+      "chapter_groups": 5,
+      "transform": "translate(0px, 0px) scale(1.1)",
+      "local_tip": "当前为局部图谱（80/118 个节点），展开章节查看已加载内容。",
+      "stage_rect": {
+        "x": 12,
+        "y": 335.53125,
+        "width": 1524.5999755859375,
+        "height": 5203
+      }
+    },
+    "dragged": {
+      "tree_nodes": 74,
+      "chapter_groups": 5,
+      "transform": "translate(140px, 56px) scale(1.1)",
+      "local_tip": "当前为局部图谱（80/118 个节点），展开章节查看已加载内容。",
+      "stage_rect": {
+        "x": 152,
+        "y": 391.53125,
+        "width": 1524.5999755859375,
+        "height": 5203
+      }
+    },
+    "reset": {
+      "tree_nodes": 74,
+      "chapter_groups": 5,
+      "transform": "translate(0px, 0px) scale(1)",
+      "local_tip": "当前为局部图谱（80/118 个节点），展开章节查看已加载内容。",
+      "stage_rect": {
+        "x": 12,
+        "y": 335.53125,
+        "width": 1386,
+        "height": 4730
+      }
+    },
+    "fit": {
+      "tree_nodes": 74,
+      "chapter_groups": 5,
+      "transform": "translate(0px, 0px) scale(0.82)",
+      "local_tip": "当前为局部图谱（80/118 个节点），展开章节查看已加载内容。",
+      "stage_rect": {
+        "x": 12,
+        "y": 335.53125,
+        "width": 1136.52001953125,
+        "height": 3878.599609375
+      }
+    },
+    "collapsed": {
+      "tree_nodes": 17,
+      "chapter_groups": 5,
+      "transform": "translate(0px, 0px) scale(0.82)",
+      "local_tip": "当前为局部图谱（80/118 个节点），展开章节查看已加载内容。",
+      "stage_rect": {
+        "x": 12,
+        "y": 335.53125,
+        "width": 1136.52001953125,
+        "height": 1155.3800048828125
+      }
+    }
+  },
+  "network_body_markers": [
+    "局部关系探索",
+    "前置",
+    "后继"
+  ],
+  "detail_body_markers": [
+    "KNOWLEDGE POINT",
+    "掌握概率",
+    "预计用时",
+    "知识点详情"
+  ],
+  "detail_page_body_markers": [
+    "知识点详情",
+    "前置知识",
+    "练习题目"
+  ]
+}
