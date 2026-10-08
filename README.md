@@ -1,4 +1,5 @@
-# Reasonix 自适应学习系统
+#自适应学习路径（Adaptive_Learning_Path
+）系统
 
 基于知识图谱、DINA 认知诊断和个性化路径规划的学习系统。后端使用 FastAPI，SQL Server 保存用户、题目、答题和诊断数据，Neo4j 保存章节、知识点及前置关系；管理端是 Vue 3 + Vite，学生端是 UniApp（H5 + 微信小程序）。
 
