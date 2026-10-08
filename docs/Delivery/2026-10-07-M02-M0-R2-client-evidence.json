@@ -1,0 +1,107 @@
+{
+  "checked_at": "2026-10-07T13:52:15.730Z",
+  "method": "actual current user.js + request.js + real Pinia/Vue; import/env adapters only; controlled uni.request callbacks; no browser/backend auth overrides",
+  "cases": [
+    {
+      "name": "no-token completion then actual login and validation",
+      "passed": true,
+      "actual": {
+        "logged_in": true,
+        "user": "controlled-a"
+      },
+      "expected": "controlled-a / authenticated without reload"
+    },
+    {
+      "name": "concurrent initialization uses one real transport request",
+      "passed": true,
+      "actual": {
+        "requests": 1
+      },
+      "expected": "both true"
+    },
+    {
+      "name": "actual request network failure can retry",
+      "passed": true,
+      "actual": {
+        "logged_in": true
+      },
+      "expected": true
+    },
+    {
+      "name": "current invalid-or-expired-401 still rejects",
+      "passed": true,
+      "actual": {
+        "authenticated": false,
+        "logged_in": false
+      },
+      "expected": "false and token removed"
+    },
+    {
+      "name": "current admin-role still rejects",
+      "passed": true,
+      "actual": {
+        "authenticated": false,
+        "logged_in": false
+      },
+      "expected": "false and token removed"
+    },
+    {
+      "name": "old successful initialization does not replace B or clear B pending promise",
+      "passed": true,
+      "actual": {
+        "user": "controlled-b",
+        "values": [
+          true,
+          true
+        ]
+      },
+      "expected": "B and both true"
+    },
+    {
+      "name": "late old A http-401 must not log out current B",
+      "passed": false,
+      "actual": {
+        "logged_in": false,
+        "user": "",
+        "redirects": [
+          "/pages/auth/login"
+        ]
+      },
+      "expected": "B retained; no stale redirect"
+    },
+    {
+      "name": "late old A business-40101 must not log out current B",
+      "passed": false,
+      "actual": {
+        "logged_in": false,
+        "user": "",
+        "redirects": [
+          "/pages/auth/login"
+        ]
+      },
+      "expected": "B retained; no stale redirect"
+    },
+    {
+      "name": "logout during pending login POST must remain logged out",
+      "passed": false,
+      "actual": {
+        "logged_in": true,
+        "user": "controlled-a",
+        "login": {
+          "resolved": true
+        }
+      },
+      "expected": "logged out; old login invalidated"
+    },
+    {
+      "name": "older login POST must not overwrite completed later B login",
+      "passed": false,
+      "actual": {
+        "logged_in": true,
+        "user": "controlled-a"
+      },
+      "expected": "B retained"
+    }
+  ],
+  "failed": 4
+}

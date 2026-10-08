@@ -20,6 +20,22 @@ from app.services.rate_limiter import RateLimitExceededError, check_rate_limit
 
 logger = logging.getLogger(__name__)
 
+
+def reject_foreign_student_ids(current_user: UserInfo, *student_ids: str | None) -> None:
+    """在学生业务函数前拒绝显式指定其他学生的身份参数。
+
+    同一学生 ID 为兼容旧客户端允许传入，但业务层始终只使用 JWT 中的
+    `current_user.user_id`。多个渠道同时传入时逐个检查，避免通过重复参数绕过门禁。
+    """
+    if any(student_id is not None and student_id != current_user.user_id for student_id in student_ids):
+        raise HTTPException(
+            status_code=403,
+            detail=ApiResponse.error(
+                code=StatusCode.FORBIDDEN,
+                message="学生只能访问自己的 AI 数据",
+            ).model_dump(),
+        )
+
 # HTTP Bearer 认证方案
 _bearer_scheme = HTTPBearer(auto_error=False)
 

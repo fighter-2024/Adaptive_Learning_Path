@@ -7,8 +7,8 @@
 
 Router 只做路由和参数校验，业务逻辑在 learning_path_service。
 
-认证说明：历史只读接口保留可选身份行为；携带有效 student Token 时按该学生
-的掌握数据推荐，未登录时提供匿名只读视角。
+认证说明：路径和路径解释属于个性化学生接口，必须携带有效 student Token，
+按当前学生的 user_id 读取掌握数据；不会静默降级为匿名视角。
 """
 
 import logging
@@ -20,7 +20,7 @@ from neo4j.exceptions import DriverError, Neo4jError
 from app.models import ApiResponse, StatusCode
 from app.models.auth import UserInfo
 from app.models.learning_path import LearningPathData, PathExplainData
-from app.routers.dependencies import get_current_user_optional
+from app.routers.dependencies import require_student
 from app.services.learning_path_service import (
     KnowledgeGraphCycleError,
     TargetNotFoundError,
@@ -57,7 +57,7 @@ async def get_learning_path(
         None, max_length=32, description="目标知识点 ID，不传则推荐全局下一步"
     ),
     count: int = Query(5, ge=1, le=50, description="推荐步数，默认 5"),
-    current_user: Optional[UserInfo] = Depends(get_current_user_optional),
+    current_user: UserInfo = Depends(require_student),
 ):
     """获取推荐学习路径（对照契约 GET /api/student/path）
 
@@ -69,14 +69,14 @@ async def get_learning_path(
     Args:
         target_kp_id: 目标知识点 ID；不传则全局推荐
         count: 推荐步数（1-50，默认 5）
-        current_user: 可选身份解析；未登录时按匿名只读视角处理
+        current_user: 已通过强制学生身份校验的当前用户
 
     Returns:
         ApiResponse[LearningPathData]: data.target（全局模式为 null）与
         data.steps（每步含 order/knowledge_point/reason/difficulty/
         estimated_time/mastery_probability）
     """
-    user_id = current_user.user_id if current_user else None
+    user_id = current_user.user_id
     try:
         data = await recommend_path(user_id, target_kp_id, count)
         return ApiResponse.success(data=data, message="查询成功")
@@ -86,6 +86,12 @@ async def get_learning_path(
         )
     except KnowledgeGraphCycleError as e:
         return _error_graph_cycle(e)
+    except ValueError as e:
+        logger.error("学习路径配置无效: %s", e)
+        return ApiResponse.error(
+            code=StatusCode.BAD_REQUEST,
+            message="学习路径配置无效，请联系管理员检查权重设置",
+        )
     except (DriverError, Neo4jError) as e:
         return _error_neo4j(e)
 
@@ -96,27 +102,27 @@ async def get_learning_path_explain(
         None, max_length=32, description="目标知识点 ID，不传则解释全局推荐路径"
     ),
     count: int = Query(5, ge=1, le=50, description="解释的路径步数，默认 5"),
-    current_user: Optional[UserInfo] = Depends(get_current_user_optional),
+    current_user: UserInfo = Depends(require_student),
 ):
     """获取路径推荐的 AI 通俗解释（对照契约 GET /api/student/path/explain）
 
     先按 /path 同规则生成推荐路径，再调用大模型生成通俗解释；
-    大模型未配置/超时/失败时降级为规则拼装的解释（总则第八章），
-    接口始终返回可用的 explanation，不阻塞业务流程。
+    大模型未配置/超时/失败时降级为规则拼装的解释（总则第八章），并在
+    data.degraded/degraded_reason 中明确标记；接口始终返回可用内容，不阻塞业务流程。
 
     Args:
         target_kp_id: 目标知识点 ID；不传则解释全局推荐路径
         count: 解释的路径步数（1-50，默认 5）
-        current_user: 可选身份解析；未登录时按匿名只读视角处理
+        current_user: 已通过强制学生身份校验的当前用户
 
     Returns:
-        ApiResponse[PathExplainData]: data.explanation 为解释文本
+        ApiResponse[PathExplainData]: data 含 explanation/degraded/degraded_reason
     """
-    user_id = current_user.user_id if current_user else None
+    user_id = current_user.user_id
     try:
         explanation = await explain_path(user_id, target_kp_id, count)
         return ApiResponse.success(
-            data=PathExplainData(explanation=explanation), message="查询成功"
+            data=explanation, message="查询成功"
         )
     except TargetNotFoundError:
         return ApiResponse.error(
@@ -124,5 +130,10 @@ async def get_learning_path_explain(
         )
     except KnowledgeGraphCycleError as e:
         return _error_graph_cycle(e)
+    except ValueError:
+        return ApiResponse.error(
+            code=StatusCode.BAD_REQUEST,
+            message="学习路径配置无效，请联系管理员检查权重设置",
+        )
     except (DriverError, Neo4jError) as e:
         return _error_neo4j(e)

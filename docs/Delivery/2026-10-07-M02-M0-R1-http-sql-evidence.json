@@ -1,0 +1,157 @@
+{
+  "created_at": "2026-10-07T20:33:16.976066",
+  "sample_preparation": "official login/submit-answer/diagnosis APIs; not claimed as UI answer clicks",
+  "server_pid": 38488,
+  "phases": {
+    "prepare": {
+      "a": {
+        "user_id": "stu_f685c3a0",
+        "api_knowledge_points": 22,
+        "api_mastered": 2,
+        "expected_home_percent": 9,
+        "sql_rows": {
+          "answer_records": 2,
+          "diagnosis_sessions": 1,
+          "user_kp_mastery": 2
+        },
+        "sql_mastery": [
+          [
+            "kp_001",
+            0.941176
+          ],
+          [
+            "kp_002",
+            0.8
+          ]
+        ]
+      },
+      "b": {
+        "user_id": "stu_869f2f81",
+        "api_knowledge_points": 22,
+        "api_mastered": 0,
+        "expected_home_percent": 0,
+        "sql_rows": {
+          "answer_records": 0,
+          "diagnosis_sessions": 0,
+          "user_kp_mastery": 0
+        },
+        "sql_mastery": []
+      }
+    },
+    "during_b_switch": {
+      "a": {
+        "user_id": "stu_f685c3a0",
+        "api_knowledge_points": 22,
+        "api_mastered": 2,
+        "expected_home_percent": 9,
+        "sql_rows": {
+          "answer_records": 2,
+          "diagnosis_sessions": 1,
+          "user_kp_mastery": 2
+        },
+        "sql_mastery": [
+          [
+            "kp_001",
+            0.941176
+          ],
+          [
+            "kp_002",
+            0.8
+          ]
+        ]
+      },
+      "b": {
+        "user_id": "stu_869f2f81",
+        "api_knowledge_points": 22,
+        "api_mastered": 0,
+        "expected_home_percent": 0,
+        "sql_rows": {
+          "answer_records": 0,
+          "diagnosis_sessions": 0,
+          "user_kp_mastery": 0
+        },
+        "sql_mastery": []
+      }
+    }
+  },
+  "diagnosis": {
+    "alpha_vector": {
+      "kp_001": 0.941176,
+      "kp_002": 0.8
+    },
+    "diagnosed_at": "2026-10-07T20:33:18",
+    "trace": {
+      "algorithm_version": "dina-v1",
+      "parameter_version": "default-v1",
+      "answer_count": 2,
+      "answer_time_from": "2026-10-07T20:33:18",
+      "answer_time_to": "2026-10-07T20:33:18",
+      "repeat_strategy": "latest_attempt",
+      "converged": true,
+      "iterations": 2
+    }
+  },
+  "source_hashes": {
+    "changed_from_m10": [
+      "frontend/package.json",
+      "frontend/src/pages/index/index.vue",
+      "frontend/src/pages/mine/index.vue"
+    ],
+    "current": {
+      "frontend/src/pages/index/index.vue": "de8a297aa549e209f1cf7860b49feb5c84589a2e80b8e0b88a8014c0303e8117",
+      "frontend/src/pages/mine/index.vue": "b739302cab2c3e71db2ff645f2d7401858caad0693a053fce4cfb632311c82fc",
+      "frontend/src/utils/learningStats.js": "56050a01f830d9cb65c78f3eee449d3e9dd2c0684a70ccc6a1940799df68e79c",
+      "frontend/scripts/verify-home-entry.mjs": "ee141d9db8fe786e2e7987542b71f66e44c5d06245aa7c7992402a2cbfd92d49",
+      "frontend/package.json": "650cdcb4bd85580e8df8eadfeb8c00de122eb9088d3427468374cd16c2bb7ac4",
+      "frontend/package-lock.json": "642f75b5c196a63da82b247dae43e48f853d6c93fa0ce58aa13efa13a63886bc"
+    }
+  },
+  "isolated_gate_failure": {
+    "wrong_navigation_exit": 1,
+    "restored_exit": 0,
+    "source_restored": true
+  },
+  "builds": {
+    "h5": "DONE Build complete",
+    "weixin": "DONE Build complete"
+  },
+  "cold_login_regression": {
+    "initial_no_token_session": false,
+    "login_store_logged_in": true,
+    "ensureAuthenticated_after_login": false,
+    "retry_succeeds": false,
+    "reload_restores": true,
+    "root_cause": "synchronous no-token completion resets initializationPromise before outer assignment writes resolved false Promise back",
+    "backend_auth_modified": false
+  },
+  "verdict": "partial; only M0-R2 client session initialization and remote CI remain",
+  "ci_home_gate_added": true,
+  "ui": {
+    "home_diagnosis_click": true,
+    "home_mastery_click": true,
+    "home_learning_click": true,
+    "normal_path_click": true,
+    "a_return_home_9_percent": true,
+    "a_home_and_mine_reload_preserved": true,
+    "a_data_preserved_while_b_verified": true,
+    "b_login_requires_reload": true,
+    "b_after_reload_zero_percent_zero_mastered": true,
+    "logout_clears_old_statistics": true,
+    "controlled_stats_50001_clears_value_and_retry_recovers": true,
+    "logged_out_tab_closed": true
+  },
+  "cleanup": {
+    "private_credentials_removed": true,
+    "fault_marker_removed": true,
+    "own_pid_stopped": 38488,
+    "seven_table_residual": 0
+  },
+  "ci_workflow_sha256": "4d57f4aaa25d24a471c0ce681975a401a30df6dbc6df79a7321ebf71e376d3ec",
+  "final_checks": {
+    "sqlserver_health": true,
+    "neo4j_health": true,
+    "own_log_files_checked": 6,
+    "actual_credential_or_full_jwt_leaks": 0,
+    "diff_check_exit": 0
+  }
+}

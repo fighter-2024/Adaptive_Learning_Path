@@ -3,12 +3,17 @@
   "version": "1.0.0",
   "description": "自适应学习系统 — UniApp 客户端前端（H5 + 微信小程序）",
   "scripts": {
+    "verify:ai-history": "node scripts/verify-ai-history.mjs",
     "dev:h5": "uni",
     "dev:mp-weixin": "uni -p mp-weixin",
     "build:h5": "uni build",
     "build:mp-weixin": "uni build -p mp-weixin",
     "verify:auth": "node scripts/verify-auth.mjs",
-    "verify:diagnosis-entry": "node scripts/verify-diagnosis-entry.mjs"
+    "verify:app-startup": "node --experimental-loader ./scripts/verify-app-startup-loader.mjs scripts/verify-app-startup.mjs",
+    "verify:diagnosis-entry": "node scripts/verify-diagnosis-entry.mjs",
+    "verify:learning-entry": "node scripts/verify-learning-entry.mjs",
+    "verify:home-entry": "node scripts/verify-home-entry.mjs",
+    "verify:session-init": "node --experimental-loader ./scripts/verify-session-init-loader.mjs scripts/verify-session-init.mjs"
   },
   "dependencies": {
     "@dcloudio/uni-app": "^3.0.0-alpha-4080120250606001",

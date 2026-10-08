@@ -1,0 +1,981 @@
+{
+  "checked_at": "2026-10-06T17:34:26.183953",
+  "baseline": {
+    "users": 9,
+    "answer_records": 5,
+    "diagnosis_sessions": 3,
+    "user_kp_mastery": 7
+  },
+  "counts": {
+    "users": 13,
+    "answer_records": 8,
+    "diagnosis_sessions": 4,
+    "user_kp_mastery": 31
+  },
+  "accounts": [
+    {
+      "user_id": "adm_efddc006",
+      "username": "m02_607d49_admin",
+      "role": "admin",
+      "suffix": "admin"
+    },
+    {
+      "user_id": "stu_9eeea2c2",
+      "username": "m02_607d49_a",
+      "role": "student",
+      "suffix": "a"
+    },
+    {
+      "user_id": "stu_ea4c5832",
+      "username": "m02_607d49_b",
+      "role": "student",
+      "suffix": "b"
+    },
+    {
+      "user_id": "stu_184558f1",
+      "username": "m02_607d49_scroll",
+      "suffix": "scroll",
+      "role": "student"
+    }
+  ],
+  "summary": {
+    "student_count": 10,
+    "question_count": 3,
+    "knowledge_point_count": 22,
+    "weekly_active_students": 3,
+    "recent_diagnoses": [
+      {
+        "student_id": "stu_9eeea2c2",
+        "student_name": "M02验收学生A",
+        "diagnosed_at": "2026-10-06T17:26:28",
+        "average_mastery": 0.65
+      },
+      {
+        "student_id": "stu_001",
+        "student_name": "张三",
+        "diagnosed_at": "2026-07-08T10:00:00",
+        "average_mastery": 0.75
+      },
+      {
+        "student_id": "stu_002",
+        "student_name": "李四",
+        "diagnosed_at": "2026-07-01T14:00:00",
+        "average_mastery": 0.375
+      },
+      {
+        "student_id": "stu_001",
+        "student_name": "张三",
+        "diagnosed_at": "2026-07-01T10:00:00",
+        "average_mastery": 0.6733333333333333
+      }
+    ]
+  },
+  "detail_a": {
+    "student_id": "stu_9eeea2c2",
+    "username": "m02_607d49_a",
+    "name": "M02验收学生A",
+    "avatar": null,
+    "created_at": "2026-10-06T17:24:04",
+    "last_login_at": "2026-10-06T17:34:27",
+    "alpha_vector": {
+      "kp_001": 0.8,
+      "kp_002": 0.5
+    },
+    "last_diagnosis": {
+      "session_id": "diag_bcc2a39f",
+      "diagnosed_at": "2026-10-06T17:26:28",
+      "question_count": 2,
+      "average_mastery": 0.65,
+      "algorithm_version": "dina-v1",
+      "parameter_version": "default-v1",
+      "converged": true,
+      "iterations": 2,
+      "answer_time_from": "2026-10-06T17:25:51",
+      "answer_time_to": "2026-10-06T17:26:01",
+      "repeat_strategy": "latest_attempt"
+    },
+    "diagnosis_history": [
+      {
+        "session_id": "diag_bcc2a39f",
+        "diagnosed_at": "2026-10-06T17:26:28",
+        "question_count": 2,
+        "average_mastery": 0.65,
+        "algorithm_version": "dina-v1",
+        "parameter_version": "default-v1",
+        "converged": true,
+        "iterations": 2,
+        "answer_time_from": "2026-10-06T17:25:51",
+        "answer_time_to": "2026-10-06T17:26:01",
+        "repeat_strategy": "latest_attempt"
+      }
+    ],
+    "learning_history": [
+      {
+        "knowledge_point_id": "kp_002",
+        "knowledge_point_name": "一元一次方程的定义",
+        "questions_done": 2,
+        "correct_count": 1,
+        "correct_rate": 0.5,
+        "mastery_probability": 0.5,
+        "updated_at": "2026-10-06T17:26:28"
+      },
+      {
+        "knowledge_point_id": "kp_001",
+        "knowledge_point_name": "方程与等式的概念",
+        "questions_done": 3,
+        "correct_count": 2,
+        "correct_rate": 0.6666666666666666,
+        "mastery_probability": 0.8,
+        "updated_at": "2026-10-06T17:26:28"
+      }
+    ],
+    "answer_history": [
+      {
+        "record_id": "ar_a601b938",
+        "question_id": "q_002",
+        "question_content": "下列哪些是一元二次方程？（多选）",
+        "student_answer": "A,C",
+        "is_correct": true,
+        "time_spent": 5,
+        "created_at": "2026-10-06T17:26:01"
+      },
+      {
+        "record_id": "ar_331feb0d",
+        "question_id": "q_001",
+        "question_content": "一元二次方程 x² + 5x + 6 = 0 的解是？",
+        "student_answer": "B",
+        "is_correct": false,
+        "time_spent": 5,
+        "created_at": "2026-10-06T17:25:51"
+      },
+      {
+        "record_id": "ar_af6d9c7d",
+        "question_id": "q_001",
+        "question_content": "一元二次方程 x² + 5x + 6 = 0 的解是？",
+        "student_answer": "A",
+        "is_correct": true,
+        "time_spent": 29,
+        "created_at": "2026-10-06T17:25:24"
+      }
+    ],
+    "recommended_path": [
+      {
+        "order": 1,
+        "knowledge_point": {
+          "id": "kp_021",
+          "name": "有序数对与坐标"
+        },
+        "reason": "尚未开始学习，建议从基础概念入手",
+        "difficulty": 0.15,
+        "estimated_time": 15,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.17,
+          "time_cost": 0.0625,
+          "total": 0.6325000000000001
+        }
+      },
+      {
+        "order": 2,
+        "knowledge_point": {
+          "id": "kp_018",
+          "name": "不等式的概念与性质"
+        },
+        "reason": "尚未开始学习，建议从基础概念入手",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.6100000000000001
+        }
+      },
+      {
+        "order": 3,
+        "knowledge_point": {
+          "id": "kp_006",
+          "name": "二元一次方程的概念"
+        },
+        "reason": "尚未开始学习，建议从基础概念入手",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.6100000000000001
+        }
+      },
+      {
+        "order": 4,
+        "knowledge_point": {
+          "id": "kp_022",
+          "name": "坐标与图形变换"
+        },
+        "reason": "前置知识「有序数对与坐标」尚未完全掌握，需重点学习",
+        "difficulty": 0.35,
+        "estimated_time": 30,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.13,
+          "time_cost": 0.025,
+          "total": 0.555
+        }
+      },
+      {
+        "order": 5,
+        "knowledge_point": {
+          "id": "kp_002",
+          "name": "一元一次方程的定义"
+        },
+        "reason": "当前掌握 50%，巩固后可进入下一阶段",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": 0.5,
+        "status": "learning",
+        "locked": false,
+        "reason_codes": [
+          "NEEDS_REVIEW"
+        ],
+        "score_components": {
+          "mastery": 0.2,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.41000000000000003
+        }
+      },
+      {
+        "order": 6,
+        "knowledge_point": {
+          "id": "kp_011",
+          "name": "一元二次方程的定义"
+        },
+        "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.25,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.15000000000000002,
+          "time_cost": 0.05,
+          "total": 0.6000000000000001
+        }
+      },
+      {
+        "order": 7,
+        "knowledge_point": {
+          "id": "kp_012",
+          "name": "直接开平方法"
+        },
+        "reason": "前置知识「一元二次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.3,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.13999999999999999,
+          "time_cost": 0.05,
+          "total": 0.59
+        }
+      },
+      {
+        "order": 8,
+        "knowledge_point": {
+          "id": "kp_003",
+          "name": "移项与合并同类项"
+        },
+        "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.25,
+        "estimated_time": 25,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.15000000000000002,
+          "time_cost": 0.037500000000000006,
+          "total": 0.5875
+        }
+      }
+    ],
+    "meta": {
+      "answer_history_limit": 50,
+      "diagnosis_history_limit": 10,
+      "learning_history_total": 2,
+      "knowledge_point_source": "Neo4j KnowledgePoint + SQL Server user_kp_mastery"
+    }
+  },
+  "detail_b": {
+    "student_id": "stu_ea4c5832",
+    "username": "m02_607d49_b",
+    "name": "M02验收学生B",
+    "avatar": null,
+    "created_at": "2026-10-06T17:24:04",
+    "last_login_at": "2026-10-06T17:34:27",
+    "alpha_vector": {},
+    "last_diagnosis": null,
+    "diagnosis_history": [],
+    "learning_history": [],
+    "answer_history": [],
+    "recommended_path": [
+      {
+        "order": 1,
+        "knowledge_point": {
+          "id": "kp_001",
+          "name": "方程与等式的概念"
+        },
+        "reason": "尚未开始学习，建议从基础概念入手",
+        "difficulty": 0.15,
+        "estimated_time": 15,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.17,
+          "time_cost": 0.0625,
+          "total": 0.6325000000000001
+        }
+      },
+      {
+        "order": 2,
+        "knowledge_point": {
+          "id": "kp_021",
+          "name": "有序数对与坐标"
+        },
+        "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+        "difficulty": 0.15,
+        "estimated_time": 15,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.17,
+          "time_cost": 0.0625,
+          "total": 0.6325000000000001
+        }
+      },
+      {
+        "order": 3,
+        "knowledge_point": {
+          "id": "kp_018",
+          "name": "不等式的概念与性质"
+        },
+        "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.6100000000000001
+        }
+      },
+      {
+        "order": 4,
+        "knowledge_point": {
+          "id": "kp_006",
+          "name": "二元一次方程的概念"
+        },
+        "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.6100000000000001
+        }
+      },
+      {
+        "order": 5,
+        "knowledge_point": {
+          "id": "kp_002",
+          "name": "一元一次方程的定义"
+        },
+        "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.6100000000000001
+        }
+      },
+      {
+        "order": 6,
+        "knowledge_point": {
+          "id": "kp_011",
+          "name": "一元二次方程的定义"
+        },
+        "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.25,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.15000000000000002,
+          "time_cost": 0.05,
+          "total": 0.6000000000000001
+        }
+      },
+      {
+        "order": 7,
+        "knowledge_point": {
+          "id": "kp_012",
+          "name": "直接开平方法"
+        },
+        "reason": "前置知识「一元二次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.3,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.13999999999999999,
+          "time_cost": 0.05,
+          "total": 0.59
+        }
+      },
+      {
+        "order": 8,
+        "knowledge_point": {
+          "id": "kp_003",
+          "name": "移项与合并同类项"
+        },
+        "reason": "前置知识「方程与等式的概念、一元一次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.25,
+        "estimated_time": 25,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.15000000000000002,
+          "time_cost": 0.037500000000000006,
+          "total": 0.5875
+        }
+      }
+    ],
+    "meta": {
+      "answer_history_limit": 50,
+      "diagnosis_history_limit": 10,
+      "learning_history_total": 0,
+      "knowledge_point_source": "Neo4j KnowledgePoint + SQL Server user_kp_mastery"
+    }
+  },
+  "list": {
+    "list": [
+      {
+        "student_id": "stu_9eeea2c2",
+        "username": "m02_607d49_a",
+        "name": "M02验收学生A",
+        "total_questions_done": 3,
+        "mastered_kp_count": 1,
+        "total_kp_count": 22,
+        "average_mastery": 0.65,
+        "last_active": "2026-10-06T17:26:28",
+        "created_at": "2026-10-06T17:24:04"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 20
+  },
+  "page1": {
+    "list": [
+      {
+        "student_id": "stu_9eeea2c2",
+        "username": "m02_607d49_a",
+        "name": "M02验收学生A",
+        "total_questions_done": 3,
+        "mastered_kp_count": 1,
+        "total_kp_count": 22,
+        "average_mastery": 0.65,
+        "last_active": "2026-10-06T17:26:28",
+        "created_at": "2026-10-06T17:24:04"
+      }
+    ],
+    "total": 10,
+    "page": 1,
+    "page_size": 1
+  },
+  "page2": {
+    "list": [
+      {
+        "student_id": "stu_0bc6beb0",
+        "username": "m3r2b_2e73f0916040",
+        "name": "M3R2临时学生B",
+        "total_questions_done": 1,
+        "mastered_kp_count": 0,
+        "total_kp_count": 22,
+        "average_mastery": 0.2,
+        "last_active": "2026-10-05T00:20:32",
+        "created_at": "2026-10-05T00:17:02"
+      }
+    ],
+    "total": 10,
+    "page": 2,
+    "page_size": 1
+  },
+  "page_beyond": {
+    "list": [],
+    "total": 10,
+    "page": 999,
+    "page_size": 1
+  },
+  "student_denials": {
+    "dashboard": {
+      "http": 403,
+      "code": 40101
+    },
+    "students": {
+      "http": 403,
+      "code": 40101
+    },
+    "detail": {
+      "http": 403,
+      "code": 40101
+    },
+    "config": {
+      "http": 403,
+      "code": 40101
+    }
+  },
+  "student_path": {
+    "target": null,
+    "steps": [
+      {
+        "order": 1,
+        "knowledge_point": {
+          "id": "kp_021",
+          "name": "有序数对与坐标"
+        },
+        "reason": "尚未开始学习，建议从基础概念入手",
+        "difficulty": 0.15,
+        "estimated_time": 15,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.17,
+          "time_cost": 0.0625,
+          "total": 0.6325000000000001
+        }
+      },
+      {
+        "order": 2,
+        "knowledge_point": {
+          "id": "kp_018",
+          "name": "不等式的概念与性质"
+        },
+        "reason": "尚未开始学习，建议从基础概念入手",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.6100000000000001
+        }
+      },
+      {
+        "order": 3,
+        "knowledge_point": {
+          "id": "kp_006",
+          "name": "二元一次方程的概念"
+        },
+        "reason": "尚未开始学习，建议从基础概念入手",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.6100000000000001
+        }
+      },
+      {
+        "order": 4,
+        "knowledge_point": {
+          "id": "kp_022",
+          "name": "坐标与图形变换"
+        },
+        "reason": "前置知识「有序数对与坐标」尚未完全掌握，需重点学习",
+        "difficulty": 0.35,
+        "estimated_time": 30,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.13,
+          "time_cost": 0.025,
+          "total": 0.555
+        }
+      },
+      {
+        "order": 5,
+        "knowledge_point": {
+          "id": "kp_002",
+          "name": "一元一次方程的定义"
+        },
+        "reason": "当前掌握 50%，巩固后可进入下一阶段",
+        "difficulty": 0.2,
+        "estimated_time": 20,
+        "mastery_probability": 0.5,
+        "status": "learning",
+        "locked": false,
+        "reason_codes": [
+          "NEEDS_REVIEW"
+        ],
+        "score_components": {
+          "mastery": 0.2,
+          "target_distance": 0.0,
+          "difficulty": 0.16000000000000003,
+          "time_cost": 0.05,
+          "total": 0.41000000000000003
+        }
+      },
+      {
+        "order": 6,
+        "knowledge_point": {
+          "id": "kp_011",
+          "name": "一元二次方程的定义"
+        },
+        "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.25,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.15000000000000002,
+          "time_cost": 0.05,
+          "total": 0.6000000000000001
+        }
+      },
+      {
+        "order": 7,
+        "knowledge_point": {
+          "id": "kp_012",
+          "name": "直接开平方法"
+        },
+        "reason": "前置知识「一元二次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.3,
+        "estimated_time": 20,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.13999999999999999,
+          "time_cost": 0.05,
+          "total": 0.59
+        }
+      },
+      {
+        "order": 8,
+        "knowledge_point": {
+          "id": "kp_003",
+          "name": "移项与合并同类项"
+        },
+        "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+        "difficulty": 0.25,
+        "estimated_time": 25,
+        "mastery_probability": null,
+        "status": "not_started",
+        "locked": false,
+        "reason_codes": [
+          "NO_MASTERY_DATA",
+          "PREREQUISITE_PENDING"
+        ],
+        "score_components": {
+          "mastery": 0.4,
+          "target_distance": 0.0,
+          "difficulty": 0.15000000000000002,
+          "time_cost": 0.037500000000000006,
+          "total": 0.5875
+        }
+      }
+    ],
+    "meta": {
+      "algorithm_version": "greedy-v1",
+      "weight_profile": "default-v1",
+      "degraded": false,
+      "degraded_reason": null,
+      "mastery_source": "student_snapshot",
+      "weights": {
+        "mastery": 0.4,
+        "target_distance": 0.3,
+        "difficulty": 0.2,
+        "time_cost": 0.1
+      }
+    }
+  },
+  "sql_summary": {
+    "student_count": 10,
+    "question_count": 3,
+    "weekly_active_students": 3,
+    "week_start": "2026-10-05T00:00:00"
+  },
+  "sql_answers": [
+    {
+      "record_id": "ar_a601b938",
+      "user_id": "stu_9eeea2c2",
+      "question_id": "q_002",
+      "student_answer": "A,C",
+      "is_correct": true,
+      "time_spent": 5,
+      "created_at": "2026-10-06 17:26:01.283000"
+    },
+    {
+      "record_id": "ar_331feb0d",
+      "user_id": "stu_9eeea2c2",
+      "question_id": "q_001",
+      "student_answer": "B",
+      "is_correct": false,
+      "time_spent": 5,
+      "created_at": "2026-10-06 17:25:51.530000"
+    },
+    {
+      "record_id": "ar_af6d9c7d",
+      "user_id": "stu_9eeea2c2",
+      "question_id": "q_001",
+      "student_answer": "A",
+      "is_correct": true,
+      "time_spent": 29,
+      "created_at": "2026-10-06 17:25:24.963000"
+    }
+  ],
+  "sql_diagnoses": [
+    {
+      "session_id": "diag_bcc2a39f",
+      "user_id": "stu_9eeea2c2",
+      "alpha_vector": "{\"kp_001\": 0.8, \"kp_002\": 0.5}",
+      "question_count": 2,
+      "diagnosed_at": "2026-10-06 17:26:28",
+      "algorithm_version": "dina-v1",
+      "parameter_version": "default-v1",
+      "repeat_strategy": "latest_attempt",
+      "converged": true,
+      "iterations": 2
+    }
+  ],
+  "sql_mastery": [
+    {
+      "knowledge_point_id": "kp_001",
+      "mastery_probability": 0.8,
+      "questions_done": 3,
+      "correct_count": 2,
+      "updated_at": "2026-10-06 17:26:28.607000"
+    },
+    {
+      "knowledge_point_id": "kp_002",
+      "mastery_probability": 0.5,
+      "questions_done": 2,
+      "correct_count": 1,
+      "updated_at": "2026-10-06 17:26:28.607000"
+    }
+  ],
+  "neo4j_kp_count": 22,
+  "independent_comparisons": {
+    "answers": "ID/question/answer/correctness/time/time_spent match SQL",
+    "mastery": "probability/questions/correct_count match SQL",
+    "diagnosis": "alpha/session time/question_count match SQL",
+    "path": "admin detail equals current student path",
+    "summary": "SQL counts/Neo4j count/latest alpha average match"
+  },
+  "cleanup": {
+    "deleted": {
+      "adm_efddc006": {
+        "weekly_reports": 0,
+        "user_achievements": 0,
+        "check_ins": 0,
+        "answer_records": 0,
+        "diagnosis_sessions": 0,
+        "user_kp_mastery": 0,
+        "users": 1
+      },
+      "stu_9eeea2c2": {
+        "weekly_reports": 0,
+        "user_achievements": 0,
+        "check_ins": 0,
+        "answer_records": 3,
+        "diagnosis_sessions": 1,
+        "user_kp_mastery": 2,
+        "users": 1
+      },
+      "stu_ea4c5832": {
+        "weekly_reports": 0,
+        "user_achievements": 0,
+        "check_ins": 0,
+        "answer_records": 0,
+        "diagnosis_sessions": 0,
+        "user_kp_mastery": 0,
+        "users": 1
+      },
+      "stu_184558f1": {
+        "weekly_reports": 0,
+        "user_achievements": 0,
+        "check_ins": 0,
+        "answer_records": 0,
+        "diagnosis_sessions": 0,
+        "user_kp_mastery": 22,
+        "users": 1
+      }
+    },
+    "residual": 0,
+    "after_counts": {
+      "users": 9,
+      "answer_records": 5,
+      "diagnosis_sessions": 3,
+      "user_kp_mastery": 7
+    },
+    "baseline": {
+      "users": 9,
+      "answer_records": 5,
+      "diagnosis_sessions": 3,
+      "user_kp_mastery": 7
+    },
+    "cleaned_at": "2026-10-06T17:34:31.855703"
+  }
+}

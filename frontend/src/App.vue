@@ -36,7 +36,14 @@ function installRouteGuard() {
 
 onLaunch(() => {
   installRouteGuard()
+  // initializeSession() restores the persisted token before validating it.
+  // Capture that same startup session before awaiting so a late result from
+  // session A cannot navigate a newer session B.
+  if (!userStore.token) userStore.restoreToken()
+  const startupSession = userStore.getSessionSnapshot()
   userStore.initializeSession().then((authenticated) => {
+    if (!userStore.isSessionSnapshotCurrentOrAuthFailure(startupSession)) return
+
     const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : []
     const current = pages[pages.length - 1]
     if (authenticated && current && PUBLIC_PAGES.has(current.route)) {

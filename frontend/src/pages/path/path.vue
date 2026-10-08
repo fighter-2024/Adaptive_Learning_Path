@@ -44,6 +44,11 @@
           </view>
         </view>
 
+        <view v-if="pathMeta.degraded" class="degraded-card">
+          <text class="degraded-title">本次路径未使用完整掌握数据</text>
+          <text class="degraded-text">{{ pathMeta.degraded_reason || '掌握数据暂时不可用，请稍后重试。' }}</text>
+        </view>
+
         <view v-if="steps.length" class="path-list">
           <view v-for="(step, index) in steps" :key="step.knowledge_point.id" class="path-step"
                 :class="stepClass(step, index)" @click="openPathStep(step)">
@@ -255,6 +260,7 @@ const loading = ref(false)
 const errorMessage = ref('')
 const target = ref(null)
 const steps = ref([])
+const pathMeta = ref({})
 const explanation = ref('')
 const graphData = ref({ nodes: [], edges: [], meta: {} })
 const searchKeyword = ref('')
@@ -297,6 +303,7 @@ async function loadPath() {
   const data = await get('/api/student/path', { count: 5 })
   target.value = data?.target || null
   steps.value = Array.isArray(data?.steps) ? data.steps : []
+  pathMeta.value = data?.meta || {}
   if (steps.value[0]?.knowledge_point?.id) currentFocusId.value = steps.value[0].knowledge_point.id
   try {
     const explainData = await get('/api/student/path/explain', { count: 5 })
@@ -401,7 +408,8 @@ function openPathStep(step) {
   selectNode({
     id: step.knowledge_point.id, label: step.knowledge_point.name, node_type: 'knowledge_point',
     difficulty: step.difficulty, estimated_time: step.estimated_time, mastery_probability: step.mastery_probability,
-    status: step.status, locked: step.locked, reason: step.reason
+    status: step.status, locked: step.locked, reason: step.reason,
+    reason_codes: step.reason_codes, score_components: step.score_components
   })
 }
 function relationLabel(nodeId) {
@@ -467,6 +475,9 @@ onShow(() => { loadActiveView() })
 .banner-count { min-width: 112rpx; text-align: center; padding-left: 18rpx; border-left: 1rpx solid rgba(255,255,255,.25); }
 .count-number { display: block; font-size: 48rpx; font-weight: 800; }
 .count-label { display: block; margin-top: 2rpx; font-size: 21rpx; color: rgba(255,255,255,.72); }
+.degraded-card { margin-top: 16rpx; padding: 18rpx 22rpx; border: 1rpx solid #f3d39a; border-radius: 16rpx; background: #fff8e9; }
+.degraded-title { display: block; color: #9a6b25; font-size: 23rpx; font-weight: 700; }
+.degraded-text { display: block; margin-top: 6rpx; color: #a77e42; font-size: 21rpx; line-height: 1.45; }
 .path-list { margin-top: 30rpx; }
 .path-step { display: flex; align-items: stretch; min-height: 220rpx; }
 .step-rail { width: 70rpx; display: flex; flex-direction: column; align-items: center; }

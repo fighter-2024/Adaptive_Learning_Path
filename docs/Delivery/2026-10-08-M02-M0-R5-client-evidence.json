@@ -1,0 +1,84 @@
+{
+  "checked_at": "2026-10-08T03:05:33.287Z",
+  "method": "actual production modules loaded by minimal production loader; existing gate passed; added real ensureAuthenticated and actual showRequestError call chains; controlled transport callbacks, no browser fault injection",
+  "original_gate": "PASS",
+  "independent_cases": [
+    {
+      "name": "current admin role rejects",
+      "passed": true,
+      "actual": {
+        "returned": false,
+        "user": ""
+      },
+      "expected": "admin role rejected, logged out"
+    },
+    {
+      "name": "old initializer keeps newer B pending promise",
+      "passed": true,
+      "actual": {
+        "oldResult": false,
+        "values": [
+          true,
+          true
+        ],
+        "requests": 1,
+        "user": "student-b"
+      },
+      "expected": "B retained, pending initialization reused"
+    },
+    {
+      "name": "old successful guard",
+      "passed": true,
+      "actual": {
+        "returned": false,
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": []
+      },
+      "expected": "B retained without stale guard redirect"
+    },
+    {
+      "name": "old HTTP 401 guard",
+      "passed": true,
+      "actual": {
+        "returned": false,
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": []
+      },
+      "expected": "B retained without stale guard redirect"
+    },
+    {
+      "name": "old business 40101 guard",
+      "passed": true,
+      "actual": {
+        "returned": false,
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": []
+      },
+      "expected": "B retained without stale guard redirect"
+    },
+    {
+      "name": "old HTTP 401 login catch + showRequestError",
+      "passed": true,
+      "actual": {
+        "user": "student-b",
+        "redirects": [],
+        "toasts": []
+      },
+      "expected": "B retained with no stale authentication toast"
+    },
+    {
+      "name": "old business 40101 login catch + showRequestError",
+      "passed": true,
+      "actual": {
+        "user": "student-b",
+        "redirects": [],
+        "toasts": []
+      },
+      "expected": "B retained with no stale authentication toast"
+    }
+  ],
+  "failed": 0
+}

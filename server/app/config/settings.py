@@ -6,6 +6,7 @@
 """
 
 import logging
+import math
 import os
 from pathlib import Path
 
@@ -104,6 +105,15 @@ class Settings(BaseSettings):
     DINA_S_INITIAL: float = 0.2  # 失误率初始值
     DINA_G_INITIAL: float = 0.2  # 猜测率初始值
 
+    # ========== 学习路径算法参数 ==========
+    # 四项权重必须处于 [0, 1] 且总和为 1；具体校验由路径服务复用，
+    # 这样运行时管理端更新和启动时配置使用同一套规则。
+    PATH_WEIGHT_MASTERY: float = 0.4
+    PATH_WEIGHT_TARGET_DISTANCE: float = 0.3
+    PATH_WEIGHT_DIFFICULTY: float = 0.2
+    PATH_WEIGHT_TIME_COST: float = 0.1
+    PATH_WEIGHT_PROFILE: str = "default-v1"
+
     # ========== JWT 认证 ==========
     SECRET_KEY: str = _DEFAULT_SECRET_KEY
     JWT_EXPIRE_MINUTES: int = 1440  # 24 小时
@@ -174,6 +184,23 @@ class Settings(BaseSettings):
                 "  ║  示例: python -c \"import secrets; print(secrets.token_hex(32))\" ║\n"
                 "  ╚══════════════════════════════════════════════════════════════╝"
             )
+        return self
+
+    @model_validator(mode="after")
+    def _validate_path_weights(self) -> "Settings":
+        """启动时校验路径权重范围和总和，避免服务使用半合法配置。"""
+        weights = (
+            self.PATH_WEIGHT_MASTERY,
+            self.PATH_WEIGHT_TARGET_DISTANCE,
+            self.PATH_WEIGHT_DIFFICULTY,
+            self.PATH_WEIGHT_TIME_COST,
+        )
+        if any(not math.isfinite(value) or value < 0 or value > 1 for value in weights):
+            raise ValueError("路径权重必须都在 0 到 1 之间")
+        if abs(sum(weights) - 1.0) > 0.0001:
+            raise ValueError("路径权重总和必须为 1")
+        if not self.PATH_WEIGHT_PROFILE.strip():
+            raise ValueError("路径权重 profile 不能为空")
         return self
 
 # 全局单例，各模块通过 from app.config import settings 引用

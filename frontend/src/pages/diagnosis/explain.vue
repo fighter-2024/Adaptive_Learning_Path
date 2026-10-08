@@ -1,94 +1,34 @@
 <template>
   <view class="page">
-    <view class="header">
-      <text class="header-title">🤖 AI 诊断解读</text>
-    </view>
-
-    <!-- AI 解读内容 -->
-    <view v-if="explanation" class="explain-card">
-      <text class="explain-text">{{ explanation }}</text>
-    </view>
-
-    <!-- 优势 -->
-    <uni-section v-if="strengths.length" title="🎯 你的优势" type="line">
-      <uni-list>
-        <uni-list-item v-for="s in strengths" :key="s" :title="s" />
-      </uni-list>
-    </uni-section>
-
-    <!-- 薄弱 -->
-    <uni-section v-if="weaknesses.length" title="⚠️ 需要加强" type="line">
-      <uni-list>
-        <uni-list-item v-for="w in weaknesses" :key="w" :title="w" />
-      </uni-list>
-    </uni-section>
-
-    <!-- 建议 -->
-    <view v-if="suggestion" class="suggestion-card">
-      <text class="suggestion-label">💡 学习建议</text>
-      <text class="suggestion-text">{{ suggestion }}</text>
-    </view>
-
-    <view v-if="!explanation && !loading" class="empty">
-      <text class="empty-text">暂无诊断数据</text>
-      <button class="btn-load" @click="loadExplain">获取 AI 解读</button>
+    <text class="title">AI 诊断解读</text>
+    <text v-if="loading" class="state">正在读取诊断并生成解读…</text>
+    <view v-else-if="error" class="state error"><text>{{ error }}</text><button @click="loadExplain">重试</button></view>
+    <view v-else-if="result">
+      <text v-if="result.degraded" class="state degraded">规则解读 · {{ result.degraded_reason }}</text>
+      <view class="card"><rich-text :nodes="markdownNodes(result.explanation)" /></view>
+      <view class="card"><text class="label">你的优势</text><text v-if="!result.strengths.length" class="hint">暂无已记录的优势知识点</text><text v-for="s in result.strengths" :key="s" class="tag strength">{{ s }}</text></view>
+      <view class="card"><text class="label">需要加强</text><text v-if="!result.weaknesses.length" class="hint">暂无已记录的薄弱知识点</text><text v-for="s in result.weaknesses" :key="s" class="tag weak">{{ s }}</text></view>
+      <view class="card"><text class="label">学习建议</text><rich-text :nodes="markdownNodes(result.suggestion)" /></view>
+      <button @click="goLearning">打开学习总览</button>
     </view>
   </view>
 </template>
-
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import { post, showRequestError } from '@/utils/request'
-
-const explanation = ref('')
-const strengths = ref([])
-const weaknesses = ref([])
-const suggestion = ref('')
-const loading = ref(false)
-
+import { markdownNodes } from '@/utils/aiText'
+const result = ref(null), loading = ref(false), error = ref('')
 async function loadExplain() {
-  loading.value = true
-  try {
-    const data = await post('/api/student/diagnosis/explain')
-    explanation.value = data.explanation || ''
-    strengths.value = data.strengths || []
-    weaknesses.value = data.weaknesses || []
-    suggestion.value = data.suggestion || ''
-  } catch (error) {
-    showRequestError(error, '获取解读失败')
-  } finally {
-    loading.value = false
-  }
+  if (loading.value) return
+  loading.value = true; error.value = ''; result.value = null
+  try { result.value = await post('/api/student/diagnosis/explain', {}, { timeout: 35000 }) }
+  catch (e) { error.value = showRequestError(e, '获取解读失败').message }
+  finally { loading.value = false }
 }
-
-onMounted(() => {
-  loadExplain()
-})
+function goLearning() { uni.switchTab({ url: '/pages/learning/index' }) }
+onShow(loadExplain)
 </script>
-
-<style lang="scss" scoped>
-.page { padding: 20rpx; padding-bottom: 40rpx; }
-.header { margin-bottom: 24rpx; }
-.header-title { font-size: 34rpx; font-weight: bold; }
-
-.explain-card {
-  background: #fff;
-  border-radius: 16rpx;
-  padding: 32rpx;
-  margin-bottom: 24rpx;
-}
-.explain-text { font-size: 28rpx; line-height: 1.8; }
-
-.suggestion-card {
-  background: linear-gradient(135deg, #e8f8e8, #f0fff0);
-  border-radius: 12rpx;
-  padding: 24rpx;
-  margin-top: 24rpx;
-}
-.suggestion-label { font-size: 26rpx; font-weight: 500; color: #18bc37; display: block; }
-.suggestion-text { font-size: 26rpx; color: #2c3e50; margin-top: 8rpx; line-height: 1.6; display: block; }
-
-.empty { padding: 80rpx 0; text-align: center; }
-.empty-text { font-size: 28rpx; color: #7f8c8d; display: block; }
-.btn-load { margin-top: 24rpx; background: #4f8cff; color: #fff; border: none; border-radius: 12rpx; padding: 18rpx 40rpx; font-size: 26rpx; }
+<style scoped>
+.page{padding:28rpx}.title{font-size:36rpx;font-weight:bold;display:block;margin-bottom:24rpx}.card{background:#fff;padding:28rpx;margin:20rpx 0;border-radius:16rpx;font-size:28rpx}.label{font-weight:bold;display:block;margin-bottom:18rpx}.tag{display:inline-block;padding:12rpx;margin:6rpx;border-radius:8rpx;font-size:24rpx}.strength{background:#e5f7e9;color:#237d39}.weak{background:#fff1df;color:#995712}.state{display:block;padding:24rpx;color:#66758b}.degraded{background:#fff5db;color:#8a5800}.error{color:#b33737}.hint{font-size:24rpx;color:#66758b}
 </style>

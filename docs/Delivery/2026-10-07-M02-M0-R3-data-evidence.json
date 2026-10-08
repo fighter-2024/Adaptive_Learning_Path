@@ -1,0 +1,88 @@
+{
+  "created_at": "2026-10-07T23:38:51.577118",
+  "baseline": {
+    "users": 9,
+    "answer_records": 5,
+    "diagnosis_sessions": 3,
+    "user_kp_mastery": 7,
+    "weekly_reports": 2,
+    "check_ins": 3,
+    "user_achievements": 3
+  },
+  "migration": [
+    [
+      "0001"
+    ],
+    [
+      "0002"
+    ],
+    [
+      "0003"
+    ]
+  ],
+  "cache_columns": [
+    [
+      "degraded",
+      "bit",
+      "NO"
+    ],
+    [
+      "degraded_reason",
+      "nvarchar",
+      "YES"
+    ],
+    [
+      "source_digest",
+      "varchar",
+      "YES"
+    ]
+  ],
+  "accounts": [
+    {
+      "suffix": "admin",
+      "role": "admin",
+      "username": "m02m0r3_03f686_admin",
+      "user_id": "adm_e8559c5b"
+    },
+    {
+      "suffix": "a",
+      "role": "student",
+      "username": "m02m0r3_03f686_a",
+      "user_id": "stu_baaba39b"
+    },
+    {
+      "suffix": "b",
+      "role": "student",
+      "username": "m02m0r3_03f686_b",
+      "user_id": "stu_081573eb"
+    }
+  ],
+  "cleaned_at": "2026-10-07T23:40:40.510409",
+  "deleted": {
+    "weekly_reports": 0,
+    "answer_records": 2,
+    "diagnosis_sessions": 1,
+    "user_kp_mastery": 2,
+    "check_ins": 0,
+    "user_achievements": 0,
+    "users": 3
+  },
+  "residual": {
+    "users": 0,
+    "answer_records": 0,
+    "diagnosis_sessions": 0,
+    "user_kp_mastery": 0,
+    "weekly_reports": 0,
+    "check_ins": 0,
+    "user_achievements": 0
+  },
+  "after": {
+    "users": 9,
+    "answer_records": 5,
+    "diagnosis_sessions": 3,
+    "user_kp_mastery": 7,
+    "weekly_reports": 2,
+    "check_ins": 3,
+    "user_achievements": 3
+  }
+}

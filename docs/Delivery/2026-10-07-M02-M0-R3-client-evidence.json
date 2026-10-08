@@ -1,0 +1,103 @@
+{
+  "checked_at": "2026-10-07T15:38:29.813Z",
+  "method": "actual production modules loaded by minimal production loader; existing gate passed; added real ensureAuthenticated and actual showRequestError call chains; controlled transport callbacks, no browser fault injection",
+  "original_gate": "PASS",
+  "independent_cases": [
+    {
+      "name": "old successful guard",
+      "passed": false,
+      "actual": {
+        "returned": false,
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ]
+      },
+      "expected": "B retained without stale guard redirect"
+    },
+    {
+      "name": "old HTTP 401 guard",
+      "passed": false,
+      "actual": {
+        "returned": false,
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ]
+      },
+      "expected": "B retained without stale guard redirect"
+    },
+    {
+      "name": "old business 40101 guard",
+      "passed": false,
+      "actual": {
+        "returned": false,
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ]
+      },
+      "expected": "B retained without stale guard redirect"
+    },
+    {
+      "name": "old HTTP 401 login catch + showRequestError",
+      "passed": false,
+      "actual": {
+        "user": "student-b",
+        "redirects": [],
+        "toasts": [
+          {
+            "title": "controlled old login expired",
+            "icon": "none",
+            "duration": 2500
+          }
+        ]
+      },
+      "expected": "B retained with no stale authentication toast"
+    },
+    {
+      "name": "old business 40101 login catch + showRequestError",
+      "passed": false,
+      "actual": {
+        "user": "student-b",
+        "redirects": [],
+        "toasts": [
+          {
+            "title": "controlled old login role",
+            "icon": "none",
+            "duration": 2500
+          }
+        ]
+      },
+      "expected": "B retained with no stale authentication toast"
+    }
+  ],
+  "failed": 5,
+  "production_gate_negative_checks": [
+    {
+      "mutation": "login POST completion lifecycle bypass",
+      "scope": "isolated snapshot only",
+      "failure_exit": 1,
+      "restored_exit": 0,
+      "source_restored": true,
+      "remote_ci_evidence": false
+    },
+    {
+      "mutation": "stale authentication side-effect check bypass",
+      "scope": "isolated snapshot only",
+      "failure_exit": 1,
+      "restored_exit": 0,
+      "source_restored": true,
+      "remote_ci_evidence": false
+    }
+  ]
+}

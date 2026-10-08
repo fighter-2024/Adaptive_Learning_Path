@@ -1,0 +1,210 @@
+{
+  "checked_at": "2026-10-08T11:34:42.832721",
+  "phase": "after_normal_switch_and_startup_recovery",
+  "server_pid": 38148,
+  "sample_preparation": "formal submit-answer/diagnosis API, not claimed as UI answer clicks",
+  "sources": {
+    "a": {
+      "user_id": "stu_0c788105",
+      "knowledge_points": 22,
+      "mastered": 2,
+      "home_percent": 9,
+      "sql_counts": {
+        "answer_records": 2,
+        "diagnosis_sessions": 1,
+        "user_kp_mastery": 2
+      }
+    },
+    "b": {
+      "user_id": "stu_e8a385aa",
+      "knowledge_points": 22,
+      "mastered": 0,
+      "home_percent": 0,
+      "sql_counts": {
+        "answer_records": 0,
+        "diagnosis_sessions": 0,
+        "user_kp_mastery": 0
+      }
+    }
+  },
+  "representative_backend_auth": [
+    {
+      "case": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "case": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "case": "admin",
+      "http": 403,
+      "code": 40101
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "neo4j": true,
+    "sqlserver": true
+  },
+  "current_source_hashes": {
+    "frontend/.runtime-m9-h5-dev.log": "97f40210c92e677546a342b988ec7338cfb4ddf3110b8f98c5c49e7f0d3c347d",
+    "frontend/.runtime-m9-mp.log": "a6ae371e906db5703600df8ae0e0cea5782236da3378f78018fff0275734e4ac",
+    "frontend/index.html": "65ae1e44e6a5d57466ca4a17629ef7b92ea9acddaec210c9cdac29ef469cabd5",
+    "frontend/package-lock.json": "642f75b5c196a63da82b247dae43e48f853d6c93fa0ce58aa13efa13a63886bc",
+    "frontend/package.json": "a4d38314e3fef60fe4880721c071be967fcd19d321ac308eee6d34911ec22b78",
+    "frontend/README.md": "0f027a23cbff5ee5353155bc0e8996db1cd8abfbac969e2c3fbffc78666b7853",
+    "frontend/vite.config.js": "9b341402cf6539769cffa5db07776cccb0d01c9ca21288db6bd0fc2d50e7c869",
+    "frontend/scripts/verify-ai-history.mjs": "569cdf5edfa8f8085c40f9f14b26cf462885fb94d9d6cd95f1781c75ef3dadad",
+    "frontend/scripts/verify-app-hooks.mjs": "b9c1f153af2eef20ab22e42727387db3a94494a4a61f5a7f3e1f44e513ee3b59",
+    "frontend/scripts/verify-app-startup-loader.mjs": "4a8c0ac188e27b04cc3a440c9e1705e8657db8c890e92bd8dbc383b1c3425c25",
+    "frontend/scripts/verify-app-startup.mjs": "44ac277c4b7e1254f25d487c29dd99c26acc1b396bfd57a3d325a75f37cd3e39",
+    "frontend/scripts/verify-auth.mjs": "37e9e281f0c27fe5d5513a7c813454713f4740f209adfb231e52ecf47baa5e42",
+    "frontend/scripts/verify-diagnosis-entry.mjs": "1ecbefdfe38052c3bb12f72d134aa902866b342e10475b4b69ad14031049e0e1",
+    "frontend/scripts/verify-home-entry.mjs": "ee141d9db8fe786e2e7987542b71f66e44c5d06245aa7c7992402a2cbfd92d49",
+    "frontend/scripts/verify-learning-entry.mjs": "06c1d1f669d2957ba1c97a53244cc74d5dd56a59e4d00f72081fb3086cb92b32",
+    "frontend/scripts/verify-session-init-loader.mjs": "8efc42959aeb6e904d8e4a378f1d7ca98a2c0c4c8ce29d2dbbd3af14a4b71566",
+    "frontend/scripts/verify-session-init.mjs": "3dfb9dac1fc16dd9bc21e38fe62143fcf4bd663efd80637015415be487f4acda",
+    "frontend/src/App.vue": "3d293f56d47b4287adf6294e22125eb16081e2aa9a7d61d53149423f001d9eef",
+    "frontend/src/main.js": "a7d4c7dab8f9f8e45c49ed822227bf8614d6456c25b145fecada0ee2cb8776b6",
+    "frontend/src/manifest.json": "9adf7f514509f90119aa851ced1b0f08878b820fd0b426022afcf9d236c8a022",
+    "frontend/src/pages.json": "9e2dca7a502958a560222626e7a0fc6360cbafafa96dbb3f720e4cc399fff32c",
+    "frontend/src/uni.scss": "df11d5ebf96e57d3e87901773eec4692b2d0d3d65cb0f6fb56cf9d1afbd4479c",
+    "frontend/src/store/app.js": "18a9c03071c5820a64791eba9c3097ddc9879fe8797571bd5b05cc0e76583280",
+    "frontend/src/store/user.js": "9e563a382f9afeda95037d3fed17e1203379c6558c2aef54b4922df7685f1e99",
+    "frontend/src/utils/aiText.js": "90466978903d5f0be992cc7a0ba090d74403c3ef99cdd84b65650ee6f3002a9b",
+    "frontend/src/utils/learningStats.js": "56050a01f830d9cb65c78f3eee449d3e9dd2c0684a70ccc6a1940799df68e79c",
+    "frontend/src/utils/request.js": "e646f4385912bbbc9fe81b319e4387981b965a149910a6d81c02c591149454d8",
+    "frontend/src/pages/auth/login.vue": "ac86f2336824e88f708783f0668b9889414954b3c2d4b489129a6c78ac74ff6f",
+    "frontend/src/pages/auth/register.vue": "1ef2c7baa9595494863dc572c403c2e35b44cbc184a7c377a7c15ceda9cf7bf9",
+    "frontend/src/pages/chat/index.vue": "17769fa75de3bebab446272bcd2c52a29bb5af61c9b393adbc2ece3caa80eef6",
+    "frontend/src/pages/diagnosis/explain.vue": "62eb23e1691396f1ba0167d06d3facf8246101fc2814fb7b9d8a7777ad5cf325",
+    "frontend/src/pages/diagnosis/index.vue": "28dbc5e3d270e7ed1145f13498a6ab7720473ea8753ffda3fc13fa43d7c0e715",
+    "frontend/src/pages/index/index.vue": "de8a297aa549e209f1cf7860b49feb5c84589a2e80b8e0b88a8014c0303e8117",
+    "frontend/src/pages/learning/detail.vue": "2553ea8524b9df287fca89d3f34ff0cc8596bdcedb9b5575ac4ea709238ec80b",
+    "frontend/src/pages/learning/index.vue": "2858fbf636c1c55d5a0db621e2b161377112f8bb1c0abcc4f162b2ca146df4d0",
+    "frontend/src/pages/mine/index.vue": "b739302cab2c3e71db2ff645f2d7401858caad0693a053fce4cfb632311c82fc",
+    "frontend/src/pages/path/path.vue": "9fe908920b9c62da80c12fa7b40fcfcb494ef69244a1874106615c1ed1f80abc",
+    "frontend/src/pages/quiz/quiz.vue": "b55f22cbfb034f16ecbd780de69ad76153c38804909e96f2bafcdfe3383a42b4",
+    "frontend/src/pages/report/report.vue": "f646fa0bc939cd63b1ba6de033968ce4d0711e398bbb07ca058622196e366e41",
+    "frontend/src/pages/settings/index.vue": "8d88adb16181649bae21f37a1f804ede628cf820d1f28465de836ed685da3d75",
+    "frontend/src/pages/social/achievements.vue": "ba0aa9c7c554f9402ab442e27ff0d35bfab22f765e3ee34c13a85351772d07ae",
+    "frontend/src/pages/social/index.vue": "01be386a6a7b0131c217a62cfb0ea3bf8383bc009dbbdf06a3e296b49aaec355"
+  },
+  "front_gates": 7,
+  "h5_build": "DONE Build complete",
+  "weixin_build": "DONE Build complete",
+  "final_checks": {
+    "checked_at": "2026-10-08T11:41:08.170279",
+    "health": {
+      "sqlserver": true,
+      "neo4j": true
+    },
+    "residual": {
+      "users": 0,
+      "answer_records": 0,
+      "diagnosis_sessions": 0,
+      "user_kp_mastery": 0,
+      "weekly_reports": 0,
+      "check_ins": 0,
+      "user_achievements": 0
+    },
+    "baseline_restored": {
+      "users": 9,
+      "answer_records": 5,
+      "diagnosis_sessions": 3,
+      "user_kp_mastery": 7,
+      "weekly_reports": 2,
+      "check_ins": 3,
+      "user_achievements": 3
+    },
+    "runtime_logs_scanned": 13,
+    "credential_findings": 0
+  },
+  "verdict": "M0-R5 passed; M0-R1 through R5 local repairs and M0 local integration acceptance closed; only remote CI/merge blocking evidence outstanding",
+  "launcher_pid": 35440,
+  "backend_source_parity": {
+    "checked": 102,
+    "changed": []
+  },
+  "front_gate_results": [
+    {
+      "gate": "verify:app-startup",
+      "exit": 0
+    },
+    {
+      "gate": "verify:session-init",
+      "exit": 0
+    },
+    {
+      "gate": "verify:auth",
+      "exit": 0
+    },
+    {
+      "gate": "verify:diagnosis-entry",
+      "exit": 0
+    },
+    {
+      "gate": "verify:learning-entry",
+      "exit": 0
+    },
+    {
+      "gate": "verify:home-entry",
+      "exit": 0
+    },
+    {
+      "gate": "verify:ai-history",
+      "exit": 0
+    }
+  ],
+  "ui": {
+    "cold_a_without_reload": true,
+    "a_home_percent": 9,
+    "a_mine_mastered": 2,
+    "a_data_preserved_while_b_logged_in": true,
+    "b_without_reload": true,
+    "b_home_percent": 0,
+    "b_mine_mastered": 0,
+    "returned_a_without_reload": true,
+    "returned_a_home_percent": 9,
+    "returned_a_mine_mastered": 2,
+    "matrix_full_reload_count": 0,
+    "separate_startup_recovery_full_reload_count": 1,
+    "persisted_a_session_restored": true,
+    "restored_a_home_percent": 9,
+    "restored_a_mine_mastered": 2,
+    "logout_clears_identity_and_statistics": true,
+    "identities_logged_out_tab9_closed": true
+  },
+  "cleanup": {
+    "private_credentials_removed": true,
+    "own_stopped_pids": [
+      38148,
+      35440
+    ],
+    "seven_table_residual": 0
+  },
+  "client_behavior": {
+    "production_session_gate": "PASS",
+    "independent_cases": 7,
+    "passed": 7,
+    "failed": 0,
+    "evidence": "2026-10-08-M02-M0-R5-client-evidence.json"
+  },
+  "startup_behavior": {
+    "production_gate_cases": 11,
+    "production_gate_failed": 0,
+    "independent_cases": 4,
+    "independent_failed": 0,
+    "evidence": [
+      "2026-10-08-M02-M0-R5-gate-evidence.json",
+      "2026-10-08-M02-M0-R5-startup-evidence.json"
+    ]
+  },
+  "remote_ci": {
+    "git_remote_present": false,
+    "success_failure_restore_merge_block_evidence": "pending"
+  }
+}

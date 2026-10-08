@@ -1,0 +1,68 @@
+{
+  "checked_at": "2026-10-07T23:49:31.018Z",
+  "method": "actual production App.vue script setup extracted unchanged; actual user.js/request.js + Vue/Pinia; only UniApp lifecycle registration captured and transport callbacks controlled; no browser/backend fault injection",
+  "cases": [
+    {
+      "name": "late startup A success",
+      "passed": false,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ],
+        "toasts": []
+      },
+      "expected": "actual App.vue onLaunch callback must not navigate B after old initialization"
+    },
+    {
+      "name": "late startup A HTTP401",
+      "passed": false,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ],
+        "toasts": []
+      },
+      "expected": "actual App.vue onLaunch callback must not navigate B after old initialization"
+    },
+    {
+      "name": "late startup A business40101",
+      "passed": false,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ],
+        "toasts": []
+      },
+      "expected": "actual App.vue onLaunch callback must not navigate B after old initialization"
+    },
+    {
+      "name": "current startup invalid still refuses",
+      "passed": true,
+      "actual": {
+        "logged_in": false,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          },
+          {
+            "url": "/pages/auth/login"
+          }
+        ]
+      },
+      "expected": "current invalid identity refused and login redirect retained"
+    }
+  ],
+  "failed": 3
+}

@@ -15,16 +15,23 @@
     <view class="stats-row">
       <view class="stat-item">
         <text class="stat-val">{{ totalQuestions }}</text>
-        <text class="stat-lbl">总做题数</text>
+        <text class="stat-lbl">总做题数（未接入）</text>
       </view>
       <view class="stat-item">
-        <text class="stat-val">{{ masteredKp }}</text>
-        <text class="stat-lbl">已掌握</text>
+        <text class="stat-val">{{ masteredKp === null ? '—' : masteredKp }}</text>
+        <text class="stat-lbl">已掌握知识点</text>
       </view>
       <view class="stat-item">
-        <text class="stat-val">{{ streakDays }}天</text>
-        <text class="stat-lbl">连续打卡</text>
+        <text class="stat-val">{{ streakDays === '—' ? '—' : streakDays + '天' }}</text>
+        <text class="stat-lbl">连续打卡（未接入）</text>
       </view>
+    </view>
+    <view class="stats-state" :class="statsStatus">
+      <text v-if="statsStatus === 'loading'">正在读取当前学生的掌握数据…</text>
+      <text v-else-if="statsStatus === 'error'">{{ statsError }}</text>
+      <text v-else-if="statsStatus === 'empty'">暂无可用掌握数据</text>
+      <text v-else>已掌握数据来自当前学生知识点接口；总做题数、连续打卡暂未接入。</text>
+      <text v-if="statsStatus === 'error'" class="retry-link" @click="loadStats">重试</text>
     </view>
 
     <!-- 功能菜单 -->
@@ -49,14 +56,20 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
+import { onShow } from '@dcloudio/uni-app'
 import { useUserStore } from '@/store/user'
+import { get, showRequestError } from '@/utils/request'
+import { summarizeKnowledgePoints } from '@/utils/learningStats'
 
 const userStore = useUserStore()
 
-const totalQuestions = ref(0)
-const masteredKp = ref(0)
-const streakDays = ref(0)
+const totalQuestions = ref('—')
+const masteredKp = ref(null)
+const streakDays = ref('—')
+const statsStatus = ref('idle')
+const statsError = ref('学习统计加载失败，请重试')
+let statsRequestId = 0
 
 const avatarInitial = computed(() => {
   const name = userStore.userInfo.name
@@ -65,6 +78,52 @@ const avatarInitial = computed(() => {
 
 function goPage(url) {
   uni.navigateTo({ url })
+}
+
+function resetStats() {
+  totalQuestions.value = '—'
+  masteredKp.value = null
+  streakDays.value = '—'
+}
+
+watch(() => userStore.userInfo.userId, (userId, previousUserId) => {
+  if (userId === previousUserId) return
+  // 首次 /auth/me 恢复会话时让当前 loadStats() 继续完成；登录页切换账号时主动启动新账号读取。
+  if (!previousUserId && userId && statsStatus.value === 'loading') return
+  statsRequestId += 1
+  resetStats()
+  statsError.value = '学习统计加载失败，请重试'
+  statsStatus.value = userId ? 'idle' : 'empty'
+  if (userId) loadStats()
+})
+
+async function loadStats() {
+  if (statsStatus.value === 'loading') return
+  const requestId = ++statsRequestId
+  resetStats()
+  statsStatus.value = 'loading'
+
+  const authenticated = await userStore.ensureAuthenticated(false)
+  const userId = userStore.userInfo.userId
+  if (!authenticated || !userId) {
+    if (requestId !== statsRequestId) return
+    statsStatus.value = 'error'
+    statsError.value = userStore.sessionError || '当前登录状态无效，请重新登录'
+    return
+  }
+
+  try {
+    const data = await get('/api/student/knowledge-points')
+    if (requestId !== statsRequestId || userId !== userStore.userInfo.userId) return
+
+    const summary = summarizeKnowledgePoints(data)
+    masteredKp.value = summary.hasData ? summary.masteredCount : null
+    statsStatus.value = summary.hasData ? 'ready' : 'empty'
+  } catch (error) {
+    if (requestId !== statsRequestId) return
+    statsStatus.value = 'error'
+    statsError.value = showRequestError(error, '加载学习统计失败').message
+  }
 }
 
 function editProfile() {
@@ -83,6 +142,8 @@ function handleLogout() {
     }
   })
 }
+
+onShow(loadStats)
 </script>
 
 <style lang="scss" scoped>
@@ -120,6 +181,10 @@ function handleLogout() {
 .stat-item { flex: 1; text-align: center; }
 .stat-val { font-size: 32rpx; font-weight: bold; color: #2c3e50; display: block; }
 .stat-lbl { font-size: 22rpx; color: #7f8c8d; margin-top: 4rpx; display: block; }
+.stats-state { margin: -12rpx 20rpx 24rpx; color: #7f8c8d; font-size: 22rpx; line-height: 1.5; text-align: center; }
+.stats-state.error { color: #c45c52; }
+.stats-state.empty { color: #a07e45; }
+.retry-link { display: block; margin-top: 8rpx; color: #4f8cff; }
 
 .logout-btn {
   margin: 40rpx 20rpx;

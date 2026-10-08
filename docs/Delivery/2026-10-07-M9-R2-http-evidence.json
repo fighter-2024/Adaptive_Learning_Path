@@ -1,0 +1,275 @@
+{
+  "source": "real FastAPI TestClient + SQL Server + Neo4j + configured provider",
+  "student_a_id": "stu_d56f9e18",
+  "student_b_id": "stu_55957aca",
+  "week_start": "2026-10-05",
+  "repeated_query": {
+    "diagnosis_foreign_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "diagnosis_self_then_foreign": {
+      "student_id_values": [
+        "stu_d56f9e18",
+        "stu_55957aca"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "diagnosis_foreign_then_self_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "chat_foreign_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "chat_self_then_foreign": {
+      "student_id_values": [
+        "stu_d56f9e18",
+        "stu_55957aca"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "chat_foreign_then_self_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "knowledge_chat_foreign_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "knowledge_chat_self_then_foreign": {
+      "student_id_values": [
+        "stu_d56f9e18",
+        "stu_55957aca"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "knowledge_chat_foreign_then_self_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "weekly_foreign_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "weekly_self_then_foreign": {
+      "student_id_values": [
+        "stu_d56f9e18",
+        "stu_55957aca"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "weekly_foreign_then_self_then_self": {
+      "student_id_values": [
+        "stu_55957aca",
+        "stu_d56f9e18",
+        "stu_d56f9e18"
+      ],
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    }
+  },
+  "auth_priority": {
+    "diagnosis": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    "chat": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    "knowledge_chat": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    "weekly": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    }
+  },
+  "same_student": {
+    "diagnosis": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    },
+    "chat": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    },
+    "knowledge_chat": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    },
+    "weekly": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    }
+  },
+  "duration": {
+    "source_sql_seconds": 20,
+    "study_time_minutes": 0,
+    "ai_summary": "本周（2026-10-05至2026-10-11）你共作答1次，正确率为100%。已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。本周新掌握的知识点为“方程与等式的概念”和“一元一次方程的定义”，目前没有仍显薄弱的知识点。由于作答次数较少，建议下周先学习相关课程内容，再通过更多练习巩固理解，保持当前的良好正确率。",
+    "degraded": false
+  },
+  "controlled_summary_validation": {
+    "missing_with_suggestion_seconds": {
+      "input": "本周暂无有效作答时长记录；请在下周练习时每题预留20秒。",
+      "degraded": true,
+      "summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+      "reason": "contradictory_duration_fact"
+    },
+    "contradictory_with_recorded_seconds": {
+      "input": "本周没有有效的作答时长记录。已记录20秒，不足1分钟。",
+      "degraded": true,
+      "summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+      "reason": "contradictory_duration_fact"
+    },
+    "suggestion_only_seconds": {
+      "input": "本周完成作答1次，正确率100%。下周练习时每题预留20秒。",
+      "degraded": true,
+      "summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+      "reason": "missing_recorded_duration_fact"
+    }
+  },
+  "cache": {
+    "first_cached": false,
+    "second_cached": true,
+    "generated_at_unchanged": true
+  },
+  "cleanup": {
+    "deleted": {
+      "weekly_reports": 1,
+      "diagnosis_sessions": 0,
+      "user_kp_mastery": 2,
+      "answer_records": 1,
+      "check_ins": 0,
+      "user_achievements": 0,
+      "users": 3
+    },
+    "remaining_users": 0
+  }
+}

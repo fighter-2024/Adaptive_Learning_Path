@@ -1,0 +1,1437 @@
+{
+  "checked_at": "2026-10-06T17:32:55.503499",
+  "service": "isolated 127.0.0.1:8092; real SQL/Neo4j; no auth override",
+  "profiles": [
+    {
+      "config": {
+        "path_weight_mastery": 0.05,
+        "path_weight_target_distance": 0,
+        "path_weight_difficulty": 0.9,
+        "path_weight_time_cost": 0.05,
+        "path_weight_profile": "m02-difficulty-first"
+      },
+      "path": {
+        "target": null,
+        "steps": [
+          {
+            "order": 1,
+            "knowledge_point": {
+              "id": "kp_021",
+              "name": "有序数对与坐标"
+            },
+            "reason": "尚未开始学习，建议从基础概念入手",
+            "difficulty": 0.15,
+            "estimated_time": 15,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.765,
+              "time_cost": 0.03125,
+              "total": 0.8462500000000001
+            }
+          },
+          {
+            "order": 2,
+            "knowledge_point": {
+              "id": "kp_018",
+              "name": "不等式的概念与性质"
+            },
+            "reason": "尚未开始学习，建议从基础概念入手",
+            "difficulty": 0.2,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.7200000000000001,
+              "time_cost": 0.025,
+              "total": 0.795
+            }
+          },
+          {
+            "order": 3,
+            "knowledge_point": {
+              "id": "kp_006",
+              "name": "二元一次方程的概念"
+            },
+            "reason": "尚未开始学习，建议从基础概念入手",
+            "difficulty": 0.2,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.7200000000000001,
+              "time_cost": 0.025,
+              "total": 0.795
+            }
+          },
+          {
+            "order": 4,
+            "knowledge_point": {
+              "id": "kp_002",
+              "name": "一元一次方程的定义"
+            },
+            "reason": "当前掌握 50%，巩固后可进入下一阶段",
+            "difficulty": 0.2,
+            "estimated_time": 20,
+            "mastery_probability": 0.5,
+            "status": "learning",
+            "locked": false,
+            "reason_codes": [
+              "NEEDS_REVIEW"
+            ],
+            "score_components": {
+              "mastery": 0.025,
+              "target_distance": 0.0,
+              "difficulty": 0.7200000000000001,
+              "time_cost": 0.025,
+              "total": 0.7700000000000001
+            }
+          },
+          {
+            "order": 5,
+            "knowledge_point": {
+              "id": "kp_011",
+              "name": "一元二次方程的定义"
+            },
+            "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.25,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.675,
+              "time_cost": 0.025,
+              "total": 0.75
+            }
+          },
+          {
+            "order": 6,
+            "knowledge_point": {
+              "id": "kp_003",
+              "name": "移项与合并同类项"
+            },
+            "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.25,
+            "estimated_time": 25,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.675,
+              "time_cost": 0.018750000000000003,
+              "total": 0.74375
+            }
+          },
+          {
+            "order": 7,
+            "knowledge_point": {
+              "id": "kp_012",
+              "name": "直接开平方法"
+            },
+            "reason": "前置知识「一元二次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.3,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.63,
+              "time_cost": 0.025,
+              "total": 0.705
+            }
+          },
+          {
+            "order": 8,
+            "knowledge_point": {
+              "id": "kp_022",
+              "name": "坐标与图形变换"
+            },
+            "reason": "前置知识「有序数对与坐标」尚未完全掌握，需重点学习",
+            "difficulty": 0.35,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.5850000000000001,
+              "time_cost": 0.0125,
+              "total": 0.6475000000000001
+            }
+          },
+          {
+            "order": 9,
+            "knowledge_point": {
+              "id": "kp_004",
+              "name": "解一元一次方程"
+            },
+            "reason": "前置知识「一元一次方程的定义、移项与合并同类项」尚未完全掌握，需重点学习",
+            "difficulty": 0.35,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.5850000000000001,
+              "time_cost": 0.0125,
+              "total": 0.6475000000000001
+            }
+          },
+          {
+            "order": 10,
+            "knowledge_point": {
+              "id": "kp_019",
+              "name": "解一元一次不等式"
+            },
+            "reason": "前置知识「解一元一次方程、不等式的概念与性质」尚未完全掌握，需重点学习",
+            "difficulty": 0.3,
+            "estimated_time": 25,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.63,
+              "time_cost": 0.018750000000000003,
+              "total": 0.69875
+            }
+          },
+          {
+            "order": 11,
+            "knowledge_point": {
+              "id": "kp_007",
+              "name": "二元一次方程组与消元思想"
+            },
+            "reason": "前置知识「一元一次方程的定义、解一元一次方程、二元一次方程的概念」尚未完全掌握，需重点学习",
+            "difficulty": 0.3,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.63,
+              "time_cost": 0.0125,
+              "total": 0.6925
+            }
+          },
+          {
+            "order": 12,
+            "knowledge_point": {
+              "id": "kp_008",
+              "name": "解二元一次方程组"
+            },
+            "reason": "前置知识「移项与合并同类项、二元一次方程组与消元思想」尚未完全掌握，需重点学习",
+            "difficulty": 0.35,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.5850000000000001,
+              "time_cost": 0.0125,
+              "total": 0.6475000000000001
+            }
+          },
+          {
+            "order": 13,
+            "knowledge_point": {
+              "id": "kp_015",
+              "name": "根的判别式"
+            },
+            "reason": "前置知识「一元二次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.4,
+            "estimated_time": 25,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.54,
+              "time_cost": 0.018750000000000003,
+              "total": 0.60875
+            }
+          },
+          {
+            "order": 14,
+            "knowledge_point": {
+              "id": "kp_020",
+              "name": "解一元一次不等式组"
+            },
+            "reason": "前置知识「解一元一次不等式」尚未完全掌握，需重点学习",
+            "difficulty": 0.4,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.54,
+              "time_cost": 0.0125,
+              "total": 0.6025
+            }
+          },
+          {
+            "order": 15,
+            "knowledge_point": {
+              "id": "kp_013",
+              "name": "配方法解一元二次方程"
+            },
+            "reason": "前置知识「一元二次方程的定义、直接开平方法」尚未完全掌握，需重点学习",
+            "difficulty": 0.45,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.49500000000000005,
+              "time_cost": 0.00625,
+              "total": 0.55125
+            }
+          },
+          {
+            "order": 16,
+            "knowledge_point": {
+              "id": "kp_005",
+              "name": "列一元一次方程解应用题"
+            },
+            "reason": "前置知识「解一元一次方程」尚未完全掌握，需重点学习",
+            "difficulty": 0.45,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.49500000000000005,
+              "time_cost": 0.00625,
+              "total": 0.55125
+            }
+          },
+          {
+            "order": 17,
+            "knowledge_point": {
+              "id": "kp_009",
+              "name": "三元一次方程组"
+            },
+            "reason": "前置知识「解二元一次方程组」尚未完全掌握，需重点学习",
+            "difficulty": 0.45,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.49500000000000005,
+              "time_cost": 0.00625,
+              "total": 0.55125
+            }
+          },
+          {
+            "order": 18,
+            "knowledge_point": {
+              "id": "kp_014",
+              "name": "公式法解一元二次方程"
+            },
+            "reason": "前置知识「配方法解一元二次方程、根的判别式」尚未完全掌握，需重点学习",
+            "difficulty": 0.5,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.45,
+              "time_cost": 0.0125,
+              "total": 0.5125000000000001
+            }
+          },
+          {
+            "order": 19,
+            "knowledge_point": {
+              "id": "kp_010",
+              "name": "列方程组解应用题"
+            },
+            "reason": "前置知识「解二元一次方程组」尚未完全掌握，需重点学习",
+            "difficulty": 0.5,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.45,
+              "time_cost": 0.00625,
+              "total": 0.50625
+            }
+          },
+          {
+            "order": 20,
+            "knowledge_point": {
+              "id": "kp_016",
+              "name": "因式分解法解一元二次方程"
+            },
+            "reason": "前置知识「解一元一次方程、配方法解一元二次方程」尚未完全掌握，需重点学习",
+            "difficulty": 0.55,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.40499999999999997,
+              "time_cost": 0.00625,
+              "total": 0.46125
+            }
+          },
+          {
+            "order": 21,
+            "knowledge_point": {
+              "id": "kp_017",
+              "name": "列一元二次方程解应用题"
+            },
+            "reason": "前置知识「公式法解一元二次方程、因式分解法解一元二次方程」尚未完全掌握，需重点学习",
+            "difficulty": 0.6,
+            "estimated_time": 40,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 0.05,
+              "target_distance": 0.0,
+              "difficulty": 0.36000000000000004,
+              "time_cost": 0.0,
+              "total": 0.41000000000000003
+            }
+          }
+        ],
+        "meta": {
+          "algorithm_version": "greedy-v1",
+          "weight_profile": "m02-difficulty-first",
+          "degraded": false,
+          "degraded_reason": null,
+          "mastery_source": "student_snapshot",
+          "weights": {
+            "mastery": 0.05,
+            "target_distance": 0.0,
+            "difficulty": 0.9,
+            "time_cost": 0.05
+          }
+        }
+      }
+    },
+    {
+      "config": {
+        "path_weight_mastery": 1,
+        "path_weight_target_distance": 0,
+        "path_weight_difficulty": 0,
+        "path_weight_time_cost": 0,
+        "path_weight_profile": "m02-mastery-only"
+      },
+      "path": {
+        "target": null,
+        "steps": [
+          {
+            "order": 1,
+            "knowledge_point": {
+              "id": "kp_021",
+              "name": "有序数对与坐标"
+            },
+            "reason": "尚未开始学习，建议从基础概念入手",
+            "difficulty": 0.15,
+            "estimated_time": 15,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 2,
+            "knowledge_point": {
+              "id": "kp_018",
+              "name": "不等式的概念与性质"
+            },
+            "reason": "尚未开始学习，建议从基础概念入手",
+            "difficulty": 0.2,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 3,
+            "knowledge_point": {
+              "id": "kp_006",
+              "name": "二元一次方程的概念"
+            },
+            "reason": "尚未开始学习，建议从基础概念入手",
+            "difficulty": 0.2,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 4,
+            "knowledge_point": {
+              "id": "kp_022",
+              "name": "坐标与图形变换"
+            },
+            "reason": "前置知识「有序数对与坐标」尚未完全掌握，需重点学习",
+            "difficulty": 0.35,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 5,
+            "knowledge_point": {
+              "id": "kp_002",
+              "name": "一元一次方程的定义"
+            },
+            "reason": "当前掌握 50%，巩固后可进入下一阶段",
+            "difficulty": 0.2,
+            "estimated_time": 20,
+            "mastery_probability": 0.5,
+            "status": "learning",
+            "locked": false,
+            "reason_codes": [
+              "NEEDS_REVIEW"
+            ],
+            "score_components": {
+              "mastery": 0.5,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 0.5
+            }
+          },
+          {
+            "order": 6,
+            "knowledge_point": {
+              "id": "kp_011",
+              "name": "一元二次方程的定义"
+            },
+            "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.25,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 7,
+            "knowledge_point": {
+              "id": "kp_003",
+              "name": "移项与合并同类项"
+            },
+            "reason": "前置知识「一元一次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.25,
+            "estimated_time": 25,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 8,
+            "knowledge_point": {
+              "id": "kp_015",
+              "name": "根的判别式"
+            },
+            "reason": "前置知识「一元二次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.4,
+            "estimated_time": 25,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 9,
+            "knowledge_point": {
+              "id": "kp_012",
+              "name": "直接开平方法"
+            },
+            "reason": "前置知识「一元二次方程的定义」尚未完全掌握，需重点学习",
+            "difficulty": 0.3,
+            "estimated_time": 20,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 10,
+            "knowledge_point": {
+              "id": "kp_004",
+              "name": "解一元一次方程"
+            },
+            "reason": "前置知识「一元一次方程的定义、移项与合并同类项」尚未完全掌握，需重点学习",
+            "difficulty": 0.35,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 11,
+            "knowledge_point": {
+              "id": "kp_013",
+              "name": "配方法解一元二次方程"
+            },
+            "reason": "前置知识「一元二次方程的定义、直接开平方法」尚未完全掌握，需重点学习",
+            "difficulty": 0.45,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 12,
+            "knowledge_point": {
+              "id": "kp_019",
+              "name": "解一元一次不等式"
+            },
+            "reason": "前置知识「解一元一次方程、不等式的概念与性质」尚未完全掌握，需重点学习",
+            "difficulty": 0.3,
+            "estimated_time": 25,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 13,
+            "knowledge_point": {
+              "id": "kp_007",
+              "name": "二元一次方程组与消元思想"
+            },
+            "reason": "前置知识「一元一次方程的定义、解一元一次方程、二元一次方程的概念」尚未完全掌握，需重点学习",
+            "difficulty": 0.3,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 14,
+            "knowledge_point": {
+              "id": "kp_005",
+              "name": "列一元一次方程解应用题"
+            },
+            "reason": "前置知识「解一元一次方程」尚未完全掌握，需重点学习",
+            "difficulty": 0.45,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 15,
+            "knowledge_point": {
+              "id": "kp_016",
+              "name": "因式分解法解一元二次方程"
+            },
+            "reason": "前置知识「解一元一次方程、配方法解一元二次方程」尚未完全掌握，需重点学习",
+            "difficulty": 0.55,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 16,
+            "knowledge_point": {
+              "id": "kp_014",
+              "name": "公式法解一元二次方程"
+            },
+            "reason": "前置知识「配方法解一元二次方程、根的判别式」尚未完全掌握，需重点学习",
+            "difficulty": 0.5,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 17,
+            "knowledge_point": {
+              "id": "kp_020",
+              "name": "解一元一次不等式组"
+            },
+            "reason": "前置知识「解一元一次不等式」尚未完全掌握，需重点学习",
+            "difficulty": 0.4,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 18,
+            "knowledge_point": {
+              "id": "kp_008",
+              "name": "解二元一次方程组"
+            },
+            "reason": "前置知识「移项与合并同类项、二元一次方程组与消元思想」尚未完全掌握，需重点学习",
+            "difficulty": 0.35,
+            "estimated_time": 30,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 19,
+            "knowledge_point": {
+              "id": "kp_017",
+              "name": "列一元二次方程解应用题"
+            },
+            "reason": "前置知识「公式法解一元二次方程、因式分解法解一元二次方程」尚未完全掌握，需重点学习",
+            "difficulty": 0.6,
+            "estimated_time": 40,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 20,
+            "knowledge_point": {
+              "id": "kp_010",
+              "name": "列方程组解应用题"
+            },
+            "reason": "前置知识「解二元一次方程组」尚未完全掌握，需重点学习",
+            "difficulty": 0.5,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          },
+          {
+            "order": 21,
+            "knowledge_point": {
+              "id": "kp_009",
+              "name": "三元一次方程组"
+            },
+            "reason": "前置知识「解二元一次方程组」尚未完全掌握，需重点学习",
+            "difficulty": 0.45,
+            "estimated_time": 35,
+            "mastery_probability": null,
+            "status": "not_started",
+            "locked": false,
+            "reason_codes": [
+              "NO_MASTERY_DATA",
+              "PREREQUISITE_PENDING"
+            ],
+            "score_components": {
+              "mastery": 1.0,
+              "target_distance": 0.0,
+              "difficulty": 0.0,
+              "time_cost": 0.0,
+              "total": 1.0
+            }
+          }
+        ],
+        "meta": {
+          "algorithm_version": "greedy-v1",
+          "weight_profile": "m02-mastery-only",
+          "degraded": false,
+          "degraded_reason": null,
+          "mastery_source": "student_snapshot",
+          "weights": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0
+          }
+        }
+      }
+    }
+  ],
+  "permission_matrix": [
+    {
+      "path": "/api/student/path",
+      "identity": "none",
+      "http": 200,
+      "code": 0,
+      "mastery_source": "anonymous",
+      "expected_http": 401
+    },
+    {
+      "path": "/api/student/path",
+      "identity": "invalid",
+      "http": 200,
+      "code": 0,
+      "mastery_source": "anonymous",
+      "expected_http": 401
+    },
+    {
+      "path": "/api/student/path",
+      "identity": "admin",
+      "http": 200,
+      "code": 0,
+      "mastery_source": "no_data",
+      "expected_http": 403
+    },
+    {
+      "path": "/api/student/path/explain",
+      "identity": "none",
+      "http": 200,
+      "code": 0,
+      "mastery_source": null,
+      "expected_http": 401
+    },
+    {
+      "path": "/api/student/path/explain",
+      "identity": "invalid",
+      "http": 200,
+      "code": 0,
+      "mastery_source": null,
+      "expected_http": 401
+    },
+    {
+      "path": "/api/student/path/explain",
+      "identity": "admin",
+      "http": 200,
+      "code": 0,
+      "mastery_source": null,
+      "expected_http": 403
+    }
+  ],
+  "config_before": {
+    "dina_em_max_iterations": 500,
+    "dina_em_convergence_threshold": 0.001,
+    "dina_s_initial": 0.2,
+    "dina_g_initial": 0.2,
+    "path_weight_mastery": 0.4,
+    "path_weight_target_distance": 0.3,
+    "path_weight_difficulty": 0.2,
+    "path_weight_time_cost": 0.1,
+    "path_weight_profile": "default-v1",
+    "llm_provider": "deepseek",
+    "llm_model": "deepseek-chat",
+    "llm_timeout": 30
+  },
+  "mastery": {
+    "kp_001": 0.8,
+    "kp_002": 0.5
+  },
+  "ranking_changed": true,
+  "no_data_b": {
+    "code": 0,
+    "data": {
+      "target": null,
+      "steps": [
+        {
+          "order": 1,
+          "knowledge_point": {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          "reason": "尚未开始学习，建议从基础概念入手",
+          "difficulty": 0.15,
+          "estimated_time": 15,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "NO_MASTERY_DATA"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 2,
+          "knowledge_point": {
+            "id": "kp_021",
+            "name": "有序数对与坐标"
+          },
+          "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+          "difficulty": 0.15,
+          "estimated_time": 15,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "NO_MASTERY_DATA",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 3,
+          "knowledge_point": {
+            "id": "kp_018",
+            "name": "不等式的概念与性质"
+          },
+          "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+          "difficulty": 0.2,
+          "estimated_time": 20,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "NO_MASTERY_DATA",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 4,
+          "knowledge_point": {
+            "id": "kp_006",
+            "name": "二元一次方程的概念"
+          },
+          "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+          "difficulty": 0.2,
+          "estimated_time": 20,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "NO_MASTERY_DATA",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 5,
+          "knowledge_point": {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          },
+          "reason": "前置知识「方程与等式的概念」尚未完全掌握，需重点学习",
+          "difficulty": 0.2,
+          "estimated_time": 20,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "NO_MASTERY_DATA",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        }
+      ],
+      "meta": {
+        "algorithm_version": "greedy-v1",
+        "weight_profile": "m02-mastery-only",
+        "degraded": false,
+        "degraded_reason": null,
+        "mastery_source": "no_data",
+        "weights": {
+          "mastery": 1.0,
+          "target_distance": 0.0,
+          "difficulty": 0.0,
+          "time_cost": 0.0
+        }
+      }
+    },
+    "message": "查询成功"
+  },
+  "sql_degraded_path": {
+    "code": 0,
+    "data": {
+      "target": null,
+      "steps": [
+        {
+          "order": 1,
+          "knowledge_point": {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          "reason": "掌握数据暂不可用，本步依据知识图谱与学习成本推荐",
+          "difficulty": 0.15,
+          "estimated_time": 15,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "MASTERY_DATA_UNAVAILABLE"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 2,
+          "knowledge_point": {
+            "id": "kp_021",
+            "name": "有序数对与坐标"
+          },
+          "reason": "掌握数据暂不可用，本步依据知识图谱与学习成本推荐",
+          "difficulty": 0.15,
+          "estimated_time": 15,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "MASTERY_DATA_UNAVAILABLE",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 3,
+          "knowledge_point": {
+            "id": "kp_018",
+            "name": "不等式的概念与性质"
+          },
+          "reason": "掌握数据暂不可用，本步依据知识图谱与学习成本推荐",
+          "difficulty": 0.2,
+          "estimated_time": 20,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "MASTERY_DATA_UNAVAILABLE",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 4,
+          "knowledge_point": {
+            "id": "kp_006",
+            "name": "二元一次方程的概念"
+          },
+          "reason": "掌握数据暂不可用，本步依据知识图谱与学习成本推荐",
+          "difficulty": 0.2,
+          "estimated_time": 20,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "MASTERY_DATA_UNAVAILABLE",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        },
+        {
+          "order": 5,
+          "knowledge_point": {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          },
+          "reason": "掌握数据暂不可用，本步依据知识图谱与学习成本推荐",
+          "difficulty": 0.2,
+          "estimated_time": 20,
+          "mastery_probability": null,
+          "status": "not_started",
+          "locked": false,
+          "reason_codes": [
+            "MASTERY_DATA_UNAVAILABLE",
+            "PREREQUISITE_PENDING"
+          ],
+          "score_components": {
+            "mastery": 1.0,
+            "target_distance": 0.0,
+            "difficulty": 0.0,
+            "time_cost": 0.0,
+            "total": 1.0
+          }
+        }
+      ],
+      "meta": {
+        "algorithm_version": "greedy-v1",
+        "weight_profile": "m02-mastery-only",
+        "degraded": true,
+        "degraded_reason": "掌握数据暂时不可用，以下路径仅依据图谱与学习成本生成",
+        "mastery_source": "unavailable",
+        "weights": {
+          "mastery": 1.0,
+          "target_distance": 0.0,
+          "difficulty": 0.0,
+          "time_cost": 0.0
+        }
+      }
+    },
+    "message": "查询成功"
+  },
+  "sql_degraded_explain": {
+    "code": 0,
+    "data": {
+      "explanation": "根据你目前的掌握情况，建议按以下顺序学习：第1步学习「方程与等式的概念」（难度较低，约15分钟）；第2步学习「有序数对与坐标」（难度较低，约15分钟）；第3步学习「不等式的概念与性质」（难度较低，约20分钟）；第4步学习「二元一次方程的概念」（难度较低，约20分钟）；第5步学习「一元一次方程的定义」（难度较低，约20分钟）。全程预计约 90 分钟，建议每天安排 20~30 分钟，循序渐进，遇到困难不要跳过前置知识。"
+    },
+    "message": "查询成功"
+  },
+  "full_graph_cycle": {
+    "code": 50002,
+    "data": null,
+    "message": "知识图谱前置关系存在环路，请联系管理员修复"
+  },
+  "config_restored": true,
+  "recovered_path": {
+    "algorithm_version": "greedy-v1",
+    "weight_profile": "default-v1",
+    "degraded": false,
+    "degraded_reason": null,
+    "mastery_source": "student_snapshot",
+    "weights": {
+      "mastery": 0.4,
+      "target_distance": 0.3,
+      "difficulty": 0.2,
+      "time_cost": 0.1
+    }
+  }
+}

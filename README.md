@@ -91,11 +91,17 @@ npm run verify:routes
 cd ../frontend
 npm ci
 npm run verify:auth
+npm run verify:session-init
+npm run verify:app-startup
+npm run verify:diagnosis-entry
+npm run verify:learning-entry
+npm run verify:home-entry
+npm run verify:ai-history
 npm run build:h5
 npm run build:mp-weixin
 ```
 
-当前管理端构建会报告约 1.2 MB 的主 chunk；UniApp/uni-ui 仍会报告 Sass `@import`、legacy JS API 等上游废弃警告。它们会被记录为技术债，不得通过关闭构建失败来掩盖真正错误。
+当前管理端构建会报告约 772 KB 的主 chunk；UniApp/uni-ui 仍会报告 Sass `@import`、legacy JS API 等上游废弃警告。它们会被记录为技术债，不得通过关闭构建失败来掩盖真正错误。
 
 ## API 和演示数据
 
@@ -121,4 +127,6 @@ python scripts/prepare_demo_admin.py --username admin_demo --name "演示管理�
 
 ## 当前收口边界
 
-M10 已提供数据库迁移、安全配置、凭证扫描、CI 门禁和部署文档基础设施；学生端认证、管理端完整页面、图谱/诊断/AI 等业务项仍以各自任务卡和 M0 最终验收为准。完成所有任务后需再次按 M0 手册提交全链路证据。
+M1～M9已正式通过。M10本地工程和M0本地全链路已独立通过，M0-R1～R5客户端/页面返修全部关闭，依据见 [最终本地复验](docs/改进计划与任务卡/验收记录/2026-10-08-M02-M0-R5复验与本地收口.md)。
+
+当前唯一待闭环项是 [远端CI与合并阻断证据](docs/改进计划与任务卡/tasks/M10-远端CI与合并阻断补证卡.md)。仓库无remote，M10和项目整体尚未最终通过。

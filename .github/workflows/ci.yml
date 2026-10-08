@@ -60,6 +60,30 @@ jobs:
         working-directory: frontend
         run: npm run verify:auth
 
+      - name: Verify frontend session initialization lifecycle
+        working-directory: frontend
+        run: npm run verify:session-init
+
+      - name: Verify frontend App startup session isolation
+        working-directory: frontend
+        run: npm run verify:app-startup
+
+      - name: Verify frontend diagnosis entry
+        working-directory: frontend
+        run: npm run verify:diagnosis-entry
+
+      - name: Verify frontend learning entry
+        working-directory: frontend
+        run: npm run verify:learning-entry
+
+      - name: Verify frontend home entry and current-user statistics
+        working-directory: frontend
+        run: npm run verify:home-entry
+
+      - name: Verify frontend AI history and rendering
+        working-directory: frontend
+        run: npm run verify:ai-history
+
       - name: Build H5
         working-directory: frontend
         run: npm run build:h5

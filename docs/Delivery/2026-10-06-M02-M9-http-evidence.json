@@ -1,0 +1,929 @@
+{
+  "checked_at": "2026-10-06T22:19:48.931152",
+  "scope": "new uvicorn 8092/PID46192; real SQL/Neo4j/provider, no auth override",
+  "permissions": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "expired",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "wrong_role",
+      "http": 403,
+      "code": 40101
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "expired",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "wrong_role",
+      "http": 403,
+      "code": 40101
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "expired",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "wrong_role",
+      "http": 403,
+      "code": 40101
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "expired",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "wrong_role",
+      "http": 403,
+      "code": 40101
+    },
+    {
+      "route": "/api/student/path",
+      "identity": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/path",
+      "identity": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/path",
+      "identity": "expired",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/path",
+      "identity": "wrong_role",
+      "http": 403,
+      "code": 40101
+    },
+    {
+      "route": "/api/student/path/explain",
+      "identity": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/path/explain",
+      "identity": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/path/explain",
+      "identity": "expired",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/student/path/explain",
+      "identity": "wrong_role",
+      "http": 403,
+      "code": 40101
+    },
+    {
+      "route": "/api/admin/ai-reports/weekly",
+      "identity": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/admin/ai-reports/weekly",
+      "identity": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/admin/ai-reports/weekly",
+      "identity": "expired",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "route": "/api/admin/ai-reports/weekly",
+      "identity": "wrong_role",
+      "http": 403,
+      "code": 40101
+    }
+  ],
+  "issues": [
+    {
+      "scope": "student_id query contract",
+      "route": "/api/student/diagnosis/explain",
+      "actual_code": 0,
+      "expected_code": 40101
+    },
+    {
+      "scope": "student_id query contract",
+      "route": "/api/student/chat",
+      "actual_code": 0,
+      "expected_code": 40101
+    },
+    {
+      "scope": "student_id query contract",
+      "route": "/api/student/chat/knowledge-point",
+      "actual_code": 0,
+      "expected_code": 40101
+    },
+    {
+      "scope": "student_id query contract",
+      "route": "/api/student/weekly-report",
+      "actual_code": 0,
+      "expected_code": 40101
+    }
+  ],
+  "b_no_diagnosis": {
+    "degraded": true,
+    "degraded_reason": "尚无诊断数据，已使用规则建议",
+    "explanation": "尚无认知诊断记录，暂时无法判断优势与薄弱知识点。",
+    "strengths": [],
+    "weaknesses": [],
+    "suggestion": "先在学习总览选择知识点并完成练习，再返回诊断页运行诊断。"
+  },
+  "b_empty_report": {
+    "degraded": true,
+    "degraded_reason": "模型未配置，已使用规则内容",
+    "week_start": "2026-10-05",
+    "week_end": "2026-10-11",
+    "questions_done": 0,
+    "correct_rate": 0.0,
+    "study_time_minutes": 0,
+    "new_mastered": [],
+    "still_weak": [],
+    "ai_summary": "本周共作答 0 次，正确率 0%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。先从学习总览选择知识点并完成练习，再运行诊断。",
+    "generated_at": "2026-10-06T22:19:50",
+    "cached": false
+  },
+  "spoof_student_id": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "sent_student_id": "stu_a2221fd7",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": true,
+          "degraded_reason": "尚无诊断数据，已使用规则建议",
+          "explanation": "尚无认知诊断记录，暂时无法判断优势与薄弱知识点。",
+          "strengths": [],
+          "weaknesses": [],
+          "suggestion": "先在学习总览选择知识点并完成练习，再返回诊断页运行诊断。"
+        },
+        "message": "成功"
+      },
+      "expected_code": 40101
+    },
+    {
+      "route": "/api/student/chat",
+      "sent_student_id": "stu_a2221fd7",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": true,
+          "degraded_reason": "模型未配置，已使用规则内容",
+          "reply": "暂时无法提供模型答疑。请补充知识点名称或具体算式，或从学习总览打开知识点后使用“问 AI”，查看对应知识资料与练习入口。",
+          "related_knowledge_points": []
+        },
+        "message": "成功"
+      },
+      "expected_code": 40101
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "sent_student_id": "stu_a2221fd7",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": true,
+          "degraded_reason": "模型未配置，已使用规则内容",
+          "reply": "目前提供知识资料与学习步骤：\n方程与等式的概念：理解方程的定义、等式的基本性质（等式两边同时加减乘除同一个数等式仍成立）\n先梳理定义与前置知识，再做相关练习核对每一步。可以补充具体算式继续讨论。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_001",
+              "name": "方程与等式的概念"
+            }
+          ],
+          "knowledge_point_name": "方程与等式的概念"
+        },
+        "message": "成功"
+      },
+      "expected_code": 40101
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "sent_student_id": "stu_a2221fd7",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": true,
+          "degraded_reason": "模型未配置，已使用规则内容",
+          "week_start": "2026-10-05",
+          "week_end": "2026-10-11",
+          "questions_done": 0,
+          "correct_rate": 0.0,
+          "study_time_minutes": 0,
+          "new_mastered": [],
+          "still_weak": [],
+          "ai_summary": "本周共作答 0 次，正确率 0%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。先从学习总览选择知识点并完成练习，再运行诊断。",
+          "generated_at": "2026-10-06T22:19:50",
+          "cached": true
+        },
+        "message": "成功"
+      },
+      "expected_code": 40101
+    }
+  ],
+  "source_sql_before": {
+    "answers": [
+      [
+        "q_001",
+        true,
+        4,
+        "2026-10-06 22:20:37.617000"
+      ],
+      [
+        "q_002",
+        true,
+        4,
+        "2026-10-06 22:20:47.897000"
+      ]
+    ],
+    "diagnoses": [
+      [
+        "{\"kp_001\": 0.941176, \"kp_002\": 0.8}",
+        "2026-10-06 22:21:11"
+      ]
+    ],
+    "mastery": [
+      [
+        "kp_001",
+        0.941176
+      ],
+      [
+        "kp_002",
+        0.8
+      ]
+    ]
+  },
+  "normal_diagnosis": {
+    "degraded": false,
+    "degraded_reason": null,
+    "explanation": "根据当前模型估计，你在「方程与等式的概念」上的掌握概率约为0.94，「一元一次方程的定义」约为0.80。这两项都被识别为优势，且没有明显薄弱点。掌握概率是模型基于作答表现给出的估计，不是考试分数，也不代表绝对水平。0.80说明对一元一次方程定义的识别可能还有少量不稳定，比如在干扰项或复杂表述下容易犹豫。",
+    "strengths": [
+      "方程与等式的概念",
+      "一元一次方程的定义"
+    ],
+    "weaknesses": [],
+    "suggestion": "具体学习步骤：1. 用5分钟默写方程与等式的区别，各举2个例子，并标注等式是否含未知数。2. 针对一元一次方程定义，整理判断清单：只含一个未知数、未知数次数为1、等号两边是整式。3. 做10道判断题，每题写出判断依据，重点识别“看似一次但含分式或未知数在分母”的干扰项。4. 把错题按“概念混淆”或“定义遗漏”分类，只重做错题。5. 隔天再自测5道同类题，若全对，可进入解方程练习；若有错，重复第2、3步。"
+  },
+  "normal_general_chat": {
+    "degraded": false,
+    "degraded_reason": null,
+    "reply": "一元一次方程是指只含有一个未知数、未知数的次数为1、且两边都是整式的方程，通常可化为 ax+b=0（a≠0）的形式，例如 2x+3=7。解这类方程的核心是“移项、合并同类项、系数化为1”，把方程逐步变形为 x=某个数，从而求出未知数的值。它也是学习更复杂方程、不等式和函数的基础。",
+    "related_knowledge_points": []
+  },
+  "normal_knowledge_chat": {
+    "degraded": false,
+    "degraded_reason": null,
+    "reply": "**方程**是含有未知数的等式；**等式**是用等号连接两个相等表达式的数学陈述，其基本性质是两边同时加减乘除同一个数（除数不为0）仍成立。",
+    "related_knowledge_points": [
+      {
+        "id": "kp_001",
+        "name": "方程与等式的概念"
+      }
+    ],
+    "knowledge_point_name": "方程与等式的概念"
+  },
+  "normal_path": {
+    "explanation": "你现在要走的这条路径，是从最基础的概念一步步搭起来的。第一步先学有序数对与坐标，它最简单，只要15分钟，能帮你熟悉用一对数表示位置，为后面打地基。接着学不等式的概念与性质，再学二元一次方程的概念，这两步难度相近，各20分钟，让你先分清“不等”和“方程”两种不同表达。然后进入一元二次方程的定义，约20分钟，这是后面方法的前提。最后学直接开平方法，约20分钟，因为前面定义没完全掌握，这里需要重点练。整体大约95分钟，建议分两三次完成，每步学完稍作休息，不用赶，稳扎稳打就好。",
+    "degraded": false,
+    "degraded_reason": null
+  },
+  "normal_report": {
+    "degraded": false,
+    "degraded_reason": null,
+    "week_start": "2026-10-05",
+    "week_end": "2026-10-11",
+    "questions_done": 2,
+    "correct_rate": 1.0,
+    "study_time_minutes": 0,
+    "new_mastered": [
+      {
+        "id": "kp_001",
+        "name": "方程与等式的概念"
+      },
+      {
+        "id": "kp_002",
+        "name": "一元一次方程的定义"
+      }
+    ],
+    "still_weak": [],
+    "ai_summary": "本周（2026年10月5日至10月11日）你共完成2次作答，正确率为100%，已记录作答时长为0分钟。本周新掌握的知识点包括“方程与等式的概念”和“一元一次方程的定义”，暂无仍显薄弱的知识点。由于作答次数较少，且已记录的作答时长为0分钟，建议下周先安排时间学习相关知识点并进行练习，逐步积累更多作答记录，以更全面地了解自己的掌握情况。",
+    "generated_at": "2026-10-06T22:21:45",
+    "cached": false
+  },
+  "cached_report": {
+    "degraded": false,
+    "degraded_reason": null,
+    "week_start": "2026-10-05",
+    "week_end": "2026-10-11",
+    "questions_done": 2,
+    "correct_rate": 1.0,
+    "study_time_minutes": 0,
+    "new_mastered": [
+      {
+        "id": "kp_001",
+        "name": "方程与等式的概念"
+      },
+      {
+        "id": "kp_002",
+        "name": "一元一次方程的定义"
+      }
+    ],
+    "still_weak": [],
+    "ai_summary": "本周（2026年10月5日至10月11日）你共完成2次作答，正确率为100%，已记录作答时长为0分钟。本周新掌握的知识点包括“方程与等式的概念”和“一元一次方程的定义”，暂无仍显薄弱的知识点。由于作答次数较少，且已记录的作答时长为0分钟，建议下周先安排时间学习相关知识点并进行练习，逐步积累更多作答记录，以更全面地了解自己的掌握情况。",
+    "generated_at": "2026-10-06T22:21:45",
+    "cached": true
+  },
+  "admin_current": {
+    "list": [
+      {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 2,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周（2026年10月5日至10月11日）你共完成2次作答，正确率为100%，已记录作答时长为0分钟。本周新掌握的知识点包括“方程与等式的概念”和“一元一次方程的定义”，暂无仍显薄弱的知识点。由于作答次数较少，且已记录的作答时长为0分钟，建议下周先安排时间学习相关知识点并进行练习，逐步积累更多作答记录，以更全面地了解自己的掌握情况。",
+        "generated_at": "2026-10-06T22:21:45",
+        "cached": true,
+        "report_id": "wr_c8e3305d966848a382759aaf",
+        "student_id": "stu_a2221fd7",
+        "student_name": "M02 M9 a"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 1
+  },
+  "source_sql_after": {
+    "answers": [
+      [
+        "q_001",
+        true,
+        4,
+        "2026-10-06 22:20:37.617000"
+      ],
+      [
+        "q_002",
+        true,
+        4,
+        "2026-10-06 22:20:47.897000"
+      ],
+      [
+        "q_001",
+        false,
+        12,
+        "2026-10-07 12:06:58.167000"
+      ]
+    ],
+    "diagnoses": [
+      [
+        "{\"kp_001\": 0.941176, \"kp_002\": 0.8}",
+        "2026-10-06 22:21:11"
+      ]
+    ],
+    "mastery": [
+      [
+        "kp_001",
+        0.799999
+      ],
+      [
+        "kp_002",
+        0.5
+      ]
+    ]
+  },
+  "admin_stale_refresh": {
+    "list": [
+      {
+        "degraded": true,
+        "degraded_reason": "报告数据已更新，暂用规则总结；学生打开周报时可重新生成 AI 总结",
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 3,
+        "correct_rate": 0.6666666666666666,
+        "study_time_minutes": 0,
+        "new_mastered": [],
+        "still_weak": [],
+        "ai_summary": "本周共作答 3 次，正确率 67%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+        "generated_at": "2026-10-07T12:07:10",
+        "cached": false,
+        "report_id": "wr_c8e3305d966848a382759aaf",
+        "student_id": "stu_a2221fd7",
+        "student_name": "M02 M9 a"
+      }
+    ],
+    "total": 1,
+    "page": 1,
+    "page_size": 10
+  },
+  "invalidated_report": {
+    "degraded": false,
+    "degraded_reason": null,
+    "week_start": "2026-10-05",
+    "week_end": "2026-10-11",
+    "questions_done": 3,
+    "correct_rate": 0.6666666666666666,
+    "study_time_minutes": 0,
+    "new_mastered": [],
+    "still_weak": [],
+    "ai_summary": "本周（2026-10-05 至 2026-10-11）共记录作答 3 次，正确率为 66.7%。需要说明的是，作答次数包含重做，并不等同于独立题目数量；已记录作答时长为 0 分钟。本周没有新增掌握的知识点，也没有标记为仍需加强的知识点。整体数据量较少，建议先安排时间学习相关知识点，再进行适量练习，以积累更充分的作答记录。后续可继续关注作答正确率的变化，并逐步补充薄弱环节的练习。",
+    "generated_at": "2026-10-07T12:07:14",
+    "cached": false
+  },
+  "faults": [
+    {
+      "fault": "timeout",
+      "elapsed_seconds": 7.027860699978191,
+      "responses": {
+        "diagnosis": {
+          "degraded": true,
+          "degraded_reason": "模型超时，已使用规则内容",
+          "explanation": "本次诊断记录了 2 个知识点，其中 2 个已掌握，0 个需要加强。掌握概率是模型估计，可通过后续练习继续验证。",
+          "strengths": [
+            "方程与等式的概念",
+            "一元一次方程的定义"
+          ],
+          "weaknesses": [],
+          "suggestion": "按推荐路径继续学习，通过新题检验掌握情况。"
+        },
+        "chat": {
+          "degraded": true,
+          "degraded_reason": "模型超时，已使用规则内容",
+          "reply": "目前提供知识资料与学习步骤：\n方程与等式的概念：理解方程的定义、等式的基本性质（等式两边同时加减乘除同一个数等式仍成立）\n先梳理定义与前置知识，再做相关练习核对每一步。可以补充具体算式继续讨论。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_001",
+              "name": "方程与等式的概念"
+            }
+          ],
+          "knowledge_point_name": "方程与等式的概念"
+        },
+        "path": {
+          "explanation": "根据你目前的掌握情况，建议按以下顺序学习：第1步学习「方程与等式的概念」（难度较低，约15分钟）；第2步学习「有序数对与坐标」（难度较低，约15分钟）；第3步学习「不等式的概念与性质」（难度较低，约20分钟）；第4步学习「二元一次方程的概念」（难度较低，约20分钟）；第5步学习「坐标与图形变换」（难度较低，约30分钟）。全程预计约 100 分钟，建议每天安排 20~30 分钟，循序渐进，遇到困难不要跳过前置知识。",
+          "degraded": true,
+          "degraded_reason": "大模型解释不可用，已使用规则解释"
+        },
+        "report": {
+          "degraded": true,
+          "degraded_reason": "模型超时，已使用规则内容",
+          "week_start": "2026-10-05",
+          "week_end": "2026-10-11",
+          "questions_done": 3,
+          "correct_rate": 0.6666666666666666,
+          "study_time_minutes": 0,
+          "new_mastered": [],
+          "still_weak": [],
+          "ai_summary": "本周共作答 3 次，正确率 67%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+          "generated_at": "2026-10-07T12:13:18",
+          "cached": false
+        }
+      }
+    },
+    {
+      "fault": "unconfigured",
+      "elapsed_seconds": 0.15617819997714832,
+      "responses": {
+        "diagnosis": {
+          "degraded": true,
+          "degraded_reason": "模型未配置，已使用规则内容",
+          "explanation": "本次诊断记录了 2 个知识点，其中 2 个已掌握，0 个需要加强。掌握概率是模型估计，可通过后续练习继续验证。",
+          "strengths": [
+            "方程与等式的概念",
+            "一元一次方程的定义"
+          ],
+          "weaknesses": [],
+          "suggestion": "按推荐路径继续学习，通过新题检验掌握情况。"
+        },
+        "chat": {
+          "degraded": true,
+          "degraded_reason": "模型未配置，已使用规则内容",
+          "reply": "目前提供知识资料与学习步骤：\n方程与等式的概念：理解方程的定义、等式的基本性质（等式两边同时加减乘除同一个数等式仍成立）\n先梳理定义与前置知识，再做相关练习核对每一步。可以补充具体算式继续讨论。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_001",
+              "name": "方程与等式的概念"
+            }
+          ],
+          "knowledge_point_name": "方程与等式的概念"
+        },
+        "path": {
+          "explanation": "根据你目前的掌握情况，建议按以下顺序学习：第1步学习「方程与等式的概念」（难度较低，约15分钟）；第2步学习「有序数对与坐标」（难度较低，约15分钟）；第3步学习「不等式的概念与性质」（难度较低，约20分钟）；第4步学习「二元一次方程的概念」（难度较低，约20分钟）；第5步学习「坐标与图形变换」（难度较低，约30分钟）。全程预计约 100 分钟，建议每天安排 20~30 分钟，循序渐进，遇到困难不要跳过前置知识。",
+          "degraded": true,
+          "degraded_reason": "大模型解释不可用，已使用规则解释"
+        },
+        "report": {
+          "degraded": true,
+          "degraded_reason": "模型未配置，已使用规则内容",
+          "week_start": "2026-10-05",
+          "week_end": "2026-10-11",
+          "questions_done": 3,
+          "correct_rate": 0.6666666666666666,
+          "study_time_minutes": 0,
+          "new_mastered": [],
+          "still_weak": [],
+          "ai_summary": "本周共作答 3 次，正确率 67%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+          "generated_at": "2026-10-07T12:13:18",
+          "cached": false
+        }
+      }
+    },
+    {
+      "fault": "invalid",
+      "elapsed_seconds": 0.04568339994875714,
+      "responses": {
+        "diagnosis": {
+          "degraded": true,
+          "degraded_reason": "模型返回格式异常，已使用规则内容",
+          "explanation": "本次诊断记录了 2 个知识点，其中 2 个已掌握，0 个需要加强。掌握概率是模型估计，可通过后续练习继续验证。",
+          "strengths": [
+            "方程与等式的概念",
+            "一元一次方程的定义"
+          ],
+          "weaknesses": [],
+          "suggestion": "按推荐路径继续学习，通过新题检验掌握情况。"
+        },
+        "chat": {
+          "degraded": true,
+          "degraded_reason": "模型返回格式异常，已使用规则内容",
+          "reply": "目前提供知识资料与学习步骤：\n方程与等式的概念：理解方程的定义、等式的基本性质（等式两边同时加减乘除同一个数等式仍成立）\n先梳理定义与前置知识，再做相关练习核对每一步。可以补充具体算式继续讨论。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_001",
+              "name": "方程与等式的概念"
+            }
+          ],
+          "knowledge_point_name": "方程与等式的概念"
+        }
+      }
+    },
+    {
+      "fault": "empty",
+      "elapsed_seconds": 0.08148630004143342,
+      "responses": {
+        "diagnosis": {
+          "degraded": true,
+          "degraded_reason": "模型返回格式异常，已使用规则内容",
+          "explanation": "本次诊断记录了 2 个知识点，其中 2 个已掌握，0 个需要加强。掌握概率是模型估计，可通过后续练习继续验证。",
+          "strengths": [
+            "方程与等式的概念",
+            "一元一次方程的定义"
+          ],
+          "weaknesses": [],
+          "suggestion": "按推荐路径继续学习，通过新题检验掌握情况。"
+        },
+        "chat": {
+          "degraded": true,
+          "degraded_reason": "模型返回格式异常，已使用规则内容",
+          "reply": "目前提供知识资料与学习步骤：\n方程与等式的概念：理解方程的定义、等式的基本性质（等式两边同时加减乘除同一个数等式仍成立）\n先梳理定义与前置知识，再做相关练习核对每一步。可以补充具体算式继续讨论。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_001",
+              "name": "方程与等式的概念"
+            }
+          ],
+          "knowledge_point_name": "方程与等式的概念"
+        },
+        "path": {
+          "explanation": "根据你目前的掌握情况，建议按以下顺序学习：第1步学习「方程与等式的概念」（难度较低，约15分钟）；第2步学习「有序数对与坐标」（难度较低，约15分钟）；第3步学习「不等式的概念与性质」（难度较低，约20分钟）；第4步学习「二元一次方程的概念」（难度较低，约20分钟）；第5步学习「坐标与图形变换」（难度较低，约30分钟）。全程预计约 100 分钟，建议每天安排 20~30 分钟，循序渐进，遇到困难不要跳过前置知识。",
+          "degraded": true,
+          "degraded_reason": "大模型解释不可用，已使用规则解释"
+        }
+      }
+    },
+    {
+      "fault": "service-error",
+      "elapsed_seconds": 0.08193679997930303,
+      "responses": {
+        "diagnosis": {
+          "degraded": true,
+          "degraded_reason": "模型服务不可用，已使用规则内容",
+          "explanation": "本次诊断记录了 2 个知识点，其中 2 个已掌握，0 个需要加强。掌握概率是模型估计，可通过后续练习继续验证。",
+          "strengths": [
+            "方程与等式的概念",
+            "一元一次方程的定义"
+          ],
+          "weaknesses": [],
+          "suggestion": "按推荐路径继续学习，通过新题检验掌握情况。"
+        },
+        "chat": {
+          "degraded": true,
+          "degraded_reason": "模型服务不可用，已使用规则内容",
+          "reply": "目前提供知识资料与学习步骤：\n方程与等式的概念：理解方程的定义、等式的基本性质（等式两边同时加减乘除同一个数等式仍成立）\n先梳理定义与前置知识，再做相关练习核对每一步。可以补充具体算式继续讨论。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_001",
+              "name": "方程与等式的概念"
+            }
+          ],
+          "knowledge_point_name": "方程与等式的概念"
+        },
+        "path": {
+          "explanation": "根据你目前的掌握情况，建议按以下顺序学习：第1步学习「方程与等式的概念」（难度较低，约15分钟）；第2步学习「有序数对与坐标」（难度较低，约15分钟）；第3步学习「不等式的概念与性质」（难度较低，约20分钟）；第4步学习「二元一次方程的概念」（难度较低，约20分钟）；第5步学习「坐标与图形变换」（难度较低，约30分钟）。全程预计约 100 分钟，建议每天安排 20~30 分钟，循序渐进，遇到困难不要跳过前置知识。",
+          "degraded": true,
+          "degraded_reason": "大模型解释不可用，已使用规则解释"
+        }
+      }
+    }
+  ],
+  "invalid_reference": {
+    "degraded": true,
+    "degraded_reason": "模型返回格式异常，已使用规则内容",
+    "reply": "目前提供知识资料与学习步骤：\n方程与等式的概念：理解方程的定义、等式的基本性质（等式两边同时加减乘除同一个数等式仍成立）\n先梳理定义与前置知识，再做相关练习核对每一步。可以补充具体算式继续讨论。",
+    "related_knowledge_points": [
+      {
+        "id": "kp_001",
+        "name": "方程与等式的概念"
+      }
+    ],
+    "knowledge_point_name": "方程与等式的概念"
+  },
+  "sql_fault": {
+    "code": 50001,
+    "data": null,
+    "message": "数据库或学习数据异常，请稍后重试"
+  },
+  "graph_fault": {
+    "code": 50002,
+    "data": null,
+    "message": "图数据库异常，请稍后重试"
+  },
+  "recovered_report": {
+    "degraded": false,
+    "degraded_reason": null,
+    "week_start": "2026-10-05",
+    "week_end": "2026-10-11",
+    "questions_done": 3,
+    "correct_rate": 0.6666666666666666,
+    "study_time_minutes": 0,
+    "new_mastered": [],
+    "still_weak": [],
+    "ai_summary": "本周（2026-10-05 至 2026-10-11）共作答 3 次，正确率约 66.7%。已记录的作答时长为 0 分钟，暂无新增掌握知识点，也暂未标记仍需巩固的薄弱点。\n\n由于本周作答量较少，且已记录作答时长为 0 分钟，当前数据还不足以反映稳定的学习状态。建议先安排时间学习相关知识点，再进行适量练习，并在作答时留意记录学习时长，以便后续更清晰地回顾进展。\n\n下周可继续保持练习节奏，优先完成基础题目，再逐步增加题量；对做错或不确定的题目及时整理，形成自己的薄弱点清单。待数据积累后再观察正确率和作答时长的变化。",
+    "generated_at": "2026-10-07T12:13:26",
+    "cached": false
+  },
+  "cache_boundaries": {
+    "success_expired_25h": {
+      "degraded": false,
+      "degraded_reason": null,
+      "week_start": "2026-10-05",
+      "week_end": "2026-10-11",
+      "questions_done": 3,
+      "correct_rate": 0.6666666666666666,
+      "study_time_minutes": 0,
+      "new_mastered": [],
+      "still_weak": [],
+      "ai_summary": "本周（2026-10-05 至 2026-10-11）你共作答 3 次，正确率为 66.67%。已记录的作答时长为 0 分钟，因此本周暂无有效作答时长记录。本周没有新增掌握的知识点，也没有仍待加强的知识点记录。整体来看，本周作答次数较少，建议先安排时间学习相关知识点，再进行适量练习，以巩固理解并提升熟练度。",
+      "generated_at": "2026-10-07T12:13:49",
+      "cached": false
+    },
+    "degraded_expired_61s": {
+      "degraded": true,
+      "degraded_reason": "模型未配置，已使用规则内容",
+      "week_start": "2026-10-05",
+      "week_end": "2026-10-11",
+      "questions_done": 3,
+      "correct_rate": 0.6666666666666666,
+      "study_time_minutes": 0,
+      "new_mastered": [],
+      "still_weak": [],
+      "ai_summary": "本周共作答 3 次，正确率 67%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+      "generated_at": "2026-10-07T12:13:49",
+      "cached": false
+    },
+    "historical_no_current_mastery": {
+      "degraded": true,
+      "degraded_reason": "模型未配置，已使用规则内容",
+      "week_start": "2026-09-28",
+      "week_end": "2026-10-04",
+      "questions_done": 0,
+      "correct_rate": 0.0,
+      "study_time_minutes": 0,
+      "new_mastered": [],
+      "still_weak": [],
+      "ai_summary": "本周共作答 0 次，正确率 0%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。先从学习总览选择知识点并完成练习，再运行诊断。",
+      "generated_at": "2026-10-07T12:13:49",
+      "cached": false
+    },
+    "cross_day_spoof_still_code0_own_b_data": {
+      "degraded": true,
+      "degraded_reason": "模型未配置，已使用规则内容",
+      "week_start": "2026-10-05",
+      "week_end": "2026-10-11",
+      "questions_done": 0,
+      "correct_rate": 0.0,
+      "study_time_minutes": 0,
+      "new_mastered": [],
+      "still_weak": [],
+      "ai_summary": "本周共作答 0 次，正确率 0%，记录的作答时长 0 分钟。已记录的新掌握知识点 0 个，薄弱知识点 0 个。先从学习总览选择知识点并完成练习，再运行诊断。",
+      "generated_at": "2026-10-07T12:13:49",
+      "cached": false
+    },
+    "configuration_restored": {
+      "degraded": false,
+      "degraded_reason": null,
+      "week_start": "2026-10-05",
+      "week_end": "2026-10-11",
+      "questions_done": 3,
+      "correct_rate": 0.6666666666666666,
+      "study_time_minutes": 0,
+      "new_mastered": [],
+      "still_weak": [],
+      "ai_summary": "本周（2026-10-05 至 2026-10-11）你共作答 3 次，正确率为 66.7%。其中已记录的作答时长为 0 分钟，说明本周的练习记录中未包含有效时长数据，因此无法就作答速度或时间投入做进一步说明。\n\n从结果看，本周作答次数较少，且没有新增掌握的知识点，也没有标记出仍然薄弱的知识点。由于样本量很小，当前正确率仅能反映这 3 次作答的情况，不足以判断整体掌握水平，也不代表学习趋势发生了明显变化。\n\n建议下周先安排时间进行学习和练习，再通过作答来检验效果。可以优先选择自己不太熟悉的内容，先看讲解或示例，再完成少量题目，并尽量记录作答时长，以便后续更清楚地了解练习节奏。每次练习后可以简单回顾错题原因，把仍不确定的知识点标记出来，方便下次重点复习。\n\n目前没有足够数据来确认进步或退步，保持稳定练习比追求单次正确率更重要。只要下周增加一些有效练习，就能获得更有参考价值的统计结果。",
+      "generated_at": "2026-10-07T12:14:00",
+      "cached": false
+    }
+  },
+  "source_sha256": {
+    "server/app/services/llm_service.py": "f9cbef6916c26ff77a2f8f96ba1826a604c2adb1c22ed86c206cc657fd53d208",
+    "server/app/services/ai_service.py": "d12721e3861e219c33baad28e491a4c47139a71ea9374e5f62c328ff057b00ae",
+    "server/app/services/weekly_report_service.py": "642de18fadd7fa81cf75c6ca68f408b271f685d2a10d203a695db886ad20cfc2",
+    "server/app/routers/student/ai.py": "46fc58616f063489ba1f66dc0950e49f22cdc60b666e55b9073b7a8294c27e1c",
+    "server/app/models/ai.py": "e760ac740dc6a10089a3591c5fde3d21f971ee6919b17c209d78f07be0b8fd8d",
+    "frontend/src/pages/chat/index.vue": "17769fa75de3bebab446272bcd2c52a29bb5af61c9b393adbc2ece3caa80eef6",
+    "frontend/src/utils/aiText.js": "90466978903d5f0be992cc7a0ba090d74403c3ef99cdd84b65650ee6f3002a9b",
+    "server/sql/migrations/0003_weekly_report_cache.sql": "c1099fd434f6116c8356df34a51f375ded540f838207648c6f74e4729c64c26d"
+  },
+  "log_scan": {
+    "checked_at": "2026-10-07T12:24:26.641547",
+    "files": [
+      "m02m9-8092-20261007.err.log",
+      "m02m9-8092-20261007.out.log",
+      "m02m9-8092.err.log",
+      "m02m9-8092.out.log",
+      "m02m9-8093-20261007.err.log",
+      "m02m9-8093-20261007.out.log",
+      "m02m9-8093.err.log",
+      "m02m9-8093.out.log"
+    ],
+    "api_key_password_jwt_signing_key_exception_input_sentinels_full_jwt_absent": true
+  },
+  "cross_student_body_contract": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": true,
+          "degraded_reason": "尚无诊断数据，已使用规则建议",
+          "explanation": "尚无认知诊断记录，暂时无法判断优势与薄弱知识点。",
+          "strengths": [],
+          "weaknesses": [],
+          "suggestion": "先在学习总览选择知识点并完成练习，再返回诊断页运行诊断。"
+        },
+        "message": "成功"
+      },
+      "expected_code": 40101
+    },
+    {
+      "route": "/api/student/chat",
+      "http": 422,
+      "body": {
+        "code": 40000,
+        "data": null,
+        "message": "请求参数校验失败：student_id: Extra inputs are not permitted"
+      },
+      "expected_code": 40101
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "http": 422,
+      "body": {
+        "code": 40000,
+        "data": null,
+        "message": "请求参数校验失败：student_id: Extra inputs are not permitted"
+      },
+      "expected_code": 40101
+    }
+  ],
+  "cross_day_environment": {
+    "checked_at": "2026-10-07T12:24:27.441178",
+    "new_backend_pid": 3032,
+    "new_admin_pid": 14576,
+    "neo4j_pid": 8964,
+    "neo4j_server_id": "e5a48b06",
+    "health": {
+      "code": 0,
+      "data": {
+        "status": "ok",
+        "neo4j": true,
+        "sqlserver": true
+      },
+      "message": "所有服务正常"
+    }
+  },
+  "final_cleanup": {
+    "checked_at": "2026-10-07T12:27:13.679352",
+    "sqlserver": true,
+    "neo4j": true,
+    "neo4j_pid": 8964,
+    "sqlserver_pid": 49076,
+    "isolated_pids_stopped": [
+      3032,
+      14576
+    ],
+    "application_ports_no_listener": [
+      8000,
+      8080,
+      3000,
+      8092,
+      8093
+    ],
+    "credentials_manifest_removed": true,
+    "fault_marker_removed": true,
+    "data_evidence": "2026-10-06-M02-M9-data-evidence.json",
+    "ui_evidence": "2026-10-07-M02-M9-ui-evidence.json"
+  }
+}

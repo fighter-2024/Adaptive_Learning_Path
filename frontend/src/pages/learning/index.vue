@@ -14,6 +14,7 @@
                      :rightText="statusText(item.status)"
                      :thumb="statusIcon(item.status)"
                      thumb-size="sm"
+                     clickable
                      @click="goDetail(item.id)">
       </uni-list-item>
     </uni-list>

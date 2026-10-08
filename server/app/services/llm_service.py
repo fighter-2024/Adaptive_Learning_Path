@@ -1,100 +1,82 @@
-"""
-大模型统一调用服务（AI开发总则第八章「AI 大模型调用规范」）
-
-- 所有大模型调用必须走本模块，不散落在各处业务代码里；
-- 统一走 OpenAI 兼容 /chat/completions 接口（DeepSeek / 通义千问兼容模式）；
-- 必须设置超时：默认 30 秒（settings.LLM_TIMEOUT）；
-- 失败最多重试 2 次（总则原文）；
-- 返回内容做基本校验：非空、长度截断到上限，防止异常输出污染前端；
-- 任何失败都返回 None 并记录日志，由调用方提供降级内容，不阻塞业务流程；
-- 密钥/接口地址全部来自 .env（settings），禁止硬编码。
-"""
-
+"""统一模型调用：总超时、有限重试、输出校验与无敏感内容日志。"""
+import asyncio
+import json
 import logging
-from typing import Dict, List, Optional
-
+import time
+from dataclasses import dataclass
+from typing import Any, Callable, Optional
 import httpx
-
 from app.config import settings
 
 logger = logging.getLogger(__name__)
+logging.getLogger('httpx').setLevel(logging.WARNING)
+logging.getLogger('httpcore').setLevel(logging.WARNING)
+_LLM_MAX_RETRIES = 2
 
-_LLM_MAX_RETRIES = 2  # 失败后最多重试 2 次（总则：重试最多 2 次）
-_LLM_MAX_RESPONSE_CHARS = 8000  # 大模型返回长度上限，超出截断（防异常输出）
+
+@dataclass
+class CompletionResult:
+    """模型结果及固定分类的降级原因。"""
+    content: Any = None
+    reason: Optional[str] = None
 
 
-async def chat_completion(
-    messages: List[Dict[str, str]],
-    temperature: float = 0.7,
-    max_tokens: int = 1024,
-) -> Optional[str]:
-    """调用 OpenAI 兼容大模型接口并返回文本内容
-
-    Args:
-        messages: 对话消息列表，每条含 role(system/user/assistant) 与 content
-        temperature: 采样温度，0.0~2.0
-        max_tokens: 生成 token 上限
-
-    Returns:
-        大模型返回的文本；未配置密钥/接口地址、调用失败、超时、
-        返回内容异常时返回 None（调用方应准备降级内容）
-
-    Note:
-        本函数自身吞掉所有异常（记录日志），保证业务方可以无条件
-        调用并做降级，符合总则「调用失败时返回降级内容，不阻塞业务流程」。
-    """
-    if not settings.LLM_API_KEY or not settings.LLM_API_BASE:
-        logger.warning(
-            "LLM 未配置（LLM_API_KEY / LLM_API_BASE 为空），跳过调用，由调用方降级"
-        )
-        return None
-
-    url = settings.LLM_API_BASE.rstrip("/") + "/chat/completions"
-    payload = {
-        "model": settings.LLM_MODEL,
-        "messages": messages,
-        "temperature": temperature,
-        "max_tokens": max_tokens,
-    }
-    headers = {
-        "Authorization": f"Bearer {settings.LLM_API_KEY}",
-        "Content-Type": "application/json",
-    }
-
-    last_error: Optional[Exception] = None
-    total_attempts = _LLM_MAX_RETRIES + 1
-    for attempt in range(total_attempts):  # 首次调用 + 最多 2 次重试
+async def complete(messages: list[dict[str, str]], temperature: float = .7,
+                   max_tokens: int = 1024,
+                   validator: Optional[Callable[[str], Any]] = None) -> CompletionResult:
+    """所有尝试共享总超时预算，日志只记录状态与尝试次数。"""
+    if (settings.LLM_PROVIDER not in {'deepseek', 'qwen'} or not settings.LLM_API_KEY
+            or not settings.LLM_API_BASE or not settings.LLM_MODEL):
+        logger.info('LLM outcome=unconfigured attempts=0')
+        return CompletionResult(reason='模型未配置，已使用规则内容')
+    if any(m.get('role') not in {'system', 'user', 'assistant'}
+           or not isinstance(m.get('content'), str) for m in messages):
+        return CompletionResult(reason='模型输入无效，已使用规则内容')
+    if sum(len(m['content']) for m in messages) > 64000:
+        return CompletionResult(reason='模型上下文过长，已使用规则内容')
+    url = settings.LLM_API_BASE.rstrip('/') + '/chat/completions'
+    payload = {'model': settings.LLM_MODEL, 'messages': messages,
+               'temperature': temperature, 'max_tokens': max_tokens}
+    headers = {'Authorization': f'Bearer {settings.LLM_API_KEY}'}
+    deadline = time.monotonic() + max(.01, float(settings.LLM_TIMEOUT))
+    reason = '模型服务不可用，已使用规则内容'
+    for attempt in range(_LLM_MAX_RETRIES + 1):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            return CompletionResult(reason='模型超时，已使用规则内容')
         try:
-            async with httpx.AsyncClient(timeout=settings.LLM_TIMEOUT) as client:
-                response = await client.post(url, json=payload, headers=headers)
+            async with httpx.AsyncClient(timeout=remaining, follow_redirects=False) as client:
+                response = await asyncio.wait_for(client.post(url, json=payload, headers=headers), remaining)
             response.raise_for_status()
-            body = response.json()
-            content = body["choices"][0]["message"]["content"]
-            text = (content or "").strip()
-            if not text:
-                raise ValueError("大模型返回内容为空")
-            if len(text) > _LLM_MAX_RESPONSE_CHARS:
-                logger.warning(
-                    "大模型返回过长（%d 字符），截断到 %d 字符",
-                    len(text),
-                    _LLM_MAX_RESPONSE_CHARS,
-                )
-                text = text[:_LLM_MAX_RESPONSE_CHARS]
-            return text
-        except httpx.TimeoutException as e:
-            last_error = e
-            logger.warning(
-                "大模型调用超时（第 %d/%d 次）: %s", attempt + 1, total_attempts, e
-            )
-        except Exception as e:
-            last_error = e
-            logger.warning(
-                "大模型调用失败（第 %d/%d 次）: %s", attempt + 1, total_attempts, e
-            )
+            content = response.json()['choices'][0]['message']['content']
+            if not isinstance(content, str) or not content.strip() or len(content) > 8000:
+                raise ValueError('invalid_output')
+            value = validator(content.strip()) if validator else content.strip()
+            logger.info('LLM outcome=success attempt=%d', attempt + 1)
+            return CompletionResult(content=value)
+        except (httpx.TimeoutException, asyncio.TimeoutError):
+            reason, category = '模型超时，已使用规则内容', 'timeout'
+        except (ValueError, TypeError, KeyError, IndexError):
+            reason, category = '模型返回格式异常，已使用规则内容', 'invalid_output'
+        except Exception:
+            reason, category = '模型服务不可用，已使用规则内容', 'service_error'
+        logger.warning('LLM outcome=%s attempt=%d', category, attempt + 1)
+    return CompletionResult(reason=reason)
 
-    logger.error(
-        "大模型调用最终失败（已重试 %d 次），返回 None 由调用方降级: %s",
-        _LLM_MAX_RETRIES,
-        last_error,
-    )
-    return None
+
+async def chat_completion(messages: list[dict[str, str]], temperature: float = .7,
+                          max_tokens: int = 1024) -> Optional[str]:
+    """保留 M8 文本调用契约，底层统一调用 complete。"""
+    return (await complete(messages, temperature, max_tokens)).content
+
+
+def parse_json_object(text: str) -> dict:
+    """解析对象，允许外层 Markdown JSON 围栏。"""
+    if text.startswith('```json\n') and text.endswith('```'):
+        text = text[8:-3].strip()
+    elif text.startswith('```\n') and text.endswith('```'):
+        text = text[4:-3].strip()
+    value = json.loads(text)
+    if not isinstance(value, dict):
+        raise ValueError('invalid_object')
+    return value

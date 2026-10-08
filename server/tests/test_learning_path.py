@@ -14,11 +14,15 @@
 """
 
 import asyncio
+from datetime import datetime, timedelta, timezone
 
+import jwt
 import pytest
 from fastapi.testclient import TestClient
 
+from app.config import settings
 from app.main import app
+from app.models.auth import UserInfo
 from app.models.learning_path import (
     LearningPathData,
     PathExplainData,
@@ -29,6 +33,7 @@ from app.services.learning_path_service import (
     TargetNotFoundError,
     build_reason,
     build_rule_based_explanation,
+    compute_score_components,
     compute_distances_to_target,
     compute_greedy_score,
     explain_path,
@@ -36,7 +41,18 @@ from app.services.learning_path_service import (
     recommend_path,
     topological_sort,
 )
+from app.services.config_service import PathAlgorithmConfig
+from app.services.auth_service import create_jwt_token
 from app.services.llm_service import chat_completion
+from app.routers.dependencies import require_student
+
+
+STUDENT_USER = UserInfo(
+    user_id="stu_test",
+    username="student",
+    name="测试学生",
+    role="student",
+)
 
 
 def sample_topology():
@@ -203,6 +219,19 @@ class TestGreedyScore:
         score_b = compute_greedy_score(0.5, 0.5, 30, None, 99, 60)
         assert score_a == score_b
 
+    def test_score_components_are_weighted_and_traceable(self):
+        """得分构成使用配置权重并且总分等于各项之和。"""
+        config = PathAlgorithmConfig(
+            mastery=0.5,
+            target_distance=0.2,
+            difficulty=0.2,
+            time_cost=0.1,
+            profile="test-v1",
+        )
+        components = compute_score_components(0.25, 0.5, 20, 1, 2, 40, config)
+        assert set(components) == {"mastery", "target_distance", "difficulty", "time_cost", "total"}
+        assert components["total"] == pytest.approx(sum(components[key] for key in components if key != "total"))
+
 
 class TestBuildReason:
     """单步推荐理由生成（文案对照契约示例）"""
@@ -299,6 +328,25 @@ class TestGreedySelect:
         )
         assert len(steps) == 2
 
+    def test_weight_profile_changes_order(self):
+        """更重视掌握缺口时，排序应优先选择低掌握知识点。"""
+        candidates = ["easy", "weak"]
+        attrs = {
+            "easy": {"name": "易学但已掌握较多", "difficulty": 0.1, "estimated_time": 10},
+            "weak": {"name": "薄弱知识点", "difficulty": 0.9, "estimated_time": 60},
+        }
+        mastery = {"easy": 0.5, "weak": 0.1}
+        default_steps = greedy_select_path(
+            candidates, {"easy": [], "weak": []}, mastery, attrs, None, None, None, 1,
+            config=PathAlgorithmConfig(0.4, 0.3, 0.2, 0.1, "default-v1"),
+        )
+        mastery_first_steps = greedy_select_path(
+            candidates, {"easy": [], "weak": []}, mastery, attrs, None, None, None, 1,
+            config=PathAlgorithmConfig(0.9, 0.05, 0.03, 0.02, "mastery-first-v1"),
+        )
+        assert default_steps[0]["id"] == "easy"
+        assert mastery_first_steps[0]["id"] == "weak"
+
     def test_mastered_excluded_by_caller_not_reselected(self):
         """候选外的前置即使未入选路径，只要已掌握也视为满足（可继续推进）"""
         topology = sample_topology()
@@ -336,6 +384,10 @@ class TestGreedySelect:
             "difficulty",
             "estimated_time",
             "mastery_probability",
+            "status",
+            "locked",
+            "reason_codes",
+            "score_components",
         }
         assert steps[0]["order"] == 1
         assert steps[0]["reason"]
@@ -404,13 +456,39 @@ class TestRecommendPathService:
         assert all(step.mastery_probability is None for step in data.steps)
         assert data.steps[0].reason == "尚未开始学习，建议从基础概念入手"
 
+    def test_student_ids_use_isolated_mastery_snapshots(self, monkeypatch):
+        """不同学生只使用各自 user_id 的掌握快照，不共享匿名或他人状态。"""
+        mastery_by_student = {
+            "stu_a": {"kp_000": 0.95},
+            "stu_b": {"kp_000": 0.1},
+        }
+
+        def query_mastery(user_id, kp_ids):
+            return {
+                kp_id: value
+                for kp_id, value in mastery_by_student[user_id].items()
+                if kp_id in kp_ids
+            }
+
+        monkeypatch.setattr(
+            "app.services.learning_path_service._db_query_mastery_map", query_mastery
+        )
+        path_a = asyncio.run(recommend_path("stu_a", None, 5))
+        path_b = asyncio.run(recommend_path("stu_b", None, 5))
+        ids_a = [step.knowledge_point.id for step in path_a.steps]
+        ids_b = [step.knowledge_point.id for step in path_b.steps]
+        assert "kp_000" not in ids_a
+        assert "kp_000" in ids_b
+        assert path_a.meta.mastery_source == "student_snapshot"
+        assert path_b.meta.mastery_source == "student_snapshot"
+
     def test_target_not_found_raises(self):
         """目标知识点不存在 → TargetNotFoundError（router 映射 40400）"""
         with pytest.raises(TargetNotFoundError):
             asyncio.run(recommend_path("stu_001", "kp_999", 5))
 
-    def test_sql_failure_degrades_to_not_started(self, monkeypatch):
-        """SQL Server 异常降级：全部按未开始处理，接口不中断"""
+    def test_sql_failure_is_explicitly_degraded(self, monkeypatch):
+        """SQL Server 异常仍提供路径，但明确标记掌握数据不可用。"""
 
         def boom(user_id, kp_ids):
             raise RuntimeError("sql down")
@@ -421,6 +499,10 @@ class TestRecommendPathService:
         data = asyncio.run(recommend_path("stu_001", None, 3))
         assert len(data.steps) == 3
         assert all(step.mastery_probability is None for step in data.steps)
+        assert data.meta.degraded is True
+        assert data.meta.mastery_source == "unavailable"
+        assert "MASTERY_DATA_UNAVAILABLE" in data.steps[0].reason_codes
+        assert "掌握数据暂不可用" in data.steps[0].reason
 
     def test_all_mastered_returns_empty_steps(self, monkeypatch):
         """全部掌握时不推荐任何步骤"""
@@ -455,6 +537,20 @@ class TestRecommendPathService:
         with pytest.raises(KnowledgeGraphCycleError):
             asyncio.run(recommend_path("stu_001", None, 5))
 
+    def test_cycle_raises_even_when_cycle_nodes_are_mastered(self, monkeypatch):
+        """环路不能因节点已掌握而被候选过滤绕过。"""
+        cyclic = {
+            "kp_001": {"name": "A", "difficulty": 0.3, "estimated_time": 10, "successors": ["kp_002"]},
+            "kp_002": {"name": "B", "difficulty": 0.3, "estimated_time": 10, "successors": ["kp_001"]},
+        }
+        monkeypatch.setattr("app.services.learning_path_service._db_load_topology", lambda: cyclic)
+        monkeypatch.setattr(
+            "app.services.learning_path_service._db_query_mastery_map",
+            lambda user_id, kp_ids: {kp_id: 0.95 for kp_id in kp_ids},
+        )
+        with pytest.raises(KnowledgeGraphCycleError):
+            asyncio.run(recommend_path("stu_001", None, 5))
+
 
 class TestExplainService:
     """路径解释服务（LLM 优先 + 降级）"""
@@ -484,7 +580,9 @@ class TestExplainService:
             "app.services.learning_path_service.chat_completion", fake_chat
         )
         explanation = asyncio.run(explain_path("stu_001", "kp_005", 5))
-        assert explanation == "大模型生成的解释"
+        assert explanation.explanation == "大模型生成的解释"
+        assert explanation.degraded is False
+        assert explanation.degraded_reason is None
 
     def test_explain_falls_back_when_llm_fails(self, monkeypatch):
         """大模型失败（返回 None）时降级为规则解释，且提及路径步骤"""
@@ -496,10 +594,12 @@ class TestExplainService:
             "app.services.learning_path_service.chat_completion", fake_chat
         )
         explanation = asyncio.run(explain_path("stu_001", "kp_005", 5))
-        assert explanation  # 非空
-        assert "求根公式应用" in explanation  # 提及目标
-        assert "一元二次方程的定义" in explanation  # 提及路径首步
-        assert "分钟" in explanation
+        assert explanation.explanation  # 非空
+        assert explanation.degraded is True
+        assert "大模型解释不可用" in explanation.degraded_reason
+        assert "求根公式应用" in explanation.explanation  # 提及目标
+        assert "一元二次方程的定义" in explanation.explanation  # 提及路径首步
+        assert "分钟" in explanation.explanation
 
     def test_explain_falls_back_when_llm_too_long(self, monkeypatch):
         """大模型输出超长 → 视为异常输出，降级为规则解释"""
@@ -511,7 +611,8 @@ class TestExplainService:
             "app.services.learning_path_service.chat_completion", fake_chat
         )
         explanation = asyncio.run(explain_path("stu_001", "kp_005", 5))
-        assert len(explanation) <= 2000
+        assert len(explanation.explanation) <= 2000
+        assert explanation.degraded is True
 
     def test_explain_falls_back_when_llm_raises(self, monkeypatch):
         """大模型调用抛异常（双保险）→ 降级为规则解释"""
@@ -523,7 +624,51 @@ class TestExplainService:
             "app.services.learning_path_service.chat_completion", boom
         )
         explanation = asyncio.run(explain_path("stu_001", "kp_005", 5))
-        assert explanation
+        assert explanation.explanation
+        assert explanation.degraded is True
+
+    def test_explain_marks_unconfigured_llm_as_degraded(self, monkeypatch):
+        """未配置 LLM 时规则解释可用且契约明确标记降级。"""
+        monkeypatch.setattr("app.services.llm_service.settings.LLM_API_KEY", "")
+        monkeypatch.setattr("app.services.llm_service.settings.LLM_API_BASE", "")
+        explanation = asyncio.run(explain_path("stu_001", "kp_005", 5))
+        assert explanation.explanation
+        assert explanation.degraded is True
+        assert explanation.degraded_reason == "大模型解释不可用，已使用规则解释"
+
+    def test_explain_falls_back_on_structurally_invalid_llm_output(self, monkeypatch):
+        """LLM 返回非字符串结构时不能污染响应，必须规则降级。"""
+
+        async def fake_chat(messages, temperature=0.7, max_tokens=1024):
+            return {"unexpected": "object"}
+
+        monkeypatch.setattr(
+            "app.services.learning_path_service.chat_completion", fake_chat
+        )
+        explanation = asyncio.run(explain_path("stu_001", "kp_005", 5))
+        assert explanation.explanation
+        assert explanation.degraded is True
+        assert explanation.degraded_reason == "大模型解释不可用，已使用规则解释"
+
+    def test_explain_keeps_mastery_failure_degraded_semantics(self, monkeypatch):
+        """SQL 掌握故障时解释与 path 使用一致的降级原因。"""
+
+        def mastery_down(user_id, kp_ids):
+            raise RuntimeError("sql unavailable")
+
+        async def fake_chat(messages, temperature=0.7, max_tokens=1024):
+            return "规则之外的解释"
+
+        monkeypatch.setattr(
+            "app.services.learning_path_service._db_query_mastery_map", mastery_down
+        )
+        monkeypatch.setattr(
+            "app.services.learning_path_service.chat_completion", fake_chat
+        )
+        explanation = asyncio.run(explain_path("stu_001", "kp_005", 5))
+        assert explanation.degraded is True
+        assert explanation.degraded_reason == "掌握数据暂时不可用，以下路径仅依据图谱与学习成本生成"
+        assert "根据你目前的掌握情况" not in explanation.explanation
 
     def test_rule_based_explanation_empty_steps(self):
         """无步骤时给出友好的降级文案"""
@@ -567,6 +712,10 @@ class TestLearningPathModels:
             "difficulty",
             "estimated_time",
             "mastery_probability",
+            "status",
+            "locked",
+            "reason_codes",
+            "score_components",
         }
         assert set(dumped["knowledge_point"].keys()) == {"id", "name"}
 
@@ -575,7 +724,7 @@ class TestLearningPathModels:
         data = LearningPathData(
             target={"id": "kp_005", "name": "求根公式应用"}, steps=[]
         )
-        assert set(data.model_dump().keys()) == {"target", "steps"}
+        assert set(data.model_dump().keys()) == {"target", "steps", "meta"}
 
     def test_path_data_defaults_for_global_mode(self):
         """全局模式：target 默认 None"""
@@ -584,9 +733,15 @@ class TestLearningPathModels:
         assert data.steps == []
 
     def test_explain_data_fields_match_contract(self):
-        """解释 data 字段与契约一致（explanation）"""
+        """解释 data 字段与契约一致（explanation/degraded/degraded_reason）"""
         data = PathExplainData(explanation="根据你的诊断结果……")
-        assert set(data.model_dump().keys()) == {"explanation"}
+        assert set(data.model_dump().keys()) == {
+            "explanation",
+            "degraded",
+            "degraded_reason",
+        }
+        assert data.degraded is False
+        assert data.degraded_reason is None
 
 
 class TestRoutes:
@@ -595,6 +750,23 @@ class TestRoutes:
     @pytest.fixture
     def client(self, monkeypatch):
         """mock get_driver：立即抛出 ServiceUnavailable，验证错误处理路径"""
+        from neo4j.exceptions import ServiceUnavailable
+
+        def boom_driver():
+            raise ServiceUnavailable("Neo4j unavailable (test mock)")
+
+        monkeypatch.setattr(
+            "app.services.learning_path_service.get_driver", boom_driver
+        )
+        app.dependency_overrides[require_student] = lambda: STUDENT_USER
+        try:
+            yield TestClient(app)
+        finally:
+            app.dependency_overrides.pop(require_student, None)
+
+    @pytest.fixture
+    def raw_client(self, monkeypatch):
+        """只 mock 图数据库，保留真实 student 鉴权依赖用于身份矩阵测试。"""
         from neo4j.exceptions import ServiceUnavailable
 
         def boom_driver():
@@ -633,6 +805,31 @@ class TestRoutes:
         assert body["code"] == 50002
         assert body["data"] is None
 
+    def test_explain_success_returns_degraded_contract(self, client, monkeypatch):
+        """路由直接返回解释服务的 explanation/degraded/degraded_reason。"""
+
+        async def fake_explain(user_id, target_kp_id, count):
+            return PathExplainData(
+                explanation="规则解释",
+                degraded=True,
+                degraded_reason="大模型解释不可用，已使用规则解释",
+            )
+
+        monkeypatch.setattr(
+            "app.routers.student.path.explain_path", fake_explain
+        )
+        response = client.get("/api/student/path/explain")
+        assert response.status_code == 200
+        assert response.json() == {
+            "code": 0,
+            "data": {
+                "explanation": "规则解释",
+                "degraded": True,
+                "degraded_reason": "大模型解释不可用，已使用规则解释",
+            },
+            "message": "查询成功",
+        }
+
     def test_invalid_count_rejected_by_validation(self, client):
         """count=0 触发 Pydantic 参数校验（ge=1）→ HTTP 422 + 业务码 40000"""
         resp = client.get("/api/student/path", params={"count": 0})
@@ -640,13 +837,70 @@ class TestRoutes:
         body = resp.json()
         assert body["code"] == 40000
 
-    def test_invalid_token_falls_back_to_anonymous(self, client):
-        """无效 Token 时可选身份解析降级为匿名，接口不因认证失败返回 401"""
-        resp = client.get(
+    def test_invalid_token_is_rejected(self, raw_client):
+        """无效 Token 必须被 student 身份门禁拒绝，不得静默匿名"""
+        resp = raw_client.get(
             "/api/student/path",
             headers={"Authorization": "Bearer invalid.token.here"},
         )
-        assert resp.status_code == 200
+        assert resp.status_code == 401
         body = resp.json()
-        # Neo4j 被 mock 为不可用，说明身份解析已成功降级并继续走业务逻辑
-        assert body["code"] == 50002
+        assert body["code"] == 40100
+
+    @pytest.mark.parametrize("path", ["/api/student/path", "/api/student/path/explain"])
+    def test_missing_token_is_rejected(self, raw_client, path):
+        """两个路径接口均要求登录。"""
+        response = raw_client.get(path)
+        assert response.status_code == 401
+        assert response.json()["code"] == 40100
+
+    @pytest.mark.parametrize("path", ["/api/student/path", "/api/student/path/explain"])
+    def test_admin_token_is_forbidden(self, raw_client, monkeypatch, path):
+        """admin 身份不能访问学生路径接口。"""
+        admin = UserInfo(
+            user_id="adm_test",
+            username="admin",
+            name="管理员",
+            role="admin",
+        )
+        token = create_jwt_token(admin.user_id, admin.username, admin.role).token
+
+        async def fake_get_user_by_id(user_id):
+            return admin if user_id == admin.user_id else None
+
+        monkeypatch.setattr("app.routers.dependencies.get_user_by_id", fake_get_user_by_id)
+        response = raw_client.get(path, headers={"Authorization": f"Bearer {token}"})
+        assert response.status_code == 403
+        assert response.json()["code"] == 40101
+
+    @pytest.mark.parametrize("path", ["/api/student/path", "/api/student/path/explain"])
+    def test_expired_token_is_rejected(self, raw_client, path):
+        """过期 Token 必须返回 401。"""
+        token = jwt.encode(
+            {
+                "user_id": "stu_expired",
+                "username": "expired",
+                "role": "student",
+                "exp": datetime.now(timezone.utc) - timedelta(minutes=1),
+            },
+            settings.SECRET_KEY,
+            algorithm="HS256",
+        )
+        response = raw_client.get(path, headers={"Authorization": f"Bearer {token}"})
+        assert response.status_code == 401
+        assert response.json()["code"] == 40100
+
+    def test_student_token_reaches_business_service(self, raw_client, monkeypatch):
+        """有效 student Token 通过真实依赖后才进入路径业务层。"""
+        token = create_jwt_token("stu_test", "student", "student").token
+
+        async def fake_get_user_by_id(user_id):
+            return STUDENT_USER if user_id == STUDENT_USER.user_id else None
+
+        monkeypatch.setattr("app.routers.dependencies.get_user_by_id", fake_get_user_by_id)
+        response = raw_client.get(
+            "/api/student/path",
+            headers={"Authorization": f"Bearer {token}"},
+        )
+        assert response.status_code == 200
+        assert response.json()["code"] == 50002

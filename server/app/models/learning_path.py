@@ -1,16 +1,12 @@
-"""
-学习路径推荐相关 Pydantic 数据模型
+"""学习路径推荐相关 Pydantic 数据模型。
 
-响应字段严格对照 docs/API契约文档.md「2.4 学习路径」：
-- GET /path          data: {target: {id, name}, steps: [{order,
-                     knowledge_point: {id, name}, reason, difficulty,
-                     estimated_time, mastery_probability}]}
-- GET /path/explain  data: {explanation}
+V2 在保留原有字段的基础上，为每一步增加状态、结构化推荐理由和得分构成，
+并在 ``meta`` 中记录本次推荐使用的算法、权重 profile 与降级情况。
 """
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class PathKnowledgePoint(BaseModel):
@@ -38,16 +34,7 @@ class PathTarget(BaseModel):
 
 
 class PathStep(BaseModel):
-    """推荐学习路径中的一步（对照契约 data.steps 元素）
-
-    Attributes:
-        order: 步骤序号，从 1 开始
-        knowledge_point: 知识点简要信息 {id, name}
-        reason: 推荐理由（中文，面向学生可读）
-        difficulty: 难度系数 0.0~1.0
-        estimated_time: 预估学习时长（分钟）
-        mastery_probability: 学员当前掌握概率；无诊断数据时为 None
-    """
+    """V2 推荐学习路径中的一步。"""
 
     order: int
     knowledge_point: PathKnowledgePoint
@@ -55,6 +42,21 @@ class PathStep(BaseModel):
     difficulty: float
     estimated_time: int
     mastery_probability: Optional[float] = None
+    status: str = "not_started"
+    locked: bool = False
+    reason_codes: List[str] = Field(default_factory=list)
+    score_components: Dict[str, float] = Field(default_factory=dict)
+
+
+class PathMeta(BaseModel):
+    """推荐运行元数据，便于前端和验收追踪算法来源。"""
+
+    algorithm_version: str = "greedy-v1"
+    weight_profile: str = "default-v1"
+    degraded: bool = False
+    degraded_reason: Optional[str] = None
+    mastery_source: str = "none"
+    weights: Dict[str, float] = Field(default_factory=dict)
 
 
 class LearningPathData(BaseModel):
@@ -66,7 +68,8 @@ class LearningPathData(BaseModel):
     """
 
     target: Optional[PathTarget] = None
-    steps: List[PathStep] = []
+    steps: List[PathStep] = Field(default_factory=list)
+    meta: PathMeta = Field(default_factory=PathMeta)
 
 
 class PathExplainData(BaseModel):
@@ -75,6 +78,10 @@ class PathExplainData(BaseModel):
     Attributes:
         explanation: 面向学生的通俗解释文本；大模型不可用时为
             规则拼装的降级解释，保证接口始终返回可用内容
+        degraded: 是否使用了掌握数据或大模型解释的降级路径
+        degraded_reason: 面向用户的降级原因；正常成功时为 None
     """
 
     explanation: str
+    degraded: bool = False
+    degraded_reason: Optional[str] = None

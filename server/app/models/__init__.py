@@ -45,10 +45,22 @@ from app.models.learning_path import (
     LearningPathData,
     PathExplainData,
     PathKnowledgePoint,
+    PathMeta,
     PathStep,
     PathTarget,
 )
 from app.models.graph import GraphData, GraphEdge, GraphMeta, GraphNode, GraphView
+from app.models.system_config import SystemConfigData, SystemConfigUpdate
+from app.models.admin_dashboard import (
+    DashboardSummary,
+    RecentDiagnosisItem,
+    StudentAnswerHistoryItem,
+    StudentDetail,
+    StudentDetailMeta,
+    StudentDiagnosisSummary,
+    StudentLearningHistoryItem,
+    StudentListItem,
+)
 
 __all__ = [
     "ApiResponse",
@@ -86,6 +98,7 @@ __all__ = [
     "LearningPathData",
     "PathExplainData",
     "PathKnowledgePoint",
+    "PathMeta",
     "PathStep",
     "PathTarget",
     "GraphData",
@@ -93,4 +106,14 @@ __all__ = [
     "GraphMeta",
     "GraphNode",
     "GraphView",
+    "DashboardSummary",
+    "RecentDiagnosisItem",
+    "StudentAnswerHistoryItem",
+    "StudentDetail",
+    "StudentDetailMeta",
+    "StudentDiagnosisSummary",
+    "StudentLearningHistoryItem",
+    "StudentListItem",
+    "SystemConfigData",
+    "SystemConfigUpdate",
 ]

@@ -3,7 +3,7 @@
 
 严格对照 docs/API契约文档.md「2.4 学习路径」：
 - GET /api/student/path         推荐学习序列（data: {target, steps}，每步含 reason）
-- GET /api/student/path/explain 路径推荐的 AI 通俗解释（data: {explanation}）
+- GET /api/student/path/explain 路径推荐的 AI 通俗解释（含降级元数据）
 
 数据职责（AI开发总则第六条「数据库职责划分」）：
 - 知识点节点属性 + PREREQUISITE 前置关系 → Neo4j（图谱拓扑）
@@ -44,7 +44,8 @@ from app.config.prompts import (
     build_path_explain_user_prompt,
 )
 from app.db import get_driver
-from app.models.learning_path import LearningPathData, PathStep, PathTarget
+from app.models.learning_path import LearningPathData, PathExplainData, PathStep, PathTarget
+from app.services.config_service import PathAlgorithmConfig, get_path_algorithm_config
 from app.services.llm_service import chat_completion
 
 logger = logging.getLogger(__name__)
@@ -52,13 +53,6 @@ logger = logging.getLogger(__name__)
 # ==================== 算法参数（业务可调，改动需同步测试） ====================
 
 MASTERED_THRESHOLD = 0.8  # 掌握阈值，与契约「2.1 学习」mastered ≥ 0.8 一致
-
-# 多指标贪心打分权重（目标模式四项和为 1.0；全局模式无距离项，
-# 其余权重相对大小不变，分数用于候选间比较，不要求归一）
-WEIGHT_MASTERY_GAP = 0.40  # 掌握缺口（1 - 掌握概率），弱项优先
-WEIGHT_DIFFICULTY = 0.20  # 难度越低越优先（循序渐进）
-WEIGHT_TIME = 0.15  # 预估时长越短越优先
-WEIGHT_DISTANCE = 0.25  # 距目标距离越近越优先（仅目标模式）
 
 # 大模型解释的长度上限（总则：大模型返回内容必须做长度校验）
 MAX_EXPLAIN_LENGTH = 2000
@@ -160,6 +154,7 @@ def compute_greedy_score(
     distance_to_target: Optional[int],
     max_distance: int,
     max_time: int,
+    config: Optional[PathAlgorithmConfig] = None,
 ) -> float:
     """多指标贪心打分（纯函数），分数越高越优先
 
@@ -180,28 +175,89 @@ def compute_greedy_score(
     Returns:
         综合得分，范围约 0.0~1.0
     """
+    return compute_score_components(
+        mastery=mastery,
+        difficulty=difficulty,
+        estimated_time=estimated_time,
+        distance_to_target=distance_to_target,
+        max_distance=max_distance,
+        max_time=max_time,
+        config=config,
+    )["total"]
+
+
+def compute_score_components(
+    mastery: Optional[float],
+    difficulty: float,
+    estimated_time: int,
+    distance_to_target: Optional[int],
+    max_distance: int,
+    max_time: int,
+    config: Optional[PathAlgorithmConfig] = None,
+) -> Dict[str, float]:
+    """计算各指标的加权得分，返回值直接用于 V2 ``score_components``。
+
+    ``None`` 掌握度继续按 0 计算以保持历史排序行为；调用方通过 ``meta``
+    的 ``mastery_source``/``degraded`` 明确说明这不是可靠的个性化掌握数据。
+    """
+    algorithm_config = config or get_path_algorithm_config()
     probability = mastery if mastery is not None else 0.0
-    gap_score = 1.0 - probability
-    difficulty_score = 1.0 - difficulty
-    time_score = 1.0 - (estimated_time / max_time if max_time > 0 else 0.0)
-
-    if distance_to_target is None:
-        # 全局模式：无目标，距离项不参与打分
-        return (
-            WEIGHT_MASTERY_GAP * gap_score
-            + WEIGHT_DIFFICULTY * difficulty_score
-            + WEIGHT_TIME * time_score
-        )
-
+    gap_score = max(0.0, min(1.0, 1.0 - probability))
+    difficulty_score = max(0.0, min(1.0, 1.0 - difficulty))
+    time_score = max(
+        0.0,
+        min(1.0, 1.0 - (estimated_time / max_time if max_time > 0 else 0.0)),
+    )
     distance_score = (
-        1.0 - (distance_to_target / max_distance) if max_distance > 0 else 1.0
+        max(0.0, min(1.0, 1.0 - (distance_to_target / max_distance)))
+        if distance_to_target is not None and max_distance > 0
+        else (1.0 if distance_to_target is not None else 0.0)
     )
-    return (
-        WEIGHT_MASTERY_GAP * gap_score
-        + WEIGHT_DIFFICULTY * difficulty_score
-        + WEIGHT_TIME * time_score
-        + WEIGHT_DISTANCE * distance_score
-    )
+    components = {
+        "mastery": algorithm_config.mastery * gap_score,
+        "target_distance": algorithm_config.target_distance * distance_score,
+        "difficulty": algorithm_config.difficulty * difficulty_score,
+        "time_cost": algorithm_config.time_cost * time_score,
+    }
+    components["total"] = sum(components.values())
+    return components
+
+
+def build_reason_codes(
+    mastery: Optional[float],
+    is_target: bool,
+    distance_to_target: Optional[int],
+    pending_prereq_names: List[str],
+    mastery_source: str = "available",
+) -> List[str]:
+    """生成机器可读推荐原因，顺序稳定且不暴露内部异常。"""
+    codes: List[str] = []
+    if mastery_source == "unavailable":
+        codes.append("MASTERY_DATA_UNAVAILABLE")
+    elif mastery is None:
+        codes.append("NO_MASTERY_DATA")
+    elif mastery < 0.4:
+        codes.append("LOW_MASTERY")
+    elif mastery < MASTERED_THRESHOLD:
+        codes.append("NEEDS_REVIEW")
+    if pending_prereq_names:
+        codes.append("PREREQUISITE_PENDING")
+    if distance_to_target == 1:
+        codes.append("TARGET_PREREQUISITE")
+    if is_target:
+        codes.append("TARGET_KNOWLEDGE_POINT")
+    return codes
+
+
+def _mastery_status(mastery: Optional[float]) -> str:
+    """将掌握概率映射为契约定义的学生端状态。"""
+    if mastery is None:
+        return "not_started"
+    if mastery >= MASTERED_THRESHOLD:
+        return "mastered"
+    if mastery >= 0.4:
+        return "learning"
+    return "weak"
 
 
 def build_reason(
@@ -210,6 +266,7 @@ def build_reason(
     distance_to_target: Optional[int],
     target_name: Optional[str],
     pending_prereq_names: List[str],
+    mastery_source: str = "available",
 ) -> str:
     """生成单步推荐理由（纯函数），文案风格对照契约「2.4 学习路径」示例
 
@@ -232,7 +289,9 @@ def build_reason(
     Returns:
         面向学生的中文推荐理由
     """
-    if is_target:
+    if mastery_source == "unavailable":
+        reason = "掌握数据暂不可用，本步依据知识图谱与学习成本推荐"
+    elif is_target:
         reason = "这是你的目标知识点，建议集中精力学习"
     elif pending_prereq_names:
         reason = (
@@ -259,6 +318,8 @@ def greedy_select_path(
     target_id: Optional[str],
     target_name: Optional[str],
     count: int,
+    config: Optional[PathAlgorithmConfig] = None,
+    mastery_source: str = "available",
 ) -> List[dict]:
     """多指标贪心选择学习路径（纯函数，便于单元测试）
 
@@ -279,8 +340,7 @@ def greedy_select_path(
         count: 推荐步数上限
 
     Returns:
-        步骤字典列表，每项含 order / id / name / reason / difficulty /
-        estimated_time / mastery_probability
+        步骤字典列表，包含兼容字段和 V2 的 reason_codes、score_components。
     """
     mastered = {
         kp_id
@@ -319,6 +379,7 @@ def greedy_select_path(
                 distance_to_target=dist_map.get(n) if dist_map else None,
                 max_distance=max_distance,
                 max_time=max_time,
+                config=config,
             )
             if score > best_score:
                 best_id = n
@@ -339,21 +400,46 @@ def greedy_select_path(
             and (mastery_map.get(p) is None or mastery_map.get(p) < MASTERED_THRESHOLD)
         ]
 
+        attrs = node_attrs[best_id]
+        best_mastery = mastery_map.get(best_id)
+        best_distance = dist_map.get(best_id) if dist_map else None
+        is_target = target_id is not None and best_id == target_id
+        score_components = compute_score_components(
+            mastery=best_mastery,
+            difficulty=attrs.get("difficulty") or 0.0,
+            estimated_time=attrs.get("estimated_time") or 0,
+            distance_to_target=best_distance,
+            max_distance=max_distance,
+            max_time=max_time,
+            config=config,
+        )
+
         steps.append(
             {
                 "order": len(steps) + 1,
                 "id": best_id,
                 "name": node_attrs[best_id]["name"],
                 "reason": build_reason(
-                    mastery=mastery_map.get(best_id),
-                    is_target=target_id is not None and best_id == target_id,
-                    distance_to_target=dist_map.get(best_id) if dist_map else None,
+                    mastery=best_mastery,
+                    is_target=is_target,
+                    distance_to_target=best_distance,
                     target_name=target_name,
                     pending_prereq_names=pending_prereq_names,
+                    mastery_source=mastery_source,
                 ),
-                "difficulty": node_attrs[best_id].get("difficulty") or 0.0,
-                "estimated_time": node_attrs[best_id].get("estimated_time") or 0,
-                "mastery_probability": mastery_map.get(best_id),
+                "difficulty": attrs.get("difficulty") or 0.0,
+                "estimated_time": attrs.get("estimated_time") or 0,
+                "mastery_probability": best_mastery,
+                "status": _mastery_status(best_mastery),
+                "locked": False,
+                "reason_codes": build_reason_codes(
+                    mastery=best_mastery,
+                    is_target=is_target,
+                    distance_to_target=best_distance,
+                    pending_prereq_names=pending_prereq_names,
+                    mastery_source=mastery_source,
+                ),
+                "score_components": score_components,
             }
         )
 
@@ -386,7 +472,9 @@ def build_rule_based_explanation(data: LearningPathData) -> str:
         )
 
     total_minutes = sum(step.estimated_time for step in data.steps)
-    if data.target:
+    if data.meta.degraded and data.meta.mastery_source == "unavailable":
+        head = "由于当前掌握数据暂时不可用，先依据知识图谱与学习成本，"
+    elif data.target:
         head = f"为了掌握「{data.target.name}」，"
     else:
         head = "根据你目前的掌握情况，"
@@ -504,8 +592,9 @@ async def recommend_path(
         KnowledgeGraphCycleError: 图谱前置关系存在环
 
     Note:
-        SQL Server 掌握概率查询失败时降级为无数据（全部视为未开始），
-        记录 warning 不阻塞接口；Neo4j 异常向上抛，由 router 映射。
+        SQL Server 掌握概率查询失败时返回 ``meta.degraded=true``，明确说明
+        本次结果未使用个性化掌握度；不得把数据源故障伪装成正常未开始状态。
+        Neo4j 异常向上抛，由 router 映射。
     """
     topology = await asyncio.to_thread(_db_load_topology)
 
@@ -520,17 +609,34 @@ async def recommend_path(
             if successor in topology:  # 防御：忽略指向不存在节点的脏边
                 prereqs_map[successor].append(kp_id)
 
-    # 掌握概率（SQL Server，失败降级为无数据 → 全部按未开始处理）
+    # 对完整图谱做拓扑校验，而不是只校验未掌握候选子图。
+    # 否则环路恰好经过已掌握节点时会被过滤掉，产生不可信推荐。
+    all_edges = [
+        (kp_id, successor)
+        for kp_id, attrs in topology.items()
+        for successor in attrs["successors"]
+        if successor in topology
+    ]
+    full_topo_order = topological_sort(list(topology), all_edges)
+
+    # 掌握概率：区分匿名、确实无快照和 SQL Server 数据源失败。
     mastery_map: Dict[str, float] = {}
+    mastery_source = "anonymous" if not user_id else "no_data"
+    degraded = False
+    degraded_reason: Optional[str] = None
     if user_id:
         try:
             mastery_map = await asyncio.to_thread(
                 _db_query_mastery_map, user_id, list(topology.keys())
             )
+            mastery_source = "student_snapshot" if mastery_map else "no_data"
         except Exception as e:
             logger.warning(
-                "查询学员掌握概率失败（SQL Server），降级为未开始学习: %s", e
+                "查询学员掌握概率失败（SQL Server），生成非个性化路径: %s", e
             )
+            mastery_source = "unavailable"
+            degraded = True
+            degraded_reason = "掌握数据暂时不可用，以下路径仅依据图谱与学习成本生成"
 
     # 候选集合：目标模式只取能到达目标的知识点；已掌握（≥0.8）不推荐
     dist_map: Optional[Dict[str, int]] = None
@@ -550,15 +656,11 @@ async def recommend_path(
         )
     ]
 
-    # 候选子图拓扑排序：保证前置关系不违反 + 环检测
+    # 保持全图拓扑顺序，只过滤候选；这样推荐顺序不会因候选裁剪破坏拓扑约束。
     candidate_set = set(candidates)
-    edges = [
-        (kp_id, successor)
-        for kp_id in candidates
-        for successor in topology[kp_id]["successors"]
-        if successor in candidate_set
-    ]
-    topo_order = topological_sort(candidates, edges)
+    topo_order = [kp_id for kp_id in full_topo_order if kp_id in candidate_set]
+
+    path_config = get_path_algorithm_config()
 
     # 多指标贪心选择
     target_name = topology[target_kp_id]["name"] if target_kp_id else None
@@ -571,6 +673,8 @@ async def recommend_path(
         target_id=target_kp_id,
         target_name=target_name,
         count=count,
+        config=path_config,
+        mastery_source=mastery_source,
     )
 
     steps = [
@@ -581,6 +685,10 @@ async def recommend_path(
             difficulty=step["difficulty"],
             estimated_time=step["estimated_time"],
             mastery_probability=step["mastery_probability"],
+            status=step["status"],
+            locked=step["locked"],
+            reason_codes=step["reason_codes"],
+            score_components=step["score_components"],
         )
         for step in raw_steps
     ]
@@ -590,14 +698,31 @@ async def recommend_path(
         if target_kp_id
         else None,
         steps=steps,
+        meta={
+            "algorithm_version": path_config.algorithm_version,
+            "weight_profile": path_config.profile,
+            "degraded": degraded,
+            "degraded_reason": degraded_reason,
+            "mastery_source": mastery_source,
+            "weights": path_config.weights,
+        },
     )
+
+
+def _merge_degraded_reasons(reasons: List[Optional[str]]) -> Optional[str]:
+    """合并固定的用户可读降级原因，不把内部异常传给客户端。"""
+    unique_reasons: List[str] = []
+    for reason in reasons:
+        if reason and reason not in unique_reasons:
+            unique_reasons.append(reason)
+    return "；".join(unique_reasons) if unique_reasons else None
 
 
 async def explain_path(
     user_id: Optional[str],
     target_kp_id: Optional[str],
     count: int = 5,
-) -> str:
+) -> PathExplainData:
     """生成路径推荐的通俗解释（大模型优先，失败降级为规则解释）
 
     先按 /path 同规则生成推荐路径，再调用大模型生成通俗解释；
@@ -605,12 +730,12 @@ async def explain_path(
     （总则第八章：调用失败时返回降级内容，不阻塞业务流程）。
 
     Args:
-        user_id: 学生业务 ID；None 表示匿名
+        user_id: 学生业务 ID；路由层已保证为有效学生身份
         target_kp_id: 目标知识点 ID；None 表示全局推荐
         count: 解释的路径步数
 
     Returns:
-        面向学生的通俗解释文本（任何情况下均非空）
+        PathExplainData：解释文本及准确的降级状态（任何情况下 explanation 均非空）
 
     Raises:
         TargetNotFoundError: 目标知识点不存在
@@ -619,8 +744,15 @@ async def explain_path(
     data = await recommend_path(user_id, target_kp_id, count)
 
     fallback = build_rule_based_explanation(data)
+    degraded_reasons: List[Optional[str]] = [
+        data.meta.degraded_reason if data.meta.degraded else None
+    ]
     if not data.steps:
-        return fallback  # 无步骤时无需调用大模型
+        return PathExplainData(
+            explanation=fallback,
+            degraded=data.meta.degraded,
+            degraded_reason=_merge_degraded_reasons(degraded_reasons),
+        )  # 无步骤时无需调用大模型
 
     user_prompt = build_path_explain_user_prompt(
         target_name=data.target.name if data.target else None,
@@ -653,8 +785,19 @@ async def explain_path(
         text = None
 
     # 基本校验：非空且长度合理（总则第八章），否则降级
-    if text and len(text) <= MAX_EXPLAIN_LENGTH:
-        return text
-    if text:
+    if isinstance(text, str) and text.strip() and len(text.strip()) <= MAX_EXPLAIN_LENGTH:
+        return PathExplainData(
+            explanation=text.strip(),
+            degraded=data.meta.degraded,
+            degraded_reason=_merge_degraded_reasons(degraded_reasons),
+        )
+    if isinstance(text, str) and text:
         logger.warning("大模型解释长度异常（%d 字符），降级为规则解释", len(text))
-    return fallback
+    elif text is not None:
+        logger.warning("大模型解释返回类型异常，降级为规则解释")
+    degraded_reasons.append("大模型解释不可用，已使用规则解释")
+    return PathExplainData(
+        explanation=fallback,
+        degraded=True,
+        degraded_reason=_merge_degraded_reasons(degraded_reasons),
+    )

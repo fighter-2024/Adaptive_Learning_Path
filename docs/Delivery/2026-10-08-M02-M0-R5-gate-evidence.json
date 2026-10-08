@@ -1,0 +1,150 @@
+{
+  "checked_at": "2026-10-08T02:55:38.369Z",
+  "method": "actual production App.vue script setup extracted unchanged; actual user.js/request.js + Vue/Pinia; actual UniApp lifecycle imports mapped only to callback capture; controlled uni.request callbacks",
+  "cases": [
+    {
+      "name": "late startup A success",
+      "passed": true,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "persisted_token_preserved": true,
+        "redirects": [],
+        "toasts": []
+      },
+      "expected": "old startup completion has no navigation or notification side effect on B"
+    },
+    {
+      "name": "late startup A HTTP401",
+      "passed": true,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "persisted_token_preserved": true,
+        "redirects": [],
+        "toasts": []
+      },
+      "expected": "old startup completion has no navigation or notification side effect on B"
+    },
+    {
+      "name": "late startup A HTTP403",
+      "passed": true,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "persisted_token_preserved": true,
+        "redirects": [],
+        "toasts": []
+      },
+      "expected": "old startup completion has no navigation or notification side effect on B"
+    },
+    {
+      "name": "late startup A business40100",
+      "passed": true,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "persisted_token_preserved": true,
+        "redirects": [],
+        "toasts": []
+      },
+      "expected": "old startup completion has no navigation or notification side effect on B"
+    },
+    {
+      "name": "late startup A business40101",
+      "passed": true,
+      "actual": {
+        "user": "student-b",
+        "token_preserved": true,
+        "persisted_token_preserved": true,
+        "redirects": [],
+        "toasts": []
+      },
+      "expected": "old startup completion has no navigation or notification side effect on B"
+    },
+    {
+      "name": "B initialization remains pending after old startup completion",
+      "passed": true,
+      "actual": {
+        "old_did_not_interrupt_b": true,
+        "b_result": true,
+        "user": "student-b"
+      },
+      "expected": "old startup result does not clear or replace B initialization"
+    },
+    {
+      "name": "logout without replacement session",
+      "passed": true,
+      "actual": {
+        "logged_in": false,
+        "persisted_token": "",
+        "redirects": []
+      },
+      "expected": "old startup result does not resurrect identity or replay navigation"
+    },
+    {
+      "name": "current startup expired",
+      "passed": true,
+      "actual": {
+        "logged_in": false,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ]
+      },
+      "expected": "current invalid/admin identity is rejected and login navigation remains"
+    },
+    {
+      "name": "current startup admin rejected",
+      "passed": true,
+      "actual": {
+        "logged_in": false,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ]
+      },
+      "expected": "current invalid/admin identity is rejected and login navigation remains"
+    },
+    {
+      "name": "normal valid startup recovery",
+      "passed": true,
+      "actual": {
+        "logged_in": true,
+        "user": "student-a",
+        "navigations": [
+          {
+            "method": "switchTab",
+            "url": "/pages/index/index"
+          }
+        ]
+      },
+      "expected": "valid persisted student session is restored and public startup enters home"
+    },
+    {
+      "name": "network failure retry",
+      "passed": true,
+      "actual": {
+        "retry_result": true,
+        "logged_in": true,
+        "redirects": [
+          {
+            "url": "/pages/auth/login"
+          }
+        ]
+      },
+      "expected": "network failure does not poison later session validation"
+    }
+  ],
+  "failed": 0,
+  "local_deliberate_failure": {
+    "mutation": "bypass startup ownership check; retain static source markers",
+    "scope": "isolated snapshot only",
+    "failure_exit": 1,
+    "restored_exit": 0,
+    "source_restored": true,
+    "remote_ci_evidence": false
+  }
+}

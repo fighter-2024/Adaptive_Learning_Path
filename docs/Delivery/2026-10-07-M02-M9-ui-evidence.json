@@ -1,0 +1,15 @@
+{
+  "related_card_clicked_url": "http://127.0.0.1:8092/#/pages/learning/detail?id=kp_001",
+  "html_text_only": {
+    "executable_elements": 0,
+    "visible_text": "安全渲染\n\n重点 <img src=x onerror=alert(1)>\n\nx+1"
+  },
+  "failed_message_absent_after_reload": true,
+  "a_history_present_after_reload": true,
+  "other_kp_no_a_history": true,
+  "general_no_a_history": true,
+  "b_same_kp_no_a_history": true,
+  "local_test_history_cleared": true,
+  "student_logged_out": true,
+  "admin_logged_out": true
+}

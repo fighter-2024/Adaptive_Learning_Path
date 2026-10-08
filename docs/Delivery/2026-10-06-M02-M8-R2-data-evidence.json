@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-10-06T21:24:49.796934",
+  "baseline": {
+    "users": 9,
+    "answer_records": 5,
+    "diagnosis_sessions": 3,
+    "user_kp_mastery": 7
+  },
+  "accounts": [
+    {
+      "suffix": "admin",
+      "role": "admin",
+      "username": "m02r2_821697_admin",
+      "user_id": "adm_ed1cc820"
+    },
+    {
+      "suffix": "a",
+      "role": "student",
+      "username": "m02r2_821697_a",
+      "user_id": "stu_f20b7822"
+    },
+    {
+      "suffix": "b",
+      "role": "student",
+      "username": "m02r2_821697_b",
+      "user_id": "stu_4cffdecd"
+    }
+  ],
+  "fixture_kind": "API isolation snapshots; NOT real learning/diagnosis evidence",
+  "cleaned_at": "2026-10-06T21:27:51.086064",
+  "deleted": {
+    "answer_records": 0,
+    "diagnosis_sessions": 0,
+    "user_kp_mastery": 4,
+    "users": 3
+  },
+  "residual": {
+    "users": 0,
+    "answer_records": 0,
+    "diagnosis_sessions": 0,
+    "user_kp_mastery": 0
+  },
+  "after": {
+    "users": 9,
+    "answer_records": 5,
+    "diagnosis_sessions": 3,
+    "user_kp_mastery": 7
+  }
+}

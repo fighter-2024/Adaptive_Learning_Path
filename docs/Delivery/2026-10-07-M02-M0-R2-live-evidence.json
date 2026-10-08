@@ -1,0 +1,123 @@
+{
+  "checked_at": "2026-10-07T22:05:42.702377",
+  "phase": "after_normal_switch",
+  "server_pid": 30220,
+  "sample_preparation": "formal submit-answer/diagnosis API, not claimed as UI answer clicks",
+  "sources": {
+    "a": {
+      "user_id": "stu_e942c05a",
+      "knowledge_points": 22,
+      "mastered": 2,
+      "home_percent": 9,
+      "sql_counts": {
+        "answer_records": 2,
+        "diagnosis_sessions": 1,
+        "user_kp_mastery": 2
+      }
+    },
+    "b": {
+      "user_id": "stu_fbb3806e",
+      "knowledge_points": 22,
+      "mastered": 0,
+      "home_percent": 0,
+      "sql_counts": {
+        "answer_records": 0,
+        "diagnosis_sessions": 0,
+        "user_kp_mastery": 0
+      }
+    }
+  },
+  "representative_backend_auth": [
+    {
+      "case": "none",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "case": "invalid",
+      "http": 401,
+      "code": 40100
+    },
+    {
+      "case": "admin",
+      "http": 403,
+      "code": 40101
+    }
+  ],
+  "health": {
+    "status": "ok",
+    "neo4j": true,
+    "sqlserver": true
+  },
+  "current_source_hashes": {
+    "frontend/src/store/user.js": "d30e1510bc91af17aa70b3e0afb438407c87018e8190aadc77f02870711df0b6",
+    "frontend/scripts/verify-session-init.mjs": "ddae5c53e96194bec92b9109f1eabfe249fc67d6db884058ee86946171682622",
+    "frontend/package.json": "c13b89335337b773ef657ae48233b5bc3afe9766a969c4778e3e34d90ddbc7c0",
+    "frontend/package-lock.json": "642f75b5c196a63da82b247dae43e48f853d6c93fa0ce58aa13efa13a63886bc",
+    ".github/workflows/ci.yml": "64a45fd2fa2e474422016db60ed3200800379846330255a162b2dee1d846b2b8",
+    "frontend/src/utils/request.js": "e99c0d2bb71b54dcd439d10cd311c6ebc4368972100785704ac63bcfa0f26cb8",
+    "frontend/src/pages/index/index.vue": "de8a297aa549e209f1cf7860b49feb5c84589a2e80b8e0b88a8014c0303e8117",
+    "frontend/src/pages/mine/index.vue": "b739302cab2c3e71db2ff645f2d7401858caad0693a053fce4cfb632311c82fc",
+    "frontend/src/utils/learningStats.js": "56050a01f830d9cb65c78f3eee449d3e9dd2c0684a70ccc6a1940799df68e79c"
+  },
+  "front_gates": 6,
+  "h5_build": "DONE Build complete",
+  "weixin_build": "DONE Build complete",
+  "verdict": "partial; original cold-login P2 closed; remaining stale POST/auth-error races in M0-R3",
+  "backend_source_parity": {
+    "checked": 102,
+    "changed": []
+  },
+  "ui": {
+    "cold_a_login_without_reload": true,
+    "a_home_percent": 9,
+    "a_mine_mastered": 2,
+    "a_data_preserved_while_b_logged_in": true,
+    "normal_b_login_without_reload": true,
+    "b_home_percent": 0,
+    "b_mine_mastered": 0,
+    "normal_b_to_a_without_reload": true,
+    "returned_a_home_percent": 9,
+    "returned_a_mine_mastered": 2,
+    "logout_clears_statistics": true,
+    "all_identities_logged_out_tab_closed": true
+  },
+  "cleanup": {
+    "private_credentials_removed": true,
+    "own_pid_stopped": 30220,
+    "seven_table_residual": 0
+  },
+  "client_behavior": {
+    "cases": 10,
+    "passed": 6,
+    "failed": 4,
+    "evidence": "2026-10-07-M02-M0-R2-client-evidence.json"
+  },
+  "final_checks": {
+    "checked_at": "2026-10-07T22:16:24.579465",
+    "health": {
+      "sqlserver": true,
+      "neo4j": true
+    },
+    "residual": {
+      "users": 0,
+      "answer_records": 0,
+      "diagnosis_sessions": 0,
+      "user_kp_mastery": 0,
+      "weekly_reports": 0,
+      "check_ins": 0,
+      "user_achievements": 0
+    },
+    "baseline_restored": {
+      "users": 9,
+      "answer_records": 5,
+      "diagnosis_sessions": 3,
+      "user_kp_mastery": 7,
+      "weekly_reports": 2,
+      "check_ins": 3,
+      "user_achievements": 3
+    },
+    "runtime_logs_scanned": 5,
+    "credential_findings": 0
+  }
+}

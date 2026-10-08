@@ -1,0 +1,185 @@
+{
+  "source": "real FastAPI TestClient + SQL Server + Neo4j + configured provider",
+  "student_a_id": "stu_81b82587",
+  "student_b_id": "stu_c9a0e056",
+  "week_start": "2026-10-05",
+  "foreign_student_id": {
+    "diagnosis_query": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "chat_query": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "knowledge_chat_query": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "weekly_query": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "diagnosis_body": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "chat_body": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "knowledge_chat_body": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    },
+    "conflicting_channels": {
+      "http": 403,
+      "code": 40101,
+      "message": "学生只能访问自己的 AI 数据"
+    }
+  },
+  "auth_priority": {
+    "diagnosis": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    "chat": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    "knowledge_chat": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    "weekly": {
+      "anonymous": {
+        "http": 401,
+        "code": 40100,
+        "message": "未登录或登录已过期"
+      },
+      "invalid": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "expired": {
+        "http": 401,
+        "code": 40100,
+        "message": "登录凭证无效或已过期，请重新登录"
+      },
+      "wrong_role": {
+        "http": 403,
+        "code": 40101,
+        "message": "仅学生可访问此接口"
+      }
+    }
+  },
+  "same_student": {
+    "diagnosis": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    },
+    "chat": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    },
+    "knowledge_chat": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    },
+    "weekly": {
+      "http": 200,
+      "code": 0,
+      "message": "成功"
+    }
+  },
+  "duration": {
+    "source_sql_seconds": 20,
+    "questions_done": 1,
+    "study_time_minutes": 0,
+    "ai_summary": "本周（2026年10月5日至10月11日）学习周报：\n\n作答情况：本周共作答1次，正确率100%。\n\n掌握情况：新掌握2个知识点——方程与等式的概念、一元一次方程的定义。目前没有仍薄弱的知识点。\n\n作答时长：已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。\n\n小结：本周作答次数较少，但正确率很高，新掌握的知识点也为后续学习打下了基础。建议下周适当增加练习量，巩固已掌握的概念，并尝试更多一元一次方程相关的题目，保持学习节奏。",
+    "degraded": false,
+    "boundary_check": "PASS：20 秒有效记录按 0 分钟显示，摘要保留“不足一分钟”事实"
+  },
+  "cache": {
+    "first_cached": false,
+    "second_cached": true,
+    "generated_at_unchanged": true
+  },
+  "cleanup": {
+    "deleted": {
+      "weekly_reports": 1,
+      "diagnosis_sessions": 0,
+      "user_kp_mastery": 2,
+      "answer_records": 1,
+      "check_ins": 0,
+      "user_achievements": 0,
+      "users": 3
+    },
+    "remaining_users": 0
+  }
+}

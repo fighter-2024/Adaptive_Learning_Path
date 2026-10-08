@@ -32,6 +32,34 @@ function getUserStore() {
   }
 }
 
+function captureRequestSession(requestToken) {
+  const userStore = getUserStore()
+  return {
+    userStore,
+    snapshot: userStore?.getSessionSnapshot?.() || null,
+    token: String(requestToken || '')
+  }
+}
+
+function isCurrentRequestSession(requestSession) {
+  if (!requestSession) return true
+  const userStore = getUserStore()
+  if (requestSession.snapshot) {
+    return userStore?.isSessionSnapshotCurrent?.(requestSession.snapshot) ?? false
+  }
+
+  // Requests issued before Pinia is active still get a token-based guard;
+  // this prevents their late auth failure from clearing a newly persisted token.
+  const currentToken = userStore?.token || (() => {
+    try {
+      return uni.getStorageSync('auth_token') || ''
+    } catch {
+      return ''
+    }
+  })()
+  return String(currentToken || '') === requestSession.token
+}
+
 /**
  * 从 Pinia 读取 Token。应用刚启动且 Pinia 尚未激活时，回退读取本地存储，
  * 避免首个请求因为 store 尚未完成初始化而丢失认证头。
@@ -65,14 +93,17 @@ function redirectToLogin() {
   }
 }
 
-function clearStudentSession() {
+function clearStudentSession(requestSession) {
   const userStore = getUserStore()
   if (userStore) {
-    userStore.logout()
+    if (requestSession?.snapshot && !isCurrentRequestSession(requestSession)) return false
+    userStore.logout('auth-failure')
   } else {
+    if (requestSession?.snapshot) return false
     uni.removeStorageSync('auth_token')
   }
   redirectToLogin()
+  return true
 }
 
 function markNotified(error) {
@@ -80,27 +111,39 @@ function markNotified(error) {
   return error
 }
 
+function suppressRequestError(error) {
+  error.requestSuppressed = true
+  return error
+}
+
 /**
  * 页面层统一使用的错误展示入口。
- * request 已展示过的错误不会重复弹 Toast，但页面仍可以在 catch 中保留
- * 自己的恢复逻辑，从而避免空 catch 静默吞错。
+ * request 已展示过或已标记为旧会话/已处理的错误不会重复弹 Toast，但页面仍可以
+ * 在 catch 中保留自己的恢复逻辑，从而避免空 catch 静默吞错。
  */
 export function showRequestError(error, fallback = '请求失败，请稍后重试') {
   const requestError = error instanceof Error ? error : createRequestError(fallback)
-  if (!requestError.requestNotified) {
+  if (!requestError.requestNotified && !requestError.requestSuppressed) {
     notify(requestError.message || fallback)
     markNotified(requestError)
   }
   return requestError
 }
 
-function handleBusinessError(code, message) {
+function handleBusinessError(code, message, requestSession) {
   const error = createRequestError(message || '请求失败，请稍后重试', { code })
-  if (code === 40100 || code === 40101) {
-    clearStudentSession()
+  const isAuthFailure = code === 40100 || code === 40101
+  const isCurrent = isCurrentRequestSession(requestSession)
+  if (isAuthFailure && !isCurrent) {
+    suppressRequestError(error)
   }
-  markNotified(error)
-  notify(error.message)
+  if (isAuthFailure && isCurrent) {
+    clearStudentSession(requestSession)
+  }
+  if (!isAuthFailure || isCurrent) {
+    markNotified(error)
+    notify(error.message)
+  }
   throw error
 }
 
@@ -111,6 +154,7 @@ function handleBusinessError(code, message) {
  */
 function request({ url, method = 'GET', data = {}, header = {}, timeout = TIMEOUT }) {
   const token = getToken()
+  const requestSession = captureRequestSession(token)
   const headers = {
     'Content-Type': 'application/json',
     ...header
@@ -136,11 +180,18 @@ function request({ url, method = 'GET', data = {}, header = {}, timeout = TIMEOU
             status: statusCode,
             response: res
           })
-          if (statusCode === 401 || statusCode === 403) {
-            clearStudentSession()
+          const isAuthFailure = statusCode === 401 || statusCode === 403
+          const isCurrent = isCurrentRequestSession(requestSession)
+          if (isAuthFailure && !isCurrent) {
+            suppressRequestError(error)
           }
-          markNotified(error)
-          notify(message)
+          if (isAuthFailure && isCurrent) {
+            clearStudentSession(requestSession)
+          }
+          if (!isAuthFailure || isCurrent) {
+            markNotified(error)
+            notify(message)
+          }
           reject(error)
           return
         }
@@ -150,7 +201,7 @@ function request({ url, method = 'GET', data = {}, header = {}, timeout = TIMEOU
             resolve(normalizedBody.data)
           } else {
             try {
-              handleBusinessError(normalizedBody.code, normalizedBody.message)
+              handleBusinessError(normalizedBody.code, normalizedBody.message, requestSession)
             } catch (error) {
               reject(error)
             }
@@ -174,17 +225,17 @@ function request({ url, method = 'GET', data = {}, header = {}, timeout = TIMEOU
 }
 
 /** GET 请求。 */
-export function get(url, params = {}) {
+export function get(url, params = {}, options = {}) {
   const query = Object.entries(params)
     .filter(([, value]) => value !== undefined && value !== null && value !== '')
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
     .join('&')
-  return request({ url: query ? `${url}?${query}` : url, method: 'GET' })
+  return request({ url: query ? `${url}?${query}` : url, method: 'GET', ...options })
 }
 
 /** POST 请求。 */
-export function post(url, data = {}) {
-  return request({ url, method: 'POST', data })
+export function post(url, data = {}, options = {}) {
+  return request({ url, method: 'POST', data, ...options })
 }
 
 /** PUT 请求。 */

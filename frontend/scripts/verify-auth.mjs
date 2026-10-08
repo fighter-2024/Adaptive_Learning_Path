@@ -12,7 +12,7 @@ const checks = [
   ['request uses build-time API configuration', (request) => request.includes('import.meta.env.VITE_API_BASE_URL')],
   ['request does not use CommonJS require', (request) => !request.includes('require(')],
   ['student request attaches Bearer token', (request) => request.includes('Authorization = `Bearer ${token}`')],
-  ['student request handles auth failure', (request) => request.includes('clearStudentSession()')],
+  ['student request handles auth failure', (request) => /clearStudentSession\(requestSession\)/.test(request)],
   ['student app validates session on launch', (app) => app.includes('initializeSession()')],
   ['student auth pages are registered', (pages) => pages.includes('pages/auth/login') && pages.includes('pages/auth/register')],
   ['admin store rejects non-admin roles', (adminStore) => adminStore.includes("res?.role !== 'admin'")],

@@ -1,0 +1,1177 @@
+{
+  "checked_at": "2026-10-07T15:31:53.366936",
+  "source": "fresh uvicorn app.main:app 8092/fresh PID in run metadata, real auth/SQL/Neo4j/provider; controlled model validation in separate process explicitly labeled",
+  "source_sha256": {
+    "server/app/routers/dependencies.py": "57d322c405f35484f70a0113c260d7e42133a4fdfefcbc085ce7cb2ef6f7cb4b",
+    "server/app/routers/student/ai.py": "aa03b6518032e77c68382a8b104461a2a98a03a90fd82274ab62af43aa324249",
+    "server/app/models/ai.py": "4fafd86972d8d54c2d553bbdb73a33763123f903b8d5827cc6b93ab8e75f3d3a",
+    "server/app/services/weekly_report_service.py": "a26325853c872aac88f9f49141a96b90877a71ca2d993b66505f7ed926bc2da9",
+    "server/app/config/prompts.py": "059114f2947d89077a05beac510204655372f6430e921a87f6a6e9cc19a4c658",
+    "server/app/services/llm_service.py": "f9cbef6916c26ff77a2f8f96ba1826a604c2adb1c22ed86c206cc657fd53d208"
+  },
+  "health": {
+    "code": 0,
+    "data": {
+      "status": "ok",
+      "neo4j": true,
+      "sqlserver": true
+    },
+    "message": "所有服务正常"
+  },
+  "foreign_single": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "channel": "query",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "channel": "body",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "channel": "query",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "channel": "body",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "channel": "query",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "channel": "body",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "channel": "query",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    }
+  ],
+  "auth_priority": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "none",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "未登录或登录已过期"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "invalid",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "expired",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "identity": "admin",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "none",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "未登录或登录已过期"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "invalid",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "expired",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "identity": "admin",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "none",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "未登录或登录已过期"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "invalid",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "expired",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "identity": "admin",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "仅学生可访问此接口"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "none",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "未登录或登录已过期"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "invalid",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "expired",
+      "http": 401,
+      "body": {
+        "code": 40100,
+        "data": null,
+        "message": "登录凭证无效或已过期，请重新登录"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "identity": "admin",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "仅学生可访问此接口"
+      }
+    }
+  ],
+  "conflict": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "query": "stu_93c644d7",
+      "body_id": "stu_7dd1255e",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "query": "stu_7dd1255e",
+      "body_id": "stu_93c644d7",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "query": "stu_93c644d7",
+      "body_id": "stu_7dd1255e",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "query": "stu_7dd1255e",
+      "body_id": "stu_93c644d7",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "query": "stu_93c644d7",
+      "body_id": "stu_7dd1255e",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "query": "stu_7dd1255e",
+      "body_id": "stu_93c644d7",
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    }
+  ],
+  "repeated_query": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/diagnosis/explain",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "ordered_query": [
+        [
+          "student_id",
+          "stu_93c644d7"
+        ],
+        [
+          "student_id",
+          "stu_7dd1255e"
+        ],
+        [
+          "student_id",
+          "stu_93c644d7"
+        ]
+      ],
+      "expected_code": 40101,
+      "http": 403,
+      "body": {
+        "code": 40101,
+        "data": null,
+        "message": "学生只能访问自己的 AI 数据"
+      }
+    }
+  ],
+  "same_identity": [
+    {
+      "route": "/api/student/diagnosis/explain",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": true,
+          "degraded_reason": "尚无诊断数据，已使用规则建议",
+          "explanation": "尚无认知诊断记录，暂时无法判断优势与薄弱知识点。",
+          "strengths": [],
+          "weaknesses": [],
+          "suggestion": "先在学习总览选择知识点并完成练习，再返回诊断页运行诊断。"
+        },
+        "message": "成功"
+      }
+    },
+    {
+      "route": "/api/student/chat",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": false,
+          "degraded_reason": null,
+          "reply": "方程是含有未知数的等式，它通过等号将两个代数式连接起来，表示它们相等的关系。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_002",
+              "name": "一元一次方程的定义"
+            },
+            {
+              "id": "kp_011",
+              "name": "一元二次方程的定义"
+            }
+          ]
+        },
+        "message": "成功"
+      }
+    },
+    {
+      "route": "/api/student/chat/knowledge-point",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": false,
+          "degraded_reason": null,
+          "reply": "方程是含有未知数的等式。",
+          "related_knowledge_points": [
+            {
+              "id": "kp_001",
+              "name": "方程与等式的概念"
+            }
+          ],
+          "knowledge_point_name": "方程与等式的概念"
+        },
+        "message": "成功"
+      }
+    },
+    {
+      "route": "/api/student/weekly-report",
+      "http": 200,
+      "body": {
+        "code": 0,
+        "data": {
+          "degraded": false,
+          "degraded_reason": null,
+          "week_start": "2026-10-05",
+          "week_end": "2026-10-11",
+          "questions_done": 0,
+          "correct_rate": 0.0,
+          "study_time_minutes": 0,
+          "new_mastered": [],
+          "still_weak": [],
+          "ai_summary": "本周（2026-10-05 至 2026-10-11）暂无作答记录：作答次数为 0 次，正确率为 0%，已记录作答时长为 0 分钟。资料同时说明没有有效的作答时长记录，按整分钟显示为 0 分钟。由于没有作答数据，暂无法总结本周的知识掌握变化，也没有新增掌握或仍需巩固的知识点信息。建议先从基础内容开始学习，再配合少量练习逐步进入状态；每次作答后留意正确率与作答时长的变化，便于后续周报更准确地反映学习进展。",
+          "generated_at": "2026-10-07T15:32:08",
+          "cached": false
+        },
+        "message": "成功"
+      }
+    }
+  ],
+  "ordinary_validation": [
+    {
+      "http": 422,
+      "body": {
+        "code": 40000,
+        "data": null,
+        "message": "请求参数校验失败：message: String should have at least 1 character"
+      }
+    },
+    {
+      "http": 422,
+      "body": {
+        "code": 40000,
+        "data": null,
+        "message": "请求参数校验失败：message: String should have at most 2000 characters"
+      }
+    },
+    {
+      "http": 422,
+      "body": {
+        "code": 40000,
+        "data": null,
+        "message": "请求参数校验失败：history.0.role: Input should be 'user' or 'assistant'"
+      }
+    },
+    {
+      "http": 422,
+      "body": {
+        "code": 40000,
+        "data": null,
+        "message": "请求参数校验失败：unknown: Extra inputs are not permitted"
+      }
+    }
+  ],
+  "unknown_kp": {
+    "http": 200,
+    "body": {
+      "code": 40400,
+      "data": null,
+      "message": "知识点不存在"
+    }
+  },
+  "sample_origin": "one real formal submit-answer API with time_spent=20; answer selected server-side for disposable fixture; no claim of UI click",
+  "sql_answers": [
+    [
+      "q_001",
+      true,
+      20
+    ]
+  ],
+  "normal_report": {
+    "http": 200,
+    "body": {
+      "code": 0,
+      "data": {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周（2026-10-05 至 2026-10-11）学习情况如下：作答次数为1次，正确率为100.0%。已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。本周新掌握的知识点为“方程与等式的概念”和“一元一次方程的定义”，目前没有仍显薄弱的知识点。整体来看，虽然本周作答次数较少，但正确率很高，说明对已练习的内容掌握得不错。建议下周继续保持练习节奏，适当增加作答次数，巩固方程与等式、一元一次方程等相关概念，并逐步尝试更多题型，以便更全面地检验和提升学习效果。",
+        "generated_at": "2026-10-07T15:32:12",
+        "cached": false
+      },
+      "message": "成功"
+    }
+  },
+  "cache_hit": {
+    "http": 200,
+    "body": {
+      "code": 0,
+      "data": {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周（2026-10-05 至 2026-10-11）学习情况如下：作答次数为1次，正确率为100.0%。已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。本周新掌握的知识点为“方程与等式的概念”和“一元一次方程的定义”，目前没有仍显薄弱的知识点。整体来看，虽然本周作答次数较少，但正确率很高，说明对已练习的内容掌握得不错。建议下周继续保持练习节奏，适当增加作答次数，巩固方程与等式、一元一次方程等相关概念，并逐步尝试更多题型，以便更全面地检验和提升学习效果。",
+        "generated_at": "2026-10-07T15:32:12",
+        "cached": true
+      },
+      "message": "成功"
+    }
+  },
+  "old_prompt_cache_invalidated": {
+    "http": 200,
+    "body": {
+      "code": 0,
+      "data": {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周（2026-10-05 至 2026-10-11）你完成作答1次，正确率100%。已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。本周新掌握“方程与等式的概念”和“一元一次方程的定义”，暂无明显薄弱点。整体作答量较少，建议下周先复习这两个概念，再安排适量练习巩固，逐步提升熟练度。",
+        "generated_at": "2026-10-07T15:32:17",
+        "cached": false
+      },
+      "message": "成功"
+    }
+  },
+  "new_prompt_cache_hit": {
+    "http": 200,
+    "body": {
+      "code": 0,
+      "data": {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周（2026-10-05 至 2026-10-11）你完成作答1次，正确率100%。已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。本周新掌握“方程与等式的概念”和“一元一次方程的定义”，暂无明显薄弱点。整体作答量较少，建议下周先复习这两个概念，再安排适量练习巩固，逐步提升熟练度。",
+        "generated_at": "2026-10-07T15:32:17",
+        "cached": true
+      },
+      "message": "成功"
+    }
+  },
+  "r1_bad_cache_under_r2": {
+    "origin": "seed disposable cache with unchanged R1 prompt/source/config digest and a summary proven accepted in M02 R1 controlled evidence",
+    "prompt_sha_unchanged": true,
+    "expected_cached": false,
+    "http": 200,
+    "body": {
+      "code": 0,
+      "data": {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周暂无有效作答时长记录；请在下周练习时每题预留20秒。",
+        "generated_at": "2026-10-07T15:32:17",
+        "cached": true
+      },
+      "message": "成功"
+    }
+  },
+  "b_own_empty_report": {
+    "http": 200,
+    "body": {
+      "code": 0,
+      "data": {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 0,
+        "correct_rate": 0.0,
+        "study_time_minutes": 0,
+        "new_mastered": [],
+        "still_weak": [],
+        "ai_summary": "本周（2026-10-05 至 2026-10-11）暂无作答记录：作答次数为 0，正确率为 0，已记录作答时长为 0 分钟。由于本周没有有效作答，未记录到新掌握的知识点，也没有需要特别提醒的薄弱点。建议先从基础内容入手，安排一次轻松的学习与练习，例如每天看一小节知识点并完成几道配套题目，先把学习节奏建立起来；每次作答后及时回顾错题原因。下周再根据实际作答数据生成更具体的反馈。",
+        "generated_at": "2026-10-07T15:32:21",
+        "cached": false
+      },
+      "message": "成功"
+    }
+  },
+  "controlled_summary_validation": [
+    {
+      "injected_model_summary": "本周未包含有效时长数据。",
+      "expected_degraded": true,
+      "report": {
+        "degraded": true,
+        "degraded_reason": "模型返回格式异常，已使用规则内容",
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+        "generated_at": "2026-10-07T15:32:21",
+        "cached": false
+      }
+    },
+    {
+      "injected_model_summary": "本周暂无有效作答时长记录；请在下周练习时每题预留20秒。",
+      "expected_degraded": true,
+      "report": {
+        "degraded": true,
+        "degraded_reason": "模型返回格式异常，已使用规则内容",
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+        "generated_at": "2026-10-07T15:32:21",
+        "cached": false
+      }
+    },
+    {
+      "injected_model_summary": "本周没有有效的作答时长记录。已记录20秒，不足1分钟。",
+      "expected_degraded": true,
+      "report": {
+        "degraded": true,
+        "degraded_reason": "模型返回格式异常，已使用规则内容",
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+        "generated_at": "2026-10-07T15:32:21",
+        "cached": false
+      }
+    },
+    {
+      "injected_model_summary": "本周完成作答1次，正确率100%。下周练习时每题预留20秒。",
+      "expected_degraded": true,
+      "report": {
+        "degraded": true,
+        "degraded_reason": "模型返回格式异常，已使用规则内容",
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+        "generated_at": "2026-10-07T15:32:21",
+        "cached": false
+      }
+    },
+    {
+      "injected_model_summary": "本周没有有效的作答时 长记录。已记录作答时长20秒，不足1分钟。",
+      "expected_degraded": true,
+      "report": {
+        "degraded": false,
+        "degraded_reason": null,
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周没有有效的作答时 长记录。已记录作答时长20秒，不足1分钟。",
+        "generated_at": "2026-10-07T15:32:21",
+        "cached": false
+      }
+    },
+    {
+      "injected_model_summary": "本周已记录作答时长 20 秒，不足 1 分钟，按整分钟显示为 0 分钟。",
+      "expected_degraded": false,
+      "report": {
+        "degraded": true,
+        "degraded_reason": "模型返回格式异常，已使用规则内容",
+        "week_start": "2026-10-05",
+        "week_end": "2026-10-11",
+        "questions_done": 1,
+        "correct_rate": 1.0,
+        "study_time_minutes": 0,
+        "new_mastered": [
+          {
+            "id": "kp_001",
+            "name": "方程与等式的概念"
+          },
+          {
+            "id": "kp_002",
+            "name": "一元一次方程的定义"
+          }
+        ],
+        "still_weak": [],
+        "ai_summary": "本周共作答 1 次，正确率 100%，已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。已记录的新掌握知识点 2 个，薄弱知识点 0 个。下周优先复习薄弱知识的前置内容，完成练习后重新诊断。",
+        "generated_at": "2026-10-07T15:32:21",
+        "cached": false
+      }
+    }
+  ],
+  "duration_boundary_facts": {
+    "0": "没有有效的作答时长记录，按整分钟显示为0分钟。",
+    "20": "已记录作答时长20秒，不足1分钟，按整分钟显示为0分钟。",
+    "60": "已记录作答时长60秒，按整分钟向下取整显示为1分钟。",
+    "121": "已记录作答时长121秒，按整分钟向下取整显示为2分钟。"
+  },
+  "private_log_scan_passed": true,
+  "final_cleanup": {
+    "checked_at": "2026-10-07T15:35:23.168788",
+    "cleanup_evidence": "2026-10-07-M02-M9-R2-data-evidence.json",
+    "residual_all_seven_tables": 0,
+    "sqlserver": true,
+    "neo4j": true,
+    "stopped_own_backend_pid": 25536,
+    "credential_manifest_removed": true,
+    "frontend_fingerprints_unchanged": [
+      "frontend/src/pages/chat/index.vue",
+      "frontend/src/utils/aiText.js"
+    ]
+  },
+  "verdict": "P1 closed; return M9-R3 for remaining P2: old R1 accepted wrong summary still cached, whitespace normalization matches literal backslash",
+  "independent_gates": {
+    "full": "441 passed, 1 warning, 9.24s",
+    "impact": "171 passed, 1 warning, 4.80s",
+    "m8_null_atomicity": true,
+    "compileall": true,
+    "business_source_unchanged": true,
+    "documentation_local_links_checked": 125
+  }
+}

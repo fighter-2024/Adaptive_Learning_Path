@@ -34,6 +34,9 @@ export const useUserStore = defineStore('user', () => {
   const authReady = ref(false)
   const sessionError = ref('')
   let initializationPromise = null
+  let sessionVersion = 0
+  let sessionChangeReason = 'initial'
+  let sessionChangeFromVersion = -1
 
   const isLoggedIn = computed(() => Boolean(token.value && userInfo.value.userId))
 
@@ -62,23 +65,56 @@ export const useUserStore = defineStore('user', () => {
     return false
   }
 
+  function isCurrentSession(version, expectedToken) {
+    return version === sessionVersion && token.value === expectedToken
+  }
+
+  function getSessionSnapshot() {
+    return { version: sessionVersion, token: token.value }
+  }
+
+  function isSessionSnapshotCurrent(snapshot) {
+    return Boolean(snapshot) && isCurrentSession(snapshot.version, snapshot.token)
+  }
+
+  // A current session may be invalidated by its own auth failure. That failure
+  // still owns the normal login redirect; a superseded session does not.
+  function isSessionSnapshotCurrentOrAuthFailure(snapshot) {
+    return isSessionSnapshotCurrent(snapshot)
+      || (Boolean(snapshot)
+        && sessionChangeFromVersion === snapshot.version
+        && sessionChangeReason === 'auth-failure')
+  }
+
+  function beginSessionChange(reason = 'change') {
+    sessionChangeFromVersion = sessionVersion
+    sessionChangeReason = reason
+    sessionVersion += 1
+    initializationPromise = null
+    sessionError.value = ''
+    return sessionVersion
+  }
+
   /** 清理本地登录态。后端无状态退出接口，因此退出只需清除本地凭证。 */
-  function logout() {
+  function logout(reason = 'logout') {
+    beginSessionChange(reason)
     token.value = ''
     userInfo.value = { ...EMPTY_USER }
-    sessionError.value = ''
     uni.removeStorageSync('auth_token')
   }
 
   /** 拉取并校验当前学生身份。 */
-  async function fetchCurrentUser() {
+  async function fetchCurrentUser(expectedVersion = sessionVersion, expectedToken = token.value) {
     const { get } = await import('@/utils/request')
+    if (!isCurrentSession(expectedVersion, expectedToken)) return null
     const currentUser = await get('/auth/me')
+    if (!isCurrentSession(expectedVersion, expectedToken)) return null
+
     if (currentUser?.role !== 'student') {
       const error = new Error('当前账号不是学生账号，无法进入学生端')
       error.code = 40101
       error.status = 403
-      logout()
+      logout('auth-failure')
       throw error
     }
     setUserInfo(currentUser)
@@ -89,44 +125,77 @@ export const useUserStore = defineStore('user', () => {
    * 应用启动时恢复并校验会话。
    * 网络异常不会伪造已登录状态；下一次进入页面时仍可重新触发校验。
    */
-  async function initializeSession() {
+  function initializeSession() {
     if (initializationPromise) return initializationPromise
 
-    initializationPromise = (async () => {
+    const versionAtStart = sessionVersion
+    let tokenAtStart = ''
+    const run = async () => {
       try {
         sessionError.value = ''
         restoreToken()
-        if (!token.value) return false
+        tokenAtStart = token.value
+        if (!tokenAtStart) return false
 
-        await fetchCurrentUser()
-        return true
+        const currentUser = await fetchCurrentUser(versionAtStart, tokenAtStart)
+        if (currentUser && isCurrentSession(versionAtStart, tokenAtStart)) {
+          sessionChangeReason = 'authenticated'
+        }
+        return Boolean(currentUser && isCurrentSession(versionAtStart, tokenAtStart))
       } catch (error) {
+        // 旧账号的请求不能覆盖新账号的错误或登录态。
+        if (!isCurrentSession(versionAtStart, tokenAtStart)) return false
+
         sessionError.value = error?.message || '登录状态校验失败'
         if (error?.status === 401 || error?.code === 40100 || error?.code === 40101) {
-          logout()
+          logout('auth-failure')
         }
         return false
       } finally {
-        authReady.value = true
-        initializationPromise = null
+        // A superseded initialization must not mark a newer session ready.
+        if (isCurrentSession(versionAtStart, tokenAtStart)) authReady.value = true
       }
-    })()
+    }
 
-    return initializationPromise
+    // 先拿到 Promise，再挂清理回调。这样无 Token 分支即使同步完成，
+    // 也不会在外层赋值之后把已完成的 false Promise 残留在缓存里。
+    const promise = run()
+    initializationPromise = promise
+    const clearInitialization = () => {
+      if (initializationPromise === promise) initializationPromise = null
+    }
+    promise.then(clearInitialization, clearInitialization)
+
+    return promise
   }
 
   /** 登录并立即校验角色。 */
   async function login(username, password) {
+    // Invalidate older login POSTs before any await. Otherwise an older
+    // response can become the newest session when it arrives late.
+    const loginTokenAtStart = token.value
+    const loginVersion = beginSessionChange('login')
     const { post } = await import('@/utils/request')
+    if (!isCurrentSession(loginVersion, loginTokenAtStart)) {
+      throw createStaleSessionError()
+    }
     const result = await post('/auth/login', { username, password })
+    if (!isCurrentSession(loginVersion, loginTokenAtStart)) {
+      throw createStaleSessionError()
+    }
     setToken(result?.token)
+    const loginToken = token.value
     try {
-      await fetchCurrentUser()
+      const currentUser = await fetchCurrentUser(loginVersion, loginToken)
+      if (!currentUser) {
+        throw createStaleSessionError()
+      }
       authReady.value = true
       sessionError.value = ''
+      sessionChangeReason = 'authenticated'
       return result
     } catch (error) {
-      logout()
+      if (isCurrentSession(loginVersion, loginToken)) logout()
       throw error
     }
   }
@@ -142,10 +211,17 @@ export const useUserStore = defineStore('user', () => {
    * @param {boolean} redirect 是否在未登录时跳转登录页
    */
   async function ensureAuthenticated(redirect = true) {
+    const guardSession = getSessionSnapshot()
     const valid = await initializeSession()
     if (valid) return true
 
-    if (redirect) {
+    // A guard is allowed to navigate only when its failed initialization still
+    // belongs to the current session, or when this exact session was invalidated
+    // by its own authentication failure (for example expired/admin /auth/me).
+    // A late A result after B login/exit must remain a false result without
+    // touching B's navigation.
+    const guardOwnsFailure = isSessionSnapshotCurrentOrAuthFailure(guardSession)
+    if (redirect && guardOwnsFailure) {
       const pages = typeof getCurrentPages === 'function' ? getCurrentPages() : []
       const current = pages[pages.length - 1]
       const isAuthPage = current?.route === 'pages/auth/login' || current?.route === 'pages/auth/register'
@@ -154,12 +230,22 @@ export const useUserStore = defineStore('user', () => {
     return false
   }
 
+  function createStaleSessionError() {
+    const error = new Error('登录状态已更新，请重试')
+    error.code = 'SESSION_STALE'
+    error.requestSuppressed = true
+    return error
+  }
+
   return {
     userInfo,
     token,
     authReady,
     sessionError,
     isLoggedIn,
+    getSessionSnapshot,
+    isSessionSnapshotCurrent,
+    isSessionSnapshotCurrentOrAuthFailure,
     setToken,
     setUserInfo,
     restoreToken,
